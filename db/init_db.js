@@ -5,6 +5,7 @@ async function buildTables() {
   try {
     client.connect();
 
+
     console.log("Dropping All Tables...");
     await client.query(`
     DROP TABLE IF EXISTS order_products;
@@ -34,8 +35,8 @@ async function buildTables() {
     CREATE TABLE products(
       id SERIAL PRIMARY KEY,
       name VARCHAR(255) UNIQUE NOT NULL,
-      description TEXT UNIQUE NOT NULL,
-      price NUMERIC(18, 2) UNIQUE NOT NULL,
+      description TEXT NOT NULL,
+      price NUMERIC(18, 2) NOT NULL,
       imageURL TEXT DEFAULT 'https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg',
       inStock BOOLEAN NOT NULL DEFAULT false,
       category VARCHAR(255) NOT NULL
@@ -154,3 +155,4 @@ buildTables()
   .then(populateInitialData)
   .catch(console.error)
   .finally(() => client.end());
+
