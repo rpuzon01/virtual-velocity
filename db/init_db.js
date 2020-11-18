@@ -1,51 +1,51 @@
-// code to build and initialize DB goes here
-const { createProducts } = require("./index");
-
-const {
-  client,
-  // other db methods
-} = require("./index");
+const { client } = require("./index");
+const { createProduct } = require("./utils");
 
 async function buildTables() {
   try {
     client.connect();
+
     console.log("Dropping All Tables...");
-    // drop tables in correct order
     await client.query(`
+    DROP TABLE IF EXISTS order_products;
     DROP TABLE IF EXISTS products;
+    DROP TABLE IF EXISTS orders;
+    DROP TABLE IF EXISTS users;
     `);
-    // build tables in correct order
+
     console.log("Starting to build tables...");
     await client.query(`
-    CREATE TABLE products(
-      id SERIAL PRIMARY KEY,
-      name VARCHAR(255) UNIQUE NOT NULL,
-      description TEXT UNIQUE NOT NULL,
-      price VARCHAR(255) UNIQUE NOT NULL,
-      imageURL TEXT,
-      inStock BOOLEAN NOT NULL,
-      category VARCHAR(255) NOT NULL
-    );
     CREATE TABLE users(
       id SERIAL PRIMARY KEY,
       firstName VARCHAR(255) NOT NULL,
       lastName VARCHAR(255) NOT NULL,
       email VARCHAR(255) UNIQUE NOT NULL,
+      imageURL TEXT DEFAULT 'https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg',
       username VARCHAR(255) UNIQUE NOT NULL,
-      password VARCHAR(255) UNIQUE NOT NULL,
+      password VARCHAR(255) NOT NULL,
       "isAdmin" BOOLEAN NOT NULL DEFAULT false
     );
     CREATE TABLE orders(
       id SERIAL PRIMARY KEY,
       status VARCHAR(255) DEFAULT 'created',
       "userId" INTEGER REFERENCES users(id),
-      "datePlaced" DATE       
+      "datePlaced" DATE DEFAULT CURRENT_DATE
+    );
+    CREATE TABLE products(
+      id SERIAL PRIMARY KEY,
+      name VARCHAR(255) UNIQUE NOT NULL,
+      description TEXT UNIQUE NOT NULL,
+      price NUMERIC(18, 2) UNIQUE NOT NULL,
+      imageURL TEXT DEFAULT 'https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg',
+      inStock BOOLEAN NOT NULL DEFAULT false,
+      category VARCHAR(255) NOT NULL
     );
     CREATE TABLE order_products(
       id SERIAL PRIMARY KEY,
       "productId" INTEGER REFERENCES products(id),
       "orderId" INTEGER REFERENCES orders(id),
-      price INTEGER NOT NULL
+      price INTEGER NOT NULL,
+      quantity INTEGER NOT NULL DEFAULT 0
     );
     `);
   } catch (error) {
@@ -70,7 +70,7 @@ async function populateInitialData() {
       },
     ];
     const products = await Promise.all(
-      productsToCreate.map((product) => createProducts(product))
+      productsToCreate.map((product) => createProduct(product))
     );
     console.log("products created: ", products);
   } catch (error) {
