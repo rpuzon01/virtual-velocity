@@ -25,9 +25,15 @@ server.use((req, res, next) => {
 // bring in the DB connection
 const { client } = require('./db');
 
+// 404 handler
+server.get('*', (req, res, next) => {
+    res.status(404).send('Page not found');
+})
+
 // error handler
 server.use((err, req, res, next) => {
-    res.send(err);
+    console.error(err);
+    res.status(500).send(err);
 });
 
 // connect to the server
