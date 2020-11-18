@@ -27,7 +27,7 @@ const { client } = require('./db');
 
 // 404 handler
 server.get('*', (req, res, next) => {
-    res.status(404).send('Page not found');
+    res.status(404).send('Page was not found');
 })
 
 // error handler
