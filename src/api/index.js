@@ -14,7 +14,7 @@ export async function getSomething() {
 }
 
 
-export async function getProducts(id) {
+export async function getProduct(id) {
   try {
     const {data} = await axios.get(`${BASE}/products/${id}`)
     console.log('data from index API getProducts', data)
