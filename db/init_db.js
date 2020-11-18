@@ -35,7 +35,7 @@ async function buildTables() {
       id SERIAL PRIMARY KEY,
       name VARCHAR(255) UNIQUE NOT NULL,
       description TEXT UNIQUE NOT NULL,
-      price VARCHAR(255) UNIQUE NOT NULL,
+      price NUMERIC(18, 2) UNIQUE NOT NULL,
       imageURL TEXT DEFAULT 'https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg',
       inStock BOOLEAN NOT NULL DEFAULT false,
       category VARCHAR(255) NOT NULL
