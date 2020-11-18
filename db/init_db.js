@@ -1,31 +1,20 @@
-// code to build and initialize DB goes here
-const { createProducts } = require("./index");
-
-const {
-  client,
-  // other db methods
-} = require("./index");
+const { client } = require("./index");
+const { createProduct } = require("./utils");
 
 async function buildTables() {
   try {
     client.connect();
+
     console.log("Dropping All Tables...");
-    // drop tables in correct order
     await client.query(`
+    DROP TABLE IF EXISTS order_products;
     DROP TABLE IF EXISTS products;
+    DROP TABLE IF EXISTS orders;
+    DROP TABLE IF EXISTS users;
     `);
-    // build tables in correct order
+
     console.log("Starting to build tables...");
     await client.query(`
-    CREATE TABLE products(
-      id SERIAL PRIMARY KEY,
-      name VARCHAR(255) UNIQUE NOT NULL,
-      description TEXT UNIQUE NOT NULL,
-      price VARCHAR(255) UNIQUE NOT NULL,
-      imageURL TEXT,
-      inStock BOOLEAN NOT NULL,
-      category VARCHAR(255) NOT NULL
-    );
     CREATE TABLE users(
       id SERIAL PRIMARY KEY,
       firstName VARCHAR(255) NOT NULL,
@@ -40,6 +29,15 @@ async function buildTables() {
       status VARCHAR(255) DEFAULT 'created',
       "userId" INTEGER REFERENCES users(id),
       "datePlaced" DATE       
+    );
+    CREATE TABLE products(
+      id SERIAL PRIMARY KEY,
+      name VARCHAR(255) UNIQUE NOT NULL,
+      description TEXT UNIQUE NOT NULL,
+      price VARCHAR(255) UNIQUE NOT NULL,
+      imageURL TEXT,
+      inStock BOOLEAN NOT NULL,
+      category VARCHAR(255) NOT NULL
     );
     CREATE TABLE order_products(
       id SERIAL PRIMARY KEY,
@@ -70,7 +68,7 @@ async function populateInitialData() {
       },
     ];
     const products = await Promise.all(
-      productsToCreate.map((product) => createProducts(product))
+      productsToCreate.map((product) => createProduct(product))
     );
     console.log("products created: ", products);
   } catch (error) {
