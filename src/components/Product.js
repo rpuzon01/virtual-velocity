@@ -2,20 +2,62 @@ import React, {useEffect, useState} from 'react'
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 import "./Product.css"
+import {getProducts} from '../api'
+import {useParams} from "react-router-dom"
+
+
 
 const Product = (props) => {
+  // const [product, setProduct] = useState('')
+  const {product, setProduct} = props
+  console.log('prod1', product)
+
+  const {productId} = useParams()
+
+  // const handleProduct = async (event) => {
+  //   try {
+  //     event.preventDefault()
+  //     const resp
+  //   } catch (error) {
+  //     throw error
+  //   }
+  // }
+
+  // set the product
+  useEffect(() => {
+    getProducts(productId).then(setProduct)
+  }, [])
+
+  console.log('product in product.js', product)
+
+
+
 return (<>
-  <Card style={{ width: '18rem' }}>
-  <Card.Img variant="top" src="https://scontent-lax3-1.xx.fbcdn.net/v/t31.0-8/s960x960/1907723_281691581990969_1728319671_o.jpg?_nc_cat=105&ccb=2&_nc_sid=2d5d41&_nc_ohc=yFTj13EVtiMAX_nXxnT&_nc_ht=scontent-lax3-1.xx&tp=7&oh=1219788693ff0a945261de8767bdfac4&oe=5FD77D18" />
+<>
+{console.log('prod3', product.name, product.id)
+}  <Card style={{ width: '18rem' }}>
+  <Card.Img variant="top" src={product.imageURL} />
   <Card.Body>
-    <Card.Title>Card Title</Card.Title>
+  {/* <div key={product.id}> </div> */}
+    <Card.Title>{product.name}</Card.Title>
     <Card.Text>
-      Some quick example text to build on the card title and make up the bulk of
-      the card's content.
+      {product.description}
+    </Card.Text>
+    <Card.Text>
+      {product.price}
+    </Card.Text>
+    <Card.Text>
+      {product.category}
+    </Card.Text>
+    <Card.Text>
+      {product.inStock}
     </Card.Text>
     <Button variant="primary">Go somewhere</Button>
   </Card.Body>
 </Card>
+</>
+
+
 </>)
 }
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import ReactDOM from 'react-dom';
 import {
   BrowserRouter as Router,
@@ -9,13 +9,16 @@ import {
 
 import {
   App,
-  Product,
+//   Product,
 } from './components';
+
 
 ReactDOM.render(
   <Router>
     <App />
-    < Product />
+    {/* < Route path="/products/:productId" >
+    < Product product={product} setProduct={setProduct} />
+    </Route> */}
   </Router>,
   document.getElementById('root')
 );
