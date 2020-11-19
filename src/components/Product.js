@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 import "./Product.css"
-import {getProducts} from '../api'
+import {getProduct} from '../api'
 import {useParams} from "react-router-dom"
 
 
