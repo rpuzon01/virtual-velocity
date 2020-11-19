@@ -16,25 +16,12 @@ import {
 } from 'react-router-dom'
 
 const App = () => {
-  const [message, setMessage] = useState('');
-  const [product, setProduct] = useState('');
-
-  // useEffect(() => {
-  //   getSomething()
-  //     .then(response => {
-  //       setMessage(response.message);
-  //     })
-  //     .catch(error => {
-  //       setMessage(error.message);
-  //     });
-  // });
+  const [products, setProducts] = useState([]);
 
   return ( <>
     <div className="App">
-      <h1>Hello, World!!!!!!!!</h1>
-      <h2>{ message }</h2>
       < Route path="/products/:productId" >
-       < Product product={product} setProduct={setProduct} />
+       < Product products={products} setProducts={setProducts} />
       </Route>
 
 
