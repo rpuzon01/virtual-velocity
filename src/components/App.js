@@ -22,6 +22,7 @@ const App = () => {
   return (
     <>
       <div className="App">
+        <NavBar />
         <Route exact path="/products">
           {products.map((product) => {
             return <Product key={product.id} product={product} />;
