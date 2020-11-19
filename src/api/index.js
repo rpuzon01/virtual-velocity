@@ -1,18 +1,15 @@
-import axios from 'axios';
-// const BASE =  'http://localhost:5432/api'
-const BASE = 'http://localhost:5000/api'
 
-//the db name is localhost:5432/graceshopper
+import axios from 'axios';
+const BASE = 'http://localhost:5000/api'
 
 export async function getSomething() {
   try {
-    const { data } = await axios.get('/api');
+    const { data } = await axios.get("/api");
     return data;
   } catch (error) {
     throw error;
   }
 }
-
 
 export async function getProduct(id) {
   try {

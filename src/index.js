@@ -1,5 +1,10 @@
+
+
+import "bootstrap/dist/css/bootstrap.min.css";
+
 import React, {useEffect, useState} from 'react';
 import ReactDOM from 'react-dom';
+
 import {
   BrowserRouter as Router,
   Route,
@@ -11,7 +16,6 @@ import {
   App,
 //   Product,
 } from './components';
-
 
 ReactDOM.render(
   <Router>

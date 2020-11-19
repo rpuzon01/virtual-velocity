@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
-import {
-  getSomething
-} from '../api';
+import { getSomething } from "../api";
+import NavBar from "./Navbar";
 
 import {
   Product,
@@ -16,6 +15,7 @@ import {
 } from 'react-router-dom'
 
 const App = () => {
+
   const [products, setProducts] = useState([]);
 
   return ( <>
@@ -24,10 +24,9 @@ const App = () => {
        < Product products={products} setProducts={setProducts} />
       </Route>
 
-
     </div>
     </>
   );
-}
+};
 
 export default App;
