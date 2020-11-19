@@ -11,8 +11,8 @@ const NavBar = () => {
     <Navbar bg="dark" variant="dark">
       <Navbar.Brand href="#home">Virtual Velocity</Navbar.Brand>
       <Nav className="mr-auto">
-        <Nav.Link href="#home">Home</Nav.Link>
-        <Nav.Link href="#products">Products</Nav.Link>
+        <Nav.Link href="/">Home</Nav.Link>
+        <Nav.Link href="/products">Products</Nav.Link>
         <Nav.Link href="#login">Login</Nav.Link>
         <Nav.Link href="#register">Register</Nav.Link>
         <Nav.Link href="#logout">Logout</Nav.Link>
