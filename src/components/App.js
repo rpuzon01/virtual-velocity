@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { getSomething, getProducts } from "../api";
 import NavBar from "./Navbar";
 
-import { Product } from "./";
+import { Product, SingleProduct } from "./";
 
 import {
   BrowserRouter as Router,
@@ -22,13 +22,13 @@ const App = () => {
   return (
     <>
       <div className="App">
-        <Route path="/products">
+        <Route exact path="/products">
           {products.map((product) => {
-            return <Product product={product} />;
+            return <Product key={product.id} product={product} />;
           })}
         </Route>
-        <Route path="/products/:productId">
-          {/* < Product products={products} setProducts={setProducts} /> */}
+        <Route exact path="/products/:productId">
+            <SingleProduct />
         </Route>
       </div>
     </>
