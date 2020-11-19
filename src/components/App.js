@@ -20,6 +20,7 @@ const App = () => {
 
   return ( <>
     <div className="App">
+      < NavBar />
       < Route path="/products/:productId" >
        < Product products={products} setProducts={setProducts} />
       </Route>
