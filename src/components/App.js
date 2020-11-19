@@ -15,16 +15,6 @@ import {
 const App = () => {
   const [products, setProducts] = useState([]);
 
-<<<<<<< HEAD
-  return ( <>
-    <div className="App">
-      < NavBar />
-      < Route path="/products/:productId" >
-       < Product products={products} setProducts={setProducts} />
-      </Route>
-
-    </div>
-=======
   useEffect(() => {
     getProducts().then(setProducts);
   }, []);
@@ -32,6 +22,7 @@ const App = () => {
   return (
     <>
       <div className="App">
+        <NavBar />
         <Route path="/products">
           {products.map((product) => {
             return <Product product={product} />;
@@ -41,7 +32,6 @@ const App = () => {
           {/* < Product products={products} setProducts={setProducts} /> */}
         </Route>
       </div>
->>>>>>> 2c3524ab2b9f1a21a6a00f5712351dda1c58fe8b
     </>
   );
 };
