@@ -1,14 +1,28 @@
-import React from "react";
-import ReactDOM from "react-dom";
+
 
 import "bootstrap/dist/css/bootstrap.min.css";
-import { BrowserRouter as Router } from "react-router-dom";
 
-import { App } from "./components";
+import React, {useEffect, useState} from 'react';
+import ReactDOM from 'react-dom';
+
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from 'react-router-dom'
+
+import {
+  App,
+//   Product,
+} from './components';
 
 ReactDOM.render(
   <Router>
     <App />
+    {/* < Route path="/products/:productId" >
+    < Product product={product} setProduct={setProduct} />
+    </Route> */}
   </Router>,
-  document.getElementById("root")
+  document.getElementById('root')
 );
