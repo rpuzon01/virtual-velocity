@@ -1,6 +1,5 @@
-
-import axios from 'axios';
-const BASE = 'http://localhost:5000/api'
+import axios from "axios";
+const BASE = "/api";
 
 export async function getSomething() {
   try {
@@ -13,12 +12,20 @@ export async function getSomething() {
 
 export async function getProduct(id) {
   try {
-    const {data} = await axios.get(`${BASE}/products/${id}`)
-    console.log('data from index API getProducts', data)
+    const { data } = await axios.get(`${BASE}/products/${id}`);
+    console.log("data from index API getProducts", data);
     return data;
-
   } catch (error) {
-    throw error
+    throw error;
+  }
+}
 
+export async function getProducts() {
+  try {
+    const { data } = await axios.get(`${BASE}/products`);
+    console.log("data from index API getProducts", data);
+    return data;
+  } catch (error) {
+    throw error;
   }
 }
