@@ -4,24 +4,29 @@ import {
   getSomething
 } from '../api';
 
+import {
+  Product,
+} from './';
+
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from 'react-router-dom'
+
 const App = () => {
-  const [message, setMessage] = useState('');
+  const [products, setProducts] = useState([]);
 
-  useEffect(() => {
-    getSomething()
-      .then(response => {
-        setMessage(response.message);
-      })
-      .catch(error => {
-        setMessage(error.message);
-      });
-  });
-
-  return (
+  return ( <>
     <div className="App">
-      <h1>Hello, World!!!!!!!!</h1>
-      <h2>{ message }</h2>
+      < Route path="/products/:productId" >
+       < Product products={products} setProducts={setProducts} />
+      </Route>
+
+
     </div>
+    </>
   );
 }
 
