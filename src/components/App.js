@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from "react";
 
-import { getSomething, getProducts } from "../api";
-import NavBar from "./Navbar";
+import { 
+    getProducts 
+} from "../api";
 
-import { Product, SingleProduct } from "./";
+import { 
+    Product, 
+    SingleProduct,
+    SingleOrder,
+    NavBar
+} from "./";
 
 import {
   BrowserRouter as Router,
@@ -30,6 +36,9 @@ const App = () => {
         </Route>
         <Route exact path="/products/:productId">
             <SingleProduct />
+        </Route>
+        <Route exact path="/orders/:orderId">
+            <SingleOrder />
         </Route>
       </div>
     </>

@@ -10,7 +10,7 @@ export async function getSomething() {
   }
 }
 
-export async function getProduct(id) {
+export async function getProductById(id) {
   try {
     const { data } = await axios.get(`${BASE}/products/${id}`);
     console.log("data from index API getProducts", data);
@@ -28,4 +28,7 @@ export async function getProducts() {
   } catch (error) {
     throw error;
   }
+}
+
+export async function getOrder(id) {
 }
