@@ -179,7 +179,7 @@ async function populateInitialData() {
     const usersToCreate = [
       {
         firstName: "elmar",
-        LastName: 'fudd',
+        lastName: 'fudd',
         email: 'elmarisawesome@me.com',
         imageURL: '',
         username: "elmarisme",
@@ -189,7 +189,7 @@ async function populateInitialData() {
 
       {
         firstName: "dougy",
-        LastName: 'fresh',
+        lastName: 'fresh',
         email: 'dougIstheman@me.com',
         imageURL: 'https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg',
         username: "dougIsMe",
@@ -201,6 +201,8 @@ async function populateInitialData() {
       usersToCreate.map((user) => createUser(user))
     )
     console.log('order created:', users)
+
+    // ------
 
     const ordersToCreate = [
       {
@@ -230,9 +232,4 @@ buildTables()
   .then(populateInitialData)
   .catch(console.error)
   .finally(() => client.end());
-<<<<<<< HEAD
 
-
-
-=======
->>>>>>> c47f8011fb13a955332127fecdf9b3dd2bd690eb

@@ -9,10 +9,10 @@ const getOrderById = async (id) => {
       SELECT orders.*, order_products.*, products.*
       FROM orders
       JOIN order_products
-      ON orders.id = order_products."orderId
+      ON orders.id = order_products."orderId"
       JOIN products
-      ON order_products."productId" = products.id
-      WHERE id= $1;
+      ON products.id = order_products."productId"
+      WHERE orders.id = $1;
     `, [id])
     return order;
   } catch (error) {
@@ -25,13 +25,12 @@ const getAllOrders = async () => {
 
   try {
     const { rows: [orders] } = await client.query(`
-    SELECT orders.*, order_products.*, products.*
-    FROM orders
+    SELECT orders.*, products.*
+    from orders
     JOIN order_products
-    ON orders.id = "orderId
+    ON orders.id = order_products."orderId"
     JOIN products
-    ON orders."productId" = products.id
-    RETURNING *;
+    ON order_products."productId" = products.id;
     `)
     return orders
   } catch (error) {
@@ -43,11 +42,15 @@ const getOrdersByUser = async ({username}) => {
   //  select and return an array of orders made by user, include their products
   try {
     const {rows: [orders]} = await client.query(`
-      SELECT orders.*
-      FROM orders
-      JOIN users
-      ON orders."userId" = users.id
-      WHERE users."username" = $1;
+    SELECT orders.*, products.*
+    FROM orders
+    JOIN users
+    ON orders."userId" = users.id
+    JOIN order_products
+    ON orders.id = order_products. "orderId"
+    JOIN products
+    ON order_products."productId" = products.id
+    WHERE users.username = $1;
     `[username])
     return orders
 
@@ -63,7 +66,7 @@ const getOrdersByProduct = async ({id}) => {
     SELECT orders.*, products.*
     FROM orders
     JOIN order_products
-    ON orders.id = order_products"orderId"
+    ON orders.id = order_products."orderId"
     JOIN products
     ON order_products."productId" = products.id
     WHERE "productId" = $1;
@@ -82,10 +85,11 @@ const getCartByUser = async ({id}) => {
 //  return the order, include the order's products
   try {
     const {rows: order } = await client.query(`
-      SELECT * FROM orders
-      JOIN users
-      ON orders."userId" = users.id
-      WHERE status = created AND users.id = $1;
+    SELECT * FROM orders
+    JOIN users
+    ON orders."userId" = users.id
+    WHERE users.id = 1
+    AND orders.status = created;
     `)
     return order
 
@@ -125,8 +129,9 @@ const getPendingOrderByUser = async () => {
     ON order_products."orderId" = orders.id
     JOIN products
     ON products.id = order_products."productId"
-    WHERE orders.status = pending
+    WHERE orders.status = pending;
     `)
+    return order
 
   } catch (error) {
     throw error
