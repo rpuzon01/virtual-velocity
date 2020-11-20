@@ -1,5 +1,5 @@
 const { client } = require("./index");
-const { createProduct } = require("./utils");
+const { createProduct, createOrder } = require("./utils");
 
 async function buildTables() {
   try {
@@ -53,6 +53,33 @@ async function buildTables() {
     throw error;
   }
 }
+
+// async function populateInitialOrders() {
+// try {
+//   const ordersToCreate = [
+//     {
+//       id: 1,
+//       status: 'created',
+//       userId: 1,
+//       datePlaced: '01/01/20'
+
+//     },
+//     {
+//       id: 1,
+//       status: 'created',
+//       userId: 1,
+//       datePlaced: '01/01/20'
+
+//     },
+//   ]
+//   const orders = await Promise.all(
+//     ordersToCreate.map((order) => createOrder(order))
+//   )
+//   console.log('order created:', orders)
+// } catch (error) {
+//   throw error;
+// }
+// }
 
 async function populateInitialData() {
   try {
@@ -146,13 +173,37 @@ async function populateInitialData() {
       productsToCreate.map((product) => createProduct(product))
     );
     console.log("products created: ", products);
+
+    // ---------
+
+    const ordersToCreate = [
+      {
+        status: 'created',
+        userId: 1,
+
+      },
+      {
+        status: 'created',
+        userId: 1,
+
+      },
+    ]
+    const orders = await Promise.all(
+      ordersToCreate.map((order) => createOrder(order))
+    )
+    console.log('order created:', orders)
+
+    // -----------
   } catch (error) {
     throw error;
   }
 }
 
+
 buildTables()
   .then(populateInitialData)
   .catch(console.error)
   .finally(() => client.end());
+
+
 
