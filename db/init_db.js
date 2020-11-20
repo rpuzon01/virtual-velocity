@@ -18,7 +18,7 @@ async function buildTables() {
     await client.query(`
     CREATE TABLE users(
       id SERIAL PRIMARY KEY,
-      firstName VARCHAR(255) NOT NULL,
+      "firstName" VARCHAR(255) NOT NULL,
       lastName VARCHAR(255) NOT NULL,
       email VARCHAR(255) UNIQUE NOT NULL,
       "imageURL" TEXT DEFAULT 'https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg',
@@ -155,4 +155,3 @@ buildTables()
   .then(populateInitialData)
   .catch(console.error)
   .finally(() => client.end());
-
