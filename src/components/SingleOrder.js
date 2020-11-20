@@ -29,14 +29,7 @@ const SingleOrder = () => {
             <h3> Order Status: {order.status} </h3>
             <h3> Order Placed: {order.datePlaced} </h3>
             <div>
-                {
-                    order.products.map(({id, name, description, price, imageURL, inStock, category}) => {
-                        return (
-                            <div>
-                            </div>
-                        );
-                    })
-                }
+                
             </div>
         </>
     );
