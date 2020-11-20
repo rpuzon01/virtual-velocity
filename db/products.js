@@ -33,7 +33,7 @@ const createProduct = async ({
 }) => {
     try {
         const { rows: [product] } = await client.query(`
-            INSERT INTO products (name, description, price, imageURL, inStock, category)
+            INSERT INTO products (name, description, price, "imageURL", "inStock", category)
             VALUES ($1, $2, $3, $4, $5, $6)
             RETURNING *;
         `, [name, description, price, imageURL, inStock, category]);
@@ -46,5 +46,5 @@ const createProduct = async ({
 module.exports = {
     getProductById,
     getAllProducts,
-    createProduct 
+    createProduct
 }
