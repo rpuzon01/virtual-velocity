@@ -22,6 +22,7 @@ const App = () => {
   return (
     <>
       <div className="App">
+        <NavBar />
         <Route path="/products">
           {products.map((product) => {
             return <Product product={product} />;
