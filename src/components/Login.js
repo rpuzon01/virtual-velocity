@@ -5,7 +5,7 @@ import { Button, Form, FormControl, Alert } from "react-bootstrap";
 import {fetchUser, setLocalToken, setLocalUser} from '../util'
 import Logout from './Logout';
 
-const BASE_URL = 'https://localhost:3000'
+const BASE_URL = '/api'
 
 export default props => {
     const {setUser, setAuthenticated, authenticated} = props;
