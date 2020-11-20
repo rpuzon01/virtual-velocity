@@ -34,8 +34,9 @@ ordersRouter.get(
   "/users/:userId/orders",
   requireUser,
   async (req, res, next) => {
+    const { userId } = req.params;
     try {
-      const orders = await getOrderByUser(username);
+      const orders = await getOrderByUser(userId);
       res.send(orders);
     } catch (error) {
       next(error);
