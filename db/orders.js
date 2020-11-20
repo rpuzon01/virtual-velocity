@@ -89,7 +89,7 @@ const getCartByUser = async ({id}) => {
     JOIN users
     ON orders."userId" = users.id
     WHERE users.id = 1
-    AND orders.status = created;
+    AND orders.status = 'created';
     `)
     return order
 
@@ -129,7 +129,7 @@ const getPendingOrderByUser = async () => {
     ON order_products."orderId" = orders.id
     JOIN products
     ON products.id = order_products."productId"
-    WHERE orders.status = pending;
+    WHERE orders.status = 'pending';
     `)
     return order
 
