@@ -1,5 +1,5 @@
 const { client } = require("./index");
-const { createProduct } = require("./utils");
+const { createProduct, createOrder, createUser } = require("./utils");
 
 async function buildTables() {
   try {
@@ -53,6 +53,33 @@ async function buildTables() {
     throw error;
   }
 }
+
+// async function populateInitialOrders() {
+// try {
+//   const ordersToCreate = [
+//     {
+//       id: 1,
+//       status: 'created',
+//       userId: 1,
+//       datePlaced: '01/01/20'
+
+//     },
+//     {
+//       id: 1,
+//       status: 'created',
+//       userId: 1,
+//       datePlaced: '01/01/20'
+
+//     },
+//   ]
+//   const orders = await Promise.all(
+//     ordersToCreate.map((order) => createOrder(order))
+//   )
+//   console.log('order created:', orders)
+// } catch (error) {
+//   throw error;
+// }
+// }
 
 async function populateInitialData() {
   try {
@@ -146,12 +173,63 @@ async function populateInitialData() {
       productsToCreate.map((product) => createProduct(product))
     );
     console.log("products created: ", products);
+
+    // ---------
+
+    const usersToCreate = [
+      {
+        firstName: "elmar",
+        lastName: 'fudd',
+        email: 'elmarisawesome@me.com',
+        imageURL: '',
+        username: "elmarisme",
+        password: 'elmar12345',
+        isAdmin: 'false',
+      },
+
+      {
+        firstName: "dougy",
+        lastName: 'fresh',
+        email: 'dougIstheman@me.com',
+        imageURL: 'https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg',
+        username: "dougIsMe",
+        password: 'dougy12345',
+        isAdmin: true,
+      }
+    ]
+    const users = await Promise.all(
+      usersToCreate.map((user) => createUser(user))
+    )
+    console.log('order created:', users)
+
+    // ------
+
+    const ordersToCreate = [
+      {
+        status: 'created',
+        userId: 1,
+
+      },
+      {
+        status: 'created',
+        userId: 1,
+
+      },
+    ]
+    const orders = await Promise.all(
+      ordersToCreate.map((order) => createOrder(order))
+    )
+    console.log('order created:', orders)
+
+    // -----------
   } catch (error) {
     throw error;
   }
 }
 
+
 buildTables()
   .then(populateInitialData)
   .catch(console.error)
   .finally(() => client.end());
+
