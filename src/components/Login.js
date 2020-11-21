@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import { Button, Form, FormControl, Alert } from "react-bootstrap";
 
-import {fetchUser, setLocalToken, setLocalUser} from '../util'
+import {setLocalToken, setLocalUser} from '../util'
+import {fetchUser} from '../api'
 import Logout from './Logout';
 
 const BASE_URL = '/api'
@@ -11,7 +12,7 @@ export default props => {
     const {setUser, setAuthenticated, authenticated} = props;
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState();
+    const [error, setError] = useState('');
   
     const handleAuth = async (url) => {
       try {
@@ -24,9 +25,7 @@ export default props => {
             setAuthenticated(true);
             setLocalToken(data.token)
           } else if (data.error) {
-            setError(<Alert variant="danger">
-              {data.error}
-            </Alert>) 
+            setError(data.error)
           }
           
           const user = await fetchUser({url: '/users/me'});
@@ -48,11 +47,11 @@ export default props => {
     }
   
     return <> 
-      {error}  
+      {error && <Alert>{error}</Alert>}  
       {authenticated 
         ? <Logout setUser={setUser} setAuthenticated={setAuthenticated} />
         : <Form inline >
-            <FormControl ml="2" mr="2" type="text" value={username} onChange={(e) => {setUsername(e.target.value)}} />
+            <FormControl type="text" value={username} onChange={(e) => {setUsername(e.target.value)}} />
             <FormControl type="password" value={password} onChange={(e) => {setPassword(e.target.value)}} />
             <Button onClick={handleLogin}type="button" >Login</Button> 
             <Button onClick={handleRegister} type="button" >Register</Button> 

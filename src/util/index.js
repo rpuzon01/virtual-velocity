@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = '/'
+const BASE_URL = '/api'
 
 export const setLocalToken = (token) => {
     localStorage.setItem("token", token);
