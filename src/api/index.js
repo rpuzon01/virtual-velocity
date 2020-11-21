@@ -24,28 +24,6 @@ export async function getProducts() {
   }
 }
 
-export const fetchUser = async ({method, body, url}) => {
-  try {
-    const options = {
-      method: method || 'get',
-      data: body,
-      url: `${BASE_URL}${url}`
-    }
-    console.log('url', options.url);
-
-    if (getLocalToken()) {
-      options.headers = {
-        'Authorization': `Bearer ${getLocalToken()}`
-      } 
-    }
-
-    const {data} = await axios(options);  
-    return data;
-  } catch (error) {
-    console.error(error)
-  }
-}
-
 export async function login(username, password) {
   try {
     const { data } = await axios.post(`${BASE_URL}/users/login`, {username, password});
