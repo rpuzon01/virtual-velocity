@@ -15,7 +15,7 @@ export default props => {
   
     const handleAuth = async (url) => {
       try {
-               
+               await console.log(axios.post(`${BASE_URL}${url}`, {username, password}))
         const {data} = await axios.post(`${BASE_URL}${url}`, {username, password});
   
           setUsername('')

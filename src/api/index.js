@@ -1,15 +1,6 @@
 import axios from "axios";
 const BASE = "/api";
 
-export async function getSomething() {
-  try {
-    const { data } = await axios.get("/api");
-    return data;
-  } catch (error) {
-    throw error;
-  }
-}
-
 export async function getProduct(id) {
   try {
     const { data } = await axios.get(`${BASE}/products/${id}`);

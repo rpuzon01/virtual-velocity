@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'https://localhost:3000'
+const BASE_URL = '/'
 
 export const setLocalToken = (token) => {
     localStorage.setItem("token", token);
