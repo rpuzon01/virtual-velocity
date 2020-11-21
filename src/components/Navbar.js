@@ -7,10 +7,6 @@ import { Login } from './';
 const NavBar = (props) => {
     const { setUser, token, setToken } = props;
 
-  useEffect(() => {
-    console.log("useEffect activated");
-  }, []);
-
   return (
     <Navbar bg="dark" variant="dark">
       <Navbar.Brand href="#home">Virtual Velocity</Navbar.Brand>
@@ -18,9 +14,9 @@ const NavBar = (props) => {
         <Nav.Link href="/">Home</Nav.Link>
         <Nav.Link href="/products">Products</Nav.Link>
         <Nav.Link href="/cart">Cart</Nav.Link>
-        <Nav.Link href="#login">Login</Nav.Link>
-        <Nav.Link href="#register">Register</Nav.Link>
-        <Nav.Link href="#logout">Logout</Nav.Link>
+        <Nav.Link href="">Login</Nav.Link>
+        <Nav.Link href="">Register</Nav.Link>
+        <Nav.Link href="">Logout</Nav.Link>
       </Nav>
       <Login 
         setUser={setUser}
