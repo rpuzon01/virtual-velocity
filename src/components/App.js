@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from "react";
 
-import { getSomething, getProducts } from "../api";
-import NavBar from "./Navbar";
+import { 
+    getProducts 
+} from "../api";
 
-import { Product, SingleProduct, Cart } from "./";
+import { 
+    Product, 
+    SingleProduct, 
+    Cart,
+    NavBar
+} from "./";
 
 import {
   BrowserRouter as Router,
@@ -12,17 +18,29 @@ import {
   Redirect,
 } from "react-router-dom";
 
+import {
+    getLocalToken
+} from "../util";
+
 const App = () => {
-  const [products, setProducts] = useState([]);
+    const [products, setProducts] = useState([]);
+    const [token, setToken] = useState('');
+    const [user, setUser] = useState({});
 
   useEffect(() => {
     getProducts().then(setProducts);
+      if (getLocalToken()) {
+          setToken(getLocalToken());
+      }
   }, []);
 
   return (
     <>
       <div className="App">
-        <NavBar />
+        <NavBar 
+            token={token} 
+            setToken={setToken}
+            setUser={setUser}/>
         <Route exact path="/cart">
           < Cart />
         </Route>

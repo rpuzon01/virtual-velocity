@@ -12,7 +12,7 @@ export async function getProduct(id) {
   } catch (error) {
     throw error;
   }
-}
+} 
 
 export async function getProducts() {
   try {
@@ -64,6 +64,3 @@ export async function register(username, password) {
     throw error;
   }
 }
-
-// Login fetch call - axios
-// Register fetch call - axios 

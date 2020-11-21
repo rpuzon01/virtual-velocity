@@ -3,9 +3,7 @@ import axios from 'axios';
 import {InputGroup, Form, FormControl, Button, Alert} from 'react-bootstrap';
 
 import {fetchUser, getToken, setToken as setLocalToken} from '../util'
-import Logout from './Logout';
 
-const BASE_URL = 'https://localhost:3000'
 
 export default props => {
   const {setUser, setToken, token} = props;
