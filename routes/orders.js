@@ -2,7 +2,7 @@ const express = require("express");
 const ordersRouter = express.Router();
 const { requireUser, isAdmin } = require("./utils");
 
-ordersRouter.get("/orders", requireUser, isAdmin, async (req, res, next) => {
+ordersRouter.get("/orders", [requireUser, isAdmin], async (req, res, next) => {
   try {
     const orders = await getAllOrders();
     res.send(orders);
@@ -11,11 +11,7 @@ ordersRouter.get("/orders", requireUser, isAdmin, async (req, res, next) => {
   }
 });
 
-ordersRouter.get(
-  "/orders/cart",
-  requireUser,
-  isAdmin,
-  async (req, res, next) => {
+ordersRouter.get("/orders/cart", [requireUser, isAdmin], async (req, res, next) => {
     try {
       const orders = await getPendingOrdersByUsers();
       res.send(orders);

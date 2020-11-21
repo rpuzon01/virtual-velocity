@@ -10,7 +10,7 @@ function requireUser(req, res, next) {
 }
 
 function isAdmin(req, res, next) {
-  if (req.user.id === ) {
+  if (req.user.id === 2) {
     next({
       name: "MissingUserError",
       message: "You must be logged in to perform this action",
@@ -22,4 +22,5 @@ function isAdmin(req, res, next) {
 
 module.exports = {
   requireUser,
+  isAdmin
 };
