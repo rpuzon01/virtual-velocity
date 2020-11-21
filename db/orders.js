@@ -168,7 +168,7 @@ const completeOrder = async ({id}) => {
     //  completeOrder
 // completeOrder({ id })
 
-const { rows: order} = await client.query(`
+const { rows: [order] } = await client.query(`
     UPDATE orders
     SET status = 'completed'
     WHERE id = $1
