@@ -138,6 +138,73 @@ const getPendingOrderByUser = async () => {
   }
 }
 
+// ----
+
+const updateOrder = async ({ id, status, userId }) => {
+  //  updateOrder
+// updateOrder({ id, status, userId })
+try {
+  const { rows: order} = await client.query(`
+  UPDATE orders
+  SET status = $2, "userId" = $3
+  WHERE id = $1
+  RETURNING *;
+  `, [id, status, userId ])
+  //  Find the order with id equal to the passed in id
+//  Don't update the order id, but do update the status and/or userId, as necessary
+//  Return the updated order
+return order
+
+} catch (error) {
+  throw error
+}
+
+
+}
+
+
+const completeOrder = async ({id}) => {
+  try {
+    //  completeOrder
+// completeOrder({ id })
+
+const { rows: order} = await client.query(`
+    UPDATE orders
+    SET status = 'completed'
+    WHERE id = $1
+    RETURNING *;
+`, [id])
+
+//  Find the order with id equal to the passed in id
+//  Only update the status to completed
+//  Return the updated order
+    return order
+  } catch (error) {
+    throw error
+  }
+}
+
+
+
+const cancelOrder = async (id) => {
+  try {
+    //  cancelOrder
+// cancelOrder(id)
+//  Update the order's status to cancelled
+const {rows: order} = await client.query(`
+    UPDATE orders
+    SET status = 'cancelled'
+    WHERE id = $1
+    RETURNING *;
+`, [id])
+return order
+
+  } catch (error) {
+    throw error;
+  }
+}
+
+
 
 module.exports = {
   getOrderById,
@@ -147,7 +214,9 @@ module.exports = {
   getCartByUser,
   createOrder,
   getPendingOrderByUser,
-
+  updateOrder,
+  completeOrder,
+  cancelOrder,
 
 }
 
