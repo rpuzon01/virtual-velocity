@@ -4,15 +4,6 @@ import {getLocalToken} from '../util'
 
 const BASE_URL = "/api"
 
-export async function getSomething() {
-  try {
-    const { data } = await axios.get("/api");
-    return data;
-  } catch (error) {
-    throw error;
-  }
-}
-
 export async function getProduct(id) {
   try {
     const { data } = await axios.get(`${BASE_URL}/products/${id}`);
@@ -21,7 +12,7 @@ export async function getProduct(id) {
   } catch (error) {
     throw error;
   }
-}
+} 
 
 export async function getProducts() {
   try {
@@ -73,6 +64,3 @@ export async function register(username, password) {
     throw error;
   }
 }
-
-// Login fetch call - axios
-// Register fetch call - axios 
