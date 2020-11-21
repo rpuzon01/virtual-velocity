@@ -191,7 +191,7 @@ const cancelOrder = async (id) => {
     //  cancelOrder
 // cancelOrder(id)
 //  Update the order's status to cancelled
-const {rows: order} = await client.query(`
+const {rows: [order] } = await client.query(`
     UPDATE orders
     SET status = 'cancelled'
     WHERE id = $1
