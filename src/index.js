@@ -11,15 +11,11 @@ import {
 
 import {
   App,
-//   Product,
 } from './components';
 
 ReactDOM.render(
   <Router>
     <App />
-    {/* < Route path="/products/:productId" >
-    < Product product={product} setProduct={setProduct} />
-    </Route> */}
   </Router>,
   document.getElementById('root')
 );

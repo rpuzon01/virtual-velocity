@@ -1,34 +1,77 @@
 import axios from "axios";
-const BASE = "/api";
 
-export async function getSomething() {
+import {getLocalToken} from '../util'
+
+const BASE_URL = "/api"
+
+export async function getProducts(id) {
   try {
-    const { data } = await axios.get("/api");
+    const { data } = await axios.get(`${BASE_URL}/products/${id}`);
+    console.log("data from index API getProducts", data);
     return data;
   } catch (error) {
     throw error;
   }
-}
+} 
 
 export async function getProductById(id) {
   try {
-    const { data } = await axios.get(`${BASE}/products/${id}`);
-    console.log("data from index API getProducts", data);
+    const { data } = await axios.get(`${BASE_URL}/products`);
     return data;
   } catch (error) {
     throw error;
   }
 }
 
-export async function getProducts() {
+export const fetchUser = async ({method, body, url}) => {
   try {
-    const { data } = await axios.get(`${BASE}/products`);
-    console.log("data from index API getProducts", data);
+    const options = {
+      method: method || 'get',
+      data: body,
+      url: `${BASE_URL}${url}`
+    }
+    console.log('url', options.url);
+
+    if (getLocalToken()) {
+      options.headers = {
+        'Authorization': `Bearer ${getLocalToken()}`
+      } 
+    }
+
+    const {data} = await axios(options);  
     return data;
   } catch (error) {
     throw error;
   }
 }
 
-export async function getOrder(id) {
+export async function login(username, password) {
+  try {
+    const { data } = await axios.post(`${BASE_URL}/users/login`, {username, password});
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function register(username, password) {
+  try {
+    const { data } = await axios.post(`${BASE_URL}/users/register`, {username, password});
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getOrdersByUserId(id, token) {
+    try {
+        const { data } = await axios.get(`${BASE_URL}/users/${id}/orders`, {
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        });
+        return data;
+    } catch (error) {
+        throw error;
+    }
 }

@@ -1,8 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { getOrdersByUserId } from '../api';
 
-const SingleOrder = () => {
+const SingleOrder = (props) => {
+    const { orderId } = useParams();
+    const { user } = props;
     const [order, setOrder] = useState({});
+
+    useEffect(() => {
+        getOrdersByUserId(user.id).then()
+
+    }, [])
 
 
     return (

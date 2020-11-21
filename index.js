@@ -4,6 +4,9 @@ const server = express();
 const cors = require('cors');
 server.use(cors())
 
+//process env variables
+require('dotenv').config();
+
 // create logs for everything
 const morgan = require('morgan');
 server.use(morgan('dev'));
