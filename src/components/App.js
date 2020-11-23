@@ -6,7 +6,8 @@ import {
 
 import { 
     Product, 
-    SingleProduct, 
+    SingleProduct,
+    SingleOrder,
     Cart,
     NavBar
 } from "./";
@@ -51,6 +52,9 @@ const App = () => {
         </Route>
         <Route exact path="/products/:productId">
             <SingleProduct />
+        </Route>
+        <Route exact path="/orders/:orderId">
+            <SingleOrder user={user}/>
         </Route>
       </div>
     </>

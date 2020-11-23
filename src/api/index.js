@@ -4,7 +4,7 @@ import {getLocalToken} from '../util'
 
 const BASE_URL = "/api"
 
-export async function getProduct(id) {
+export async function getProducts(id) {
   try {
     const { data } = await axios.get(`${BASE_URL}/products/${id}`);
     console.log("data from index API getProducts", data);
@@ -14,10 +14,9 @@ export async function getProduct(id) {
   }
 } 
 
-export async function getProducts() {
+export async function getProductById(id) {
   try {
     const { data } = await axios.get(`${BASE_URL}/products`);
-    console.log("data from index API getProducts", data);
     return data;
   } catch (error) {
     throw error;
@@ -27,7 +26,6 @@ export async function getProducts() {
 export async function login(username, password) {
   try {
     const { data } = await axios.post(`${BASE_URL}/users/login`, {username, password});
-    console.log('dataLogin', data);
     return data;
   } catch (error) {
     throw error;
@@ -41,4 +39,17 @@ export async function register(username, password) {
   } catch (error) {
     throw error;
   }
+}
+
+export async function getOrdersByUserId(id, token) {
+    try {
+        const { data } = await axios.get(`${BASE_URL}/users/${id}/orders`, {
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        });
+        return data;
+    } catch (error) {
+        throw error;
+    }
 }
