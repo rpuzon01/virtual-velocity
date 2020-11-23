@@ -9,7 +9,8 @@ import {
     SingleProduct,
     SingleOrder,
     Cart,
-    NavBar
+    NavBar,
+    Account
 } from "./";
 
 import {
@@ -45,6 +46,10 @@ const App = () => {
         <Route exact path="/cart">
           < Cart />
         </Route>
+        <Route exact path="/account">
+          < Account user={user} setToken={setToken}/>
+        </Route>
+        
         <Route exact path="/products">
           {products.map((product) => {
             return <Product key={product.id} product={product} />;
