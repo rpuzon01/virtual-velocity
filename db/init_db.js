@@ -8,7 +8,11 @@ const {
     getUserById,
     getUser,
     getUserByUsername,
-    getOrderById
+    getOrderById,
+    getAllOrders,
+    getOrdersByUser,
+    getCartByUser,
+    getOrdersByProduct
 } = require("./utils");
 
 async function buildTables() {
@@ -170,6 +174,7 @@ async function populateInitialData() {
     const users = await Promise.all(
       usersToCreate.map((user) => createUser(user))
     )
+      console.log('user testing');
     console.log('users created:', users)
       const allUsers = await getAllUsers();
       console.log('Getting users with getAllUsers(): ', allUsers);
@@ -201,6 +206,28 @@ async function populateInitialData() {
     console.log('orders created:', orders)
 
     // -----------
+    console.log('order testing');
+    await client.query(`
+        INSERT INTO order_products ("productId", "orderId", price, quantity)
+        VALUES (1, 1, 5000, 1);
+        INSERT INTO order_products ("productId", "orderId", price, quantity)
+        VALUES (2, 1, 5001, 1);
+        INSERT INTO order_products ("productId", "orderId", price, quantity)
+        VALUES (3, 1, 5002, 1);
+    `);
+      const order1 = await getOrderById(1);
+      console.log('getting order with id1: ', order1);
+      console.log('products of order1', order1.products);
+      const allOrders = await getAllOrders();
+      console.log('getting all orders', allOrders);
+      const userOrders = await getOrdersByUser({id: 1});
+      console.log('getting orders of user with id1:', userOrders);
+      const userCart = await getCartByUser({id: 1});
+      console.log('getCartByUser({id: 1})', userCart);
+      const orderByProduct = await getOrdersByProduct({id: 1});
+      console.log('getOrdersByProduct({id: 1})', orderByProduct);
+
+
   } catch (error) {
     throw error;
   }

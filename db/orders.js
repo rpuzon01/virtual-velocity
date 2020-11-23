@@ -37,7 +37,7 @@ const reduceOrders = (queriedOrders) => {
                 status,
                 userId,
                 datePlaced,
-                products: (productId) ? [product] : []
+                products: productId ? [product] : []
             }
         } else {
             if(productId) {
@@ -47,14 +47,13 @@ const reduceOrders = (queriedOrders) => {
 
         return acc;
     }, {});
-
     return Object.values(ordersWithProducts);
 }
 
 const getOrderById = async (id) => {
   // return the order, include the order's products
   try {
-    const { rows: [order] } = await client.query(`
+    const { rows: orders } = await client.query(`
         SELECT 
         orders.id, 
         orders.status, 
@@ -72,12 +71,12 @@ const getOrderById = async (id) => {
         products.category
         FROM orders
         LEFT JOIN order_products 
-        ON order_products."orderId" = orders.id
+        ON orders.id = order_products."orderId"
         LEFT JOIN products 
         ON products.id = order_products."productId"
         WHERE orders.id = $1;
 `, [id])
-    return reduceOrders([order]);
+    return reduceOrders(orders)[0];
   } catch (error) {
     throw error
   }
@@ -150,6 +149,26 @@ const getOrdersByUser = async ({id}) => {
 const getOrdersByProduct = async ({id}) => {
   //  select and return an array of orders which have a specific productId in their order_products join, include their products
   try {
+      const {rows: orderNumbers} = await client.query(`
+        SELECT "orderId"
+        FROM order_products
+        WHERE "productId"=$1
+      `, [id]);
+       
+      const arrOrderNumbers = orderNumbers.map(({orderId}) => {
+          return orderId;
+      });
+
+      const conditionalString = () => {
+          if(arrOrderNumbers.length === 1){
+              return '$1';
+          } else {
+              return arrOrderNumbers.map((x, index) => {
+                  return `$${index + 1}`;
+              }).join(" OR orders.id = ");
+          }
+      }
+
     const {rows: orders} = await client.query(`
         SELECT 
         orders.id, 
@@ -171,8 +190,8 @@ const getOrdersByProduct = async ({id}) => {
         ON order_products."orderId" = orders.id
         LEFT JOIN products 
         ON products.id = order_products."productId"
-        WHERE products.id = $1;
-`, [id])
+        WHERE orders.id = ${conditionalString()};
+`, arrOrderNumbers)
   return reduceOrders(orders);
 
   } catch (error) {
@@ -311,39 +330,7 @@ module.exports = {
   getOrdersByProduct,
   getCartByUser,
   createOrder,
-  getPendingOrderByUser,
   updateOrder,
   completeOrder,
   cancelOrder,
-
 }
-
-// Database Adapters
-//  getOrderById
-// getOrderById(id)
-//  return the order, include the order's products
-//
-// getAllOrders
-//  select and return an array of orders, include their products
-
-//  getOrdersByUser
-// getOrdersByUser({ username })
-//  select and return an array of orders made by user, include their products
-
-//  getOrdersByProduct
-
-// getOrdersByProduct({ id })
-//  select and return an array of orders which have a specific productId in their order_products join, include their products
-
-
-//  getCartByUser
-// getCartByUser({ id }) or getCartByUser(user)
-//  select one user's order (look up by orders."userId")
-//  ...an order that that has status = created
-//  return the order, include the order's products
-
-
-
-//  createOrder
-// createOrder({ status, userId })
-//  create and return the new orderc
