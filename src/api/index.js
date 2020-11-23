@@ -1,22 +1,28 @@
 import axios from "axios";
+const BASE = "/api";
 
-import {getLocalToken} from '../util'
-
-const BASE_URL = "/api"
+export async function getSomething() {
+  try {
+    const { data } = await axios.get("/api");
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
 
 export async function getProduct(id) {
   try {
-    const { data } = await axios.get(`${BASE_URL}/products/${id}`);
+    const { data } = await axios.get(`${BASE}/products/${id}`);
     console.log("data from index API getProducts", data);
     return data;
   } catch (error) {
     throw error;
   }
-} 
+}
 
 export async function getProducts() {
   try {
-    const { data } = await axios.get(`${BASE_URL}/products`);
+    const { data } = await axios.get(`${BASE}/products`);
     console.log("data from index API getProducts", data);
     return data;
   } catch (error) {
@@ -24,43 +30,32 @@ export async function getProducts() {
   }
 }
 
-export const fetchUser = async ({method, body, url}) => {
+export async function getOrdersCart({orderId}) {
+  // SAM Note. add USER info
+  // using the single order component with the current user's in-progress order. Use the api call GET /orders/cart) when the url matches /cart (*)
   try {
-    const options = {
-      method: method || 'get',
-      data: body,
-      url: `${BASE_URL}${url}`
-    }
-    console.log('url', options.url);
-
-    if (getLocalToken()) {
-      options.headers = {
-        'Authorization': `Bearer ${getLocalToken()}`
-      } 
-    }
-
-    const {data} = await axios(options);  
-    return data;
-  } catch (error) {
-    console.error(error)
-  }
-}
-
-export async function login(username, password) {
-  try {
-    const { data } = await axios.post(`${BASE_URL}/users/login`, {username, password});
-    console.log('dataLogin', data);
+    const { data } = await axios.get(`${BASE}/orders/cart`);
+    console.log("data from index API getOrdersCart", data);
     return data;
   } catch (error) {
     throw error;
   }
 }
 
-export async function register(username, password) {
+export async function register({username, password, firstName, lastName, email}) {
   try {
-    const { data } = await axios.post(`${BASE_URL}/users/register`, {username, password});
-    return data;
+    const {data} = await axios.post(`${BASE}/users/register`, {
+    username,
+    password,
+    firstName,
+    lastName,
+    email,
+    });
+      // setMessage(data.message)
+
+  console.log('data register from API', data);
+
   } catch (error) {
-    throw error;
+    throw error
   }
 }
