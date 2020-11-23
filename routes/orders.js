@@ -1,8 +1,9 @@
 const express = require("express");
 const ordersRouter = express.Router();
 const { requireUser, isAdmin } = require("./utils");
+const { getAllOrders, getCartByUser, createOrder } = require('../db/utils');
 
-ordersRouter.get("/orders", [requireUser, isAdmin], async (req, res, next) => {
+ordersRouter.get("/", [requireUser, isAdmin], async (req, res, next) => {
   try {
     const orders = await getAllOrders();
     res.send(orders);
@@ -11,37 +12,24 @@ ordersRouter.get("/orders", [requireUser, isAdmin], async (req, res, next) => {
   }
 });
 
-ordersRouter.get("/orders/cart", [requireUser, isAdmin], async (req, res, next) => {
+ordersRouter.get("/cart", requireUser, async (req, res, next) => {
     try {
-      const orders = await getPendingOrdersByUsers();
-      res.send(orders);
+      const order = await getCartByUser(req.user);
+      res.send(order);
     } catch (error) {
       next(error);
     }
   }
 );
 
-ordersRouter.post("/orders", requireUser, async (req, res, next) => {
+ordersRouter.post("/", requireUser, async (req, res, next) => {
   try {
-    const orders = await createNewOrder(productId, orderId, price, quantity);
-    res.send(orders);
+    const order = await createOrder({status: 'created', userId: req.user.id});
+    res.send(order);
   } catch (error) {
     next(error);
   }
 });
 
-ordersRouter.get(
-  "/users/:userId/orders",
-  requireUser,
-  async (req, res, next) => {
-    const { userId } = req.params;
-    try {
-      const orders = await getOrderByUser(userId);
-      res.send(orders);
-    } catch (error) {
-      next(rror);
-    }
-  }
-);
 
-module.exports = ordersRouter;e
+module.exports = ordersRouter;
