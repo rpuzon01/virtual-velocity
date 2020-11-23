@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 
 import {
-    getProduct
+    getProducts
 } from "../api";
+
 
 import {
     Product,
@@ -10,6 +11,8 @@ import {
     Cart,
     NavBar,
     Register
+    SingleOrder,
+    Account
 } from "./";
 
 import {
@@ -29,7 +32,7 @@ const App = () => {
     const [user, setUser] = useState({});
 
   useEffect(() => {
-    getProduct().then(setProducts);
+    getProducts().then(setProducts);
       if (getLocalToken()) {
           setToken(getLocalToken());
       }
@@ -45,11 +48,12 @@ const App = () => {
         <Route exact path="/cart">
           < Cart />
         </Route>
-
         <Route exact path="/register">
         < Register token={token} setToken={setToken} user={user} setUser={setUser} />
         </Route>
-
+        <Route exact path="/account">
+          < Account user={user} setToken={setToken}/>
+        </Route>
         <Route exact path="/products">
           {products.map((product) => {
             return <Product key={product.id} product={product} />;
@@ -57,6 +61,9 @@ const App = () => {
         </Route>
         <Route exact path="/products/:productId">
             <SingleProduct />
+        </Route>
+        <Route exact path="/orders/:orderId">
+            <SingleOrder user={user}/>
         </Route>
       </div>
     </>

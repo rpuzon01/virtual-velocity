@@ -59,10 +59,20 @@ usersRouter.post("/login", async (req, res, next) => {
 usersRouter.get("/me", requireUser, async (req, res, next) => {
   try {
     res.send(req.user);
-    next();
   } catch (error) {
     next(error);
   }
 });
+
+usersRouter.get("/:userId/orders", requireUser, async (req, res, next) => {
+    const { userId } = req.params;
+    try {
+      const orders = await getOrderByUser(userId);
+      res.send(orders);
+    } catch (error) {
+      next(rror);
+    }
+  }
+);
 
 module.exports = usersRouter;

@@ -10,7 +10,7 @@ function requireUser(req, res, next) {
 }
 
 function isAdmin(req, res, next) {
-  if (req.user.isAdmin) {
+  if (!req.user.isAdmin) {
     next({
       name: "UnauthenticatedUserError",
       message: "You must be an admin to perform this action",

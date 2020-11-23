@@ -1,10 +1,26 @@
 const { client } = require("./index");
-const { createProduct, createOrder, createUser } = require("./utils");
+const { 
+    createProduct, 
+    createOrder, 
+    createUser,
+    setUserAsAdmin,
+    getAllUsers,
+    getUserById,
+    getUser,
+    getUserByUsername,
+    getOrderById,
+    getAllOrders,
+    getOrdersByUser,
+    getCartByUser,
+    getOrdersByProduct,
+    updateOrder,
+    cancelOrder,
+    completeOrder
+} = require("./utils");
 
 async function buildTables() {
   try {
     client.connect();
-
 
     console.log("Dropping All Tables...");
     await client.query(`
@@ -46,7 +62,8 @@ async function buildTables() {
       "productId" INTEGER REFERENCES products(id),
       "orderId" INTEGER REFERENCES orders(id),
       price INTEGER NOT NULL,
-      quantity INTEGER NOT NULL DEFAULT 0
+      quantity INTEGER NOT NULL DEFAULT 0,
+      UNIQUE ("productId", "orderId")
     );
     `);
   } catch (error) {
@@ -147,7 +164,6 @@ async function populateInitialData() {
         email: 'elmarisawesome@me.com',
         username: "elmarisme",
         password: 'elmar12345',
-        isAdmin: 'false',
       },
 
       {
@@ -156,13 +172,22 @@ async function populateInitialData() {
         email: 'dougIstheman@me.com',
         username: "dougIsMe",
         password: 'dougy12345',
-        isAdmin: true,
       }
     ]
     const users = await Promise.all(
       usersToCreate.map((user) => createUser(user))
     )
-    console.log('order created:', users)
+      console.log('user testing');
+    console.log('users created:', users)
+      const allUsers = await getAllUsers();
+      console.log('Getting users with getAllUsers(): ', allUsers);
+      const user1 = await getUserById(1);
+      console.log('Getting user 1: ', user1);
+    await setUserAsAdmin(2);
+      const userWithUsername = await getUserByUsername('dougIsMe');
+      console.log('Getting user with name', userWithUsername);
+      const userWithUserPass = await getUser({username: 'elmarisme', password: 'elmar12345'});
+      console.log('getting user with login:', userWithUserPass);
 
     // ------
 
@@ -181,9 +206,40 @@ async function populateInitialData() {
     const orders = await Promise.all(
       ordersToCreate.map((order) => createOrder(order))
     )
-    console.log('order created:', orders)
+    console.log('orders created:', orders)
 
     // -----------
+    console.log('order testing');
+    await client.query(`
+        INSERT INTO order_products ("productId", "orderId", price, quantity)
+        VALUES (1, 1, 5000, 1);
+        INSERT INTO order_products ("productId", "orderId", price, quantity)
+        VALUES (2, 1, 5001, 1);
+        INSERT INTO order_products ("productId", "orderId", price, quantity)
+        VALUES (3, 1, 5002, 1);
+    `);
+      const order1 = await getOrderById(1);
+      console.log('getting order with id1: ', order1);
+      console.log('products of order1', order1.products);
+      const allOrders = await getAllOrders();
+      console.log('getting all orders', allOrders);
+      const userOrders = await getOrdersByUser({id: 1});
+      console.log('getting orders of user with id1:', userOrders);
+      const userCart = await getCartByUser({id: 1});
+      console.log('getCartByUser({id: 1})', userCart);
+      const orderByProduct = await getOrdersByProduct({id: 1});
+      console.log('getOrdersByProduct({id: 1})', orderByProduct);
+      console.log('UpdatingOrders---');
+      const updatedOrder = await updateOrder({id: 2, status: 'updating'});
+      console.log('changing status to updating', updatedOrder);
+      const updatedOrder2 = await updateOrder({id: 2, userId: 2});
+      console.log('changing userid to 2', updatedOrder2);
+      const completedOrder = await completeOrder({id: 2});
+      console.log('completing order', completedOrder);
+      const cancelledOrder = await cancelOrder(2);
+      console.log('cancelling order', cancelledOrder);
+
+
   } catch (error) {
     throw error;
   }
