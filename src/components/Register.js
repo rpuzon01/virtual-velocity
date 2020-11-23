@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import {useHistory} from 'react-router-dom'
 import {InputGroup, Form, FormControl, Button, Alert} from 'react-bootstrap';
 import Modal from 'react-bootstrap/Modal'
 import {register, getUser} from "../api"
@@ -9,13 +10,13 @@ import {getLocalToken, setLocalToken} from '../util'
 
 export default props => {
   const {user, setUser, token, setToken} = props;
+  const history = useHistory()
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [ email, setEmail ] = useState('')
   const [ firstName, setFirstName] = useState('');
   const [ lastName, setLastName] = useState('')
   const [message, setMessage] = useState();
-  // const [message, setMessage] = useState('')
   const [show, setShow] = useState(true);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -24,32 +25,29 @@ export default props => {
     try {
       event.preventDefault();
 
-      const {data} = await register({username, password, firstName, lastName, email});
+      const response = await register({username, password, firstName, lastName, email});
+      const data = response
 
       console.log('data register:', data);
 
       setMessage(data.message)
 
-      // const username = "steve"
-      // const password = "stevespass"
-      // // id,
-      // const firstName = 'steve2'
-      // const lastName = 'steves last'
-      // const email = 'steves email'
-
-  // console.log('data', data);
+  console.log('dataMessage', data.message);
       if (data) {
         setUsername('')
         setPassword('')
+
         setToken(data.token)
-        const user = await getUser()
+        setLocalToken(data.token)
+        console.log('token:', token);
+        const user = await getUser(token)
         console.log('user register:', user);
+        history.push('/')  //redirects after sign up
         if (user && user.username) {
           setUser(user)
         } else {
           console.error('user did not set')
         }
-
       }
     } catch (error) {
       console.error(error);
@@ -67,10 +65,8 @@ export default props => {
           <Modal.Title>Register / Create Account</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-        {/* --------  */}
 
               <Form onSubmit={handleRegister}>
-        {/* <Form.Row> */}
 
           <Form.Group controlId="formGridEmail">
             <Form.Label>Email</Form.Label>
@@ -151,17 +147,9 @@ export default props => {
           </Button>
       </Form>
 
-        {/* -------- */}
-
-          {/* <Form inline onSubmit={handleRegister}>
-            <FormControl type="text" value={username} onChange={(e) => {setUsername(e.target.value)}} />
-            <FormControl type="password" value={password} onChange={(e) => {setPassword(e.target.value)}} />
-            <Button type="submit">Register</Button>
-          </Form> */}
-
         </Modal.Body>
         <Modal.Footer>
-          <p>You are about to create an account</p>
+        <p className="btn-danger"> {message} </p>
         </Modal.Footer>
       </Modal>
     </>

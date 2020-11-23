@@ -49,9 +49,12 @@ export async function register({username, password, firstName, lastName, email})
   }
 }
 
-export async function getUser() {
+export async function getUser(token) {
   try {
-    const { data } = await axios.get(`${BASE}/me`)
+    const { data } = await axios.get(`${BASE}/me`, {
+      headers: {
+      'Authorization': `Bearer ${token}`
+    }})
     console.log("userData from API", data)
     return data;
 
