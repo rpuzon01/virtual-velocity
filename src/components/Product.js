@@ -5,27 +5,8 @@ import "./Product.css";
 import { useParams } from "react-router-dom";
 
 const Product = (props) => {
-  // const [product, setProduct] = useState('')
   const { product, products, setProducts } = props;
-  console.log("prod1", products);
-
   const { productId } = useParams();
-
-  // const handleProduct = async (event) => {
-  //   try {
-  //     event.preventDefault()
-  //     const resp
-  //   } catch (error) {
-  //     throw error
-  //   }
-  // }
-
-  // set the product
-  // useEffect(() => {
-  //   getProduct(productId).then(setProducts);
-  // }, []);
-
-  console.log("product in product.js", products);
 
   return (
     <>
@@ -33,7 +14,6 @@ const Product = (props) => {
       <Card style={{ width: "18rem" }}>
         <Card.Img variant="top" src={product.imageURL} />
         <Card.Body>
-          {/* <div key={product.id}> </div> */}
           <Card.Title>{product.name}</Card.Title>
           <Card.Text>{product.description}</Card.Text>
           <Card.Text>{product.price}</Card.Text>

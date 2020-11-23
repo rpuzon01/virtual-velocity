@@ -39,7 +39,7 @@ async function getUser({ username, password }) {
 
     const isAMatch = await bcrypt.compare(password, user.password);
 
-    if (isAMatch === true) {
+    if (isAMatch) {
       console.log("isAMatch: ", isAMatch);
       delete user.password;
       return user;
