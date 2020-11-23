@@ -7,10 +7,6 @@ import { Login } from './';
 const NavBar = (props) => {
     const { setUser, token, setToken } = props;
 
-  useEffect(() => {
-    console.log("useEffect activated");
-  }, []);
-
   return (
     <Navbar bg="dark" variant="dark">
       <Navbar.Brand href="#home">Virtual Velocity</Navbar.Brand>

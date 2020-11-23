@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import {
-    getProducts
+    getProduct
 } from "../api";
 
 import {
@@ -29,7 +29,7 @@ const App = () => {
     const [user, setUser] = useState({});
 
   useEffect(() => {
-    getProducts().then(setProducts);
+    getProduct().then(setProducts);
       if (getLocalToken()) {
           setToken(getLocalToken());
       }
@@ -47,7 +47,7 @@ const App = () => {
         </Route>
 
         <Route exact path="/register">
-        < Register user={user} token={token} />
+        < Register token={token} setToken={setToken} user={user} setUser={setUser} />
         </Route>
 
         <Route exact path="/products">

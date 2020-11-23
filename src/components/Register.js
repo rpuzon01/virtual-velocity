@@ -2,61 +2,54 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {InputGroup, Form, FormControl, Button, Alert} from 'react-bootstrap';
 import Modal from 'react-bootstrap/Modal'
-import {register} from "../api"
+import {register, getUser} from "../api"
 
 import {getLocalToken, setLocalToken} from '../util'
 
 
 export default props => {
-  const {user, setUser, setLocalToken, token} = props;
+  const {user, setUser, token, setToken} = props;
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [ email, setEmail ] = useState('')
-  const [error, setError] = useState();
+  const [ firstName, setFirstName] = useState('');
+  const [ lastName, setLastName] = useState('')
+  const [message, setMessage] = useState();
   // const [message, setMessage] = useState('')
   const [show, setShow] = useState(true);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  // useEffect(() => {
-  //   if (!token) {
-  //     setLocalToken(getLocalToken())
-  //   }
-  // },[getLocalToken])
-
   const handleRegister = async (event) => {
     try {
       event.preventDefault();
 
-      const {data} = await register({username, password, id, firstName, lastName, email, imageURL, isAdmin,});
-      // setMessage(data.message)
+      const {data} = await register({username, password, firstName, lastName, email});
 
-      const username = "steve"
-      const password = "stevespass"
-      // id,
-      const firstName = 'steve2'
-      const lastName = 'steves last'
-      const email = 'steves email'
-      const imageURL = null
-      const isAdmin = 'true'
-      console.log('data in register: ', data);
+      console.log('data register:', data);
 
-  console.log('data', data);
+      setMessage(data.message)
+
+      // const username = "steve"
+      // const password = "stevespass"
+      // // id,
+      // const firstName = 'steve2'
+      // const lastName = 'steves last'
+      // const email = 'steves email'
+
+  // console.log('data', data);
       if (data) {
         setUsername('')
         setPassword('')
+        setToken(data.token)
+        const user = await getUser()
+        console.log('user register:', user);
+        if (user && user.username) {
+          setUser(user)
+        } else {
+          console.error('user did not set')
+        }
 
-        // setLocalToken(data.token);
-        // setLocalToken(data.token)
-        // console.log('user', user);
-        // if(user && user.username) {
-        //   setUsername(user.username);
-        //   setUser(user)
-        // } else if (data.message) {
-        //   setError(<Alert variant="danger" >
-        //     {data.error}
-        //   </Alert>)
-        // }
       }
     } catch (error) {
       console.error(error);
@@ -81,18 +74,38 @@ export default props => {
 
           <Form.Group controlId="formGridEmail">
             <Form.Label>Email</Form.Label>
-            <Form.Control type="email" placeholder="Enter email" value={email} onChange={(e) => {setEmail(e.target.value)}} />
+            <Form.Control type="email" placeholder="Enter email" value={email} onChange={(e) => {
+            console.log(e.target.value)
+              setEmail(e.target.value)}} />
           </Form.Group>
 
           <Form.Group controlId="formGridPassword">
             <Form.Label>Password</Form.Label>
-            <Form.Control type="password" value={password} onChange={(e) => {setPassword(e.target.value)}} />
+            <Form.Control type="password" value={password} onChange={(e) => {
+              console.log(e.target.value)
+              setPassword(e.target.value)}} />
           </Form.Group>
         {/* </Form.Row> */}
 
         <Form.Group controlId="formGridUsername">
             <Form.Label>username</Form.Label>
-            <Form.Control type="text" value={username} onChange={(e) => {setUsername(e.target.value)}} />
+            <Form.Control type="text" value={username} onChange={(e) => {
+              console.log(e.target.value)
+              setUsername(e.target.value)}} />
+          </Form.Group>
+
+          <Form.Group controlId="formFirstname">
+            <Form.Label>firstName</Form.Label>
+            <Form.Control type="text" value={firstName} onChange={(e) => {
+              console.log(e.target.value)
+              setFirstName(e.target.value)}} />
+          </Form.Group>
+
+          <Form.Group controlId="formLastname">
+            <Form.Label>lastName</Form.Label>
+            <Form.Control type="text" value={lastName} onChange={(e) => {
+              console.log(e.target.value)
+              setLastName(e.target.value)}} />
           </Form.Group>
 
         <Form.Group controlId="formGridAddress1">

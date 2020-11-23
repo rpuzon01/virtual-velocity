@@ -20,19 +20,7 @@ export async function getProduct(id) {
   }
 }
 
-export async function getProducts() {
-  try {
-    const { data } = await axios.get(`${BASE}/products`);
-    console.log("data from index API getProducts", data);
-    return data;
-  } catch (error) {
-    throw error;
-  }
-}
-
-export async function getOrdersCart({orderId}) {
-  // SAM Note. add USER info
-  // using the single order component with the current user's in-progress order. Use the api call GET /orders/cart) when the url matches /cart (*)
+export async function login(username, password) {
   try {
     const { data } = await axios.get(`${BASE}/orders/cart`);
     console.log("data from index API getOrdersCart", data);
@@ -54,8 +42,20 @@ export async function register({username, password, firstName, lastName, email})
       // setMessage(data.message)
 
   console.log('data register from API', data);
+  return data;
 
   } catch (error) {
     throw error
+  }
+}
+
+export async function getUser() {
+  try {
+    const { data } = await axios.get(`${BASE}/me`)
+    console.log("userData from API", data)
+    return data;
+
+  } catch (error) {
+    throw error;
   }
 }
