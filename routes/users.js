@@ -8,7 +8,7 @@ const { createUser, getUserByUsername, getUser } = require("../db/users");
 const { requireUser } = require("./utils");
 
 usersRouter.post("/register", async (req, res, next) => {
-  const { username, password } = req.body;
+  const { username, password, firstName, lastName, email, isAdmin, imageURL} = req.body;
 
   try {
     const user = await getUserByUsername(username);
@@ -18,7 +18,7 @@ usersRouter.post("/register", async (req, res, next) => {
     } else if (password.length <= 8) {
       res.send({ message: "Password too short!" });
     } else {
-      const user = await createUser({ username, password });
+      const user = await createUser({ username, password, firstName, lastName, email, isAdmin: false, imageURL: ''});
 
       const token = jwt.sign(user, JWT_SECRET);
 
@@ -39,10 +39,10 @@ usersRouter.post("/login", async (req, res, next) => {
     if (user) {
       const token = jwt.sign(user, JWT_SECRET);
 
-      res.send({ 
-          message: "you're logged in!", 
-          user, 
-          token 
+      res.send({
+          message: "you're logged in!",
+          user,
+          token
       });
 
     } else {

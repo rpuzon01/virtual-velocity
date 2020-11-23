@@ -16,10 +16,10 @@ const NavBar = (props) => {
         <Nav.Link href="/cart">Cart</Nav.Link>
         <Nav.Link href="/account">Account</Nav.Link>
         <Nav.Link href="">Login</Nav.Link>
-        <Nav.Link href="">Register</Nav.Link>
+        <Nav.Link href="/register">Register</Nav.Link>
         <Nav.Link href="">Logout</Nav.Link>
       </Nav>
-      <Login 
+      <Login
         setUser={setUser}
         token={token}
         setToken={setToken}/>

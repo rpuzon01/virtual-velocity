@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from "react";
 
-import { 
-    getProducts 
+import {
+    getProducts
 } from "../api";
 
-import { 
-    Product, 
+
+import {
+    Product,
     SingleProduct,
-    SingleOrder,
     Cart,
     NavBar,
+    Register
+    SingleOrder,
     Account
 } from "./";
 
@@ -39,17 +41,19 @@ const App = () => {
   return (
     <>
       <div className="App">
-        <NavBar 
-            token={token} 
+        <NavBar
+            token={token}
             setToken={setToken}
             setUser={setUser}/>
         <Route exact path="/cart">
           < Cart />
         </Route>
+        <Route exact path="/register">
+        < Register token={token} setToken={setToken} user={user} setUser={setUser} />
+        </Route>
         <Route exact path="/account">
           < Account user={user} setToken={setToken}/>
         </Route>
-        
         <Route exact path="/products">
           {products.map((product) => {
             return <Product key={product.id} product={product} />;
