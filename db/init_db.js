@@ -1,5 +1,15 @@
 const { client } = require("./index");
-const { createProduct, createOrder, createUser } = require("./utils");
+const { 
+    createProduct, 
+    createOrder, 
+    createUser,
+    setUserAsAdmin,
+    getAllUsers,
+    getUserById,
+    getUser,
+    getUserByUsername,
+    getOrderById
+} = require("./utils");
 
 async function buildTables() {
   try {
@@ -20,7 +30,7 @@ async function buildTables() {
       "firstName" VARCHAR(255) NOT NULL,
       "lastName" VARCHAR(255) NOT NULL,
       email VARCHAR(255) UNIQUE NOT NULL,
-      "imageURL" TEXT NOT NULL DEFAULT 'https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg',
+      "imageURL" TEXT DEFAULT 'https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg',
       username VARCHAR(255) UNIQUE NOT NULL,
       password VARCHAR(255) NOT NULL,
       "isAdmin" BOOLEAN NOT NULL DEFAULT false
@@ -36,7 +46,7 @@ async function buildTables() {
       name VARCHAR(255) UNIQUE NOT NULL,
       description TEXT NOT NULL,
       price INTEGER NOT NULL,
-      "imageURL" TEXT NOT NULL DEFAULT 'https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg',
+      "imageURL" TEXT DEFAULT 'https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg',
       "inStock" BOOLEAN NOT NULL DEFAULT false,
       category VARCHAR(255) NOT NULL
     );
@@ -147,7 +157,6 @@ async function populateInitialData() {
         email: 'elmarisawesome@me.com',
         username: "elmarisme",
         password: 'elmar12345',
-        isAdmin: false,
       },
 
       {
@@ -156,13 +165,21 @@ async function populateInitialData() {
         email: 'dougIstheman@me.com',
         username: "dougIsMe",
         password: 'dougy12345',
-        isAdmin: true,
       }
     ]
     const users = await Promise.all(
       usersToCreate.map((user) => createUser(user))
     )
-    console.log('order created:', users)
+    console.log('users created:', users)
+      const allUsers = await getAllUsers();
+      console.log('Getting users with getAllUsers(): ', allUsers);
+      const user1 = await getUserById(1);
+      console.log('Getting user 1: ', user1);
+    await setUserAsAdmin(2);
+      const userWithUsername = await getUserByUsername('dougIsMe');
+      console.log('Getting user with name', userWithUsername);
+      const userWithUserPass = await getUser({username: 'elmarisme', password: 'elmar12345'});
+      console.log('getting user with login:', userWithUserPass);
 
     // ------
 
@@ -181,7 +198,7 @@ async function populateInitialData() {
     const orders = await Promise.all(
       ordersToCreate.map((order) => createOrder(order))
     )
-    console.log('order created:', orders)
+    console.log('orders created:', orders)
 
     // -----------
   } catch (error) {

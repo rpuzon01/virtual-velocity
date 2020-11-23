@@ -39,9 +39,9 @@ ordersRouter.get(
       const orders = await getOrderByUser(userId);
       res.send(orders);
     } catch (error) {
-      next(error);
+      next(rror);
     }
   }
 );
 
-module.exports = ordersRouter;
+module.exports = ordersRouter;e
