@@ -148,6 +148,14 @@ const getPendingOrderByUser = async () => {
   }
 };
 
+async function testing() {
+  client.connect();
+  const order = await getOrdersByUser();
+  console.log("order:", order);
+}
+
+testing();
+
 module.exports = {
   getOrderById,
   getAllOrders,
