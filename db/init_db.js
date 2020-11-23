@@ -12,7 +12,10 @@ const {
     getAllOrders,
     getOrdersByUser,
     getCartByUser,
-    getOrdersByProduct
+    getOrdersByProduct,
+    updateOrder,
+    cancelOrder,
+    completeOrder
 } = require("./utils");
 
 async function buildTables() {
@@ -226,6 +229,15 @@ async function populateInitialData() {
       console.log('getCartByUser({id: 1})', userCart);
       const orderByProduct = await getOrdersByProduct({id: 1});
       console.log('getOrdersByProduct({id: 1})', orderByProduct);
+      console.log('UpdatingOrders---');
+      const updatedOrder = await updateOrder({id: 2, status: 'updating'});
+      console.log('changing status to updating', updatedOrder);
+      const updatedOrder2 = await updateOrder({id: 2, userId: 2});
+      console.log('changing userid to 2', updatedOrder2);
+      const completedOrder = await completeOrder({id: 2});
+      console.log('completing order', completedOrder);
+      const cancelledOrder = await cancelOrder(2);
+      console.log('cancelling order', cancelledOrder);
 
 
   } catch (error) {

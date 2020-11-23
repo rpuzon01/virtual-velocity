@@ -255,35 +255,38 @@ const createOrder = async ({
   }
 }
 
-//untested
+const updateOrder = async ({ id, ...fields }) => {
 
-const updateOrder = async ({ id, status, userId }) => {
-  //  updateOrder
-// updateOrder({ id, status, userId })
-try {
-  const { rows: [order] } = await client.query(`
-  UPDATE orders
-  SET status = $2, "userId" = $3
-  WHERE id = $1
-  RETURNING *;
-  `, [id, status, userId ])
-  //  Find the order with id equal to the passed in id
-//  Don't update the order id, but do update the status and/or userId, as necessary
-//  Return the updated order
-return order
+    const fieldKeys = Object.keys(fields);
 
-} catch (error) {
-  throw error
-}
+    const setString = fieldKeys.map((fieldName, index) => {
+        return `"${fieldName}"=$${index+1}`
+    }).join(', ');
 
+    const setValues = Object.values(fields);
+    setValues.push(id);
 
+    if (fieldKeys.length === 0) { 
+        return; 
+    }
+
+    try {
+        const { rows: [order] } = await client.query(`
+          UPDATE orders
+          SET ${setString} 
+          WHERE id = $${setValues.length}
+          RETURNING *;
+          `, setValues)
+        return order
+
+    } catch (error) {
+        throw error
+    }
 }
 
 
 const completeOrder = async ({id}) => {
   try {
-    //  completeOrder
-// completeOrder({ id })
 
 const { rows: [order] } = await client.query(`
     UPDATE orders
@@ -292,9 +295,6 @@ const { rows: [order] } = await client.query(`
     RETURNING *;
 `, [id])
 
-//  Find the order with id equal to the passed in id
-//  Only update the status to completed
-//  Return the updated order
     return order
   } catch (error) {
     throw error
