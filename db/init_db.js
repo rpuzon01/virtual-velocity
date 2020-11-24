@@ -1,10 +1,14 @@
 const { client } = require("./index");
-const { createProduct, createOrder, createUser } = require("./utils");
+const {
+  createProduct,
+  createOrder,
+  createUser,
+  createOrderProduct,
+} = require("./utils");
 
 async function buildTables() {
   try {
     client.connect();
-
 
     console.log("Dropping All Tables...");
     await client.query(`
@@ -179,47 +183,64 @@ async function populateInitialData() {
     const usersToCreate = [
       {
         firstName: "elmar",
-        lastName: 'fudd',
-        email: 'elmarisawesome@me.com',
-        imageURL: '',
+        lastName: "fudd",
+        email: "elmarisawesome@me.com",
+        imageURL: "",
         username: "elmarisme",
-        password: 'elmar12345',
-        isAdmin: 'false',
+        password: "elmar12345",
+        isAdmin: "false",
       },
 
       {
         firstName: "dougy",
-        lastName: 'fresh',
-        email: 'dougIstheman@me.com',
-        imageURL: 'https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg',
+        lastName: "fresh",
+        email: "dougIstheman@me.com",
+        imageURL:
+          "https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg",
         username: "dougIsMe",
-        password: 'dougy12345',
+        password: "dougy12345",
         isAdmin: true,
-      }
-    ]
+      },
+    ];
     const users = await Promise.all(
       usersToCreate.map((user) => createUser(user))
-    )
-    console.log('order created:', users)
+    );
+    console.log("order created:", users);
 
     // ------
 
     const ordersToCreate = [
       {
-        status: 'created',
+        status: "created",
         userId: 1,
-
       },
       {
-        status: 'created',
+        status: "created",
         userId: 1,
-
       },
-    ]
+    ];
     const orders = await Promise.all(
       ordersToCreate.map((order) => createOrder(order))
-    )
-    console.log('order created:', orders)
+    );
+    console.log("order created:", orders);
+
+    // -----------
+
+    const orderProductsToCreate = [
+      {
+        id: 1,
+        productId: 1,
+        orderId: 1,
+        price: 40000.99,
+        quantity: 1,
+      },
+    ];
+    const order_product = await Promise.all(
+      orderProductsToCreate.map((order_product) =>
+        createOrderProduct(order_product)
+      )
+    );
+    console.log("order_product created:", order_product);
 
     // -----------
   } catch (error) {
@@ -227,9 +248,7 @@ async function populateInitialData() {
   }
 }
 
-
 buildTables()
   .then(populateInitialData)
   .catch(console.error)
   .finally(() => client.end());
-
