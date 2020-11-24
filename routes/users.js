@@ -67,10 +67,10 @@ usersRouter.get("/me", requireUser, async (req, res, next) => {
 usersRouter.get("/:userId/orders", requireUser, async (req, res, next) => {
     const { userId } = req.params;
     try {
-      const orders = await getOrderByUser(userId);
+      const orders = await getOrderByUser(req.user);
       res.send(orders);
     } catch (error) {
-      next(rror);
+      next(error);
     }
   }
 );
