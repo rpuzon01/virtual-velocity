@@ -3,7 +3,7 @@ const usersRouter = express.Router();
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET = "hello" } = process.env;
 
-const { createUser, getUserByUsername, getUser } = require("../db/users");
+const { createUser, getUserByUsername, getUser, getOrdersByUser } = require("../db/utils");
 
 const { requireUser } = require("./utils");
 
@@ -67,7 +67,7 @@ usersRouter.get("/me", requireUser, async (req, res, next) => {
 usersRouter.get("/:userId/orders", requireUser, async (req, res, next) => {
     const { userId } = req.params;
     try {
-      const orders = await getOrderByUser(req.user);
+      const orders = await getOrdersByUser(req.user);
       res.send(orders);
     } catch (error) {
       next(error);
