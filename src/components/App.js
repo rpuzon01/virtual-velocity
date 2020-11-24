@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 
 import {
-    getProducts
+    getProducts,
+    getUser,
+    getOrdersByUserId
 } from "../api";
 
 
@@ -10,7 +12,7 @@ import {
     SingleProduct,
     Cart,
     NavBar,
-    Register
+    Register,
     SingleOrder,
     Account
 } from "./";
@@ -30,6 +32,7 @@ const App = () => {
     const [products, setProducts] = useState([]);
     const [token, setToken] = useState('');
     const [user, setUser] = useState({});
+    const [orders, setOrders] = useState([]);
 
   useEffect(() => {
     getProducts().then(setProducts);
@@ -37,6 +40,11 @@ const App = () => {
           setToken(getLocalToken());
       }
   }, []);
+
+    useEffect(() => {
+        getUser(token).then(setUser);
+        getOrdersByUserId(user.id, token).then(setOrders);
+    }, [token]);
 
   return (
     <>
