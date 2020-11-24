@@ -1,6 +1,4 @@
 import axios from "axios";
-const BASE = "/api";
-
 import {getLocalToken} from '../util'
 
 const BASE_URL = "/api"
@@ -37,7 +35,7 @@ export async function login(username, password) {
 
 export async function register({username, password, firstName, lastName, email}) {
   try {
-    const {data} = await axios.post(`${BASE}/users/register`, {
+    const {data} = await axios.post(`${BASE_URL}/users/register`, {
     username,
     password,
     firstName,
@@ -56,7 +54,7 @@ export async function register({username, password, firstName, lastName, email})
 
 export async function getUser(token) {
   try {
-    const { data } = await axios.get(`${BASE}/me`, {
+    const { data } = await axios.get(`${BASE_URL}/users/me`, {
       headers: {
       'Authorization': `Bearer ${token}`
     }})
@@ -78,5 +76,12 @@ export async function getOrdersByUserId(id, token) {
         return data;
     } catch (error) {
         throw error;
+    }
+}
+
+export async function getAllOrders(){
+    try{
+        const { data } = await axios.get(`${BASE_URL}/orders`);
+    } catch (error) { throw error;
     }
 }

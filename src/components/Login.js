@@ -47,7 +47,6 @@ export default props => {
             <FormControl type="text" value={username} onChange={(e) => {setUsername(e.target.value)}} />
             <FormControl type="password" value={password} onChange={(e) => {setPassword(e.target.value)}} />
             <Button type="submit" >Login</Button>
-            <Button type="button" >Register</Button>
           </Form>}
     </>
 }

@@ -33,22 +33,20 @@ export default props => {
       setMessage(data.message)
 
   console.log('dataMessage', data.message);
-      if (data) {
+      if (data.token) {
         setUsername('')
         setPassword('')
 
         setToken(data.token)
         setLocalToken(data.token)
         console.log('token:', token);
-        const user = await getUser(token)
-        console.log('user register:', user);
-        history.push('/')  //redirects after sign up
-        if (user && user.username) {
-          setUser(user)
+        console.log('user register:', data.user);
+        setUser(data.user)
+        handleClose();
+        //history.push('/')  //redirects after login
         } else {
           console.error('user did not set')
         }
-      }
     } catch (error) {
       console.error(error);
     }
@@ -75,6 +73,13 @@ export default props => {
               setEmail(e.target.value)}} />
           </Form.Group>
 
+        <Form.Group controlId="formGridUsername">
+            <Form.Label>username</Form.Label>
+            <Form.Control type="text" value={username} onChange={(e) => {
+              console.log(e.target.value)
+              setUsername(e.target.value)}} />
+          </Form.Group>
+
           <Form.Group controlId="formGridPassword">
             <Form.Label>Password</Form.Label>
             <Form.Control type="password" value={password} onChange={(e) => {
@@ -83,12 +88,6 @@ export default props => {
           </Form.Group>
         {/* </Form.Row> */}
 
-        <Form.Group controlId="formGridUsername">
-            <Form.Label>username</Form.Label>
-            <Form.Control type="text" value={username} onChange={(e) => {
-              console.log(e.target.value)
-              setUsername(e.target.value)}} />
-          </Form.Group>
 
           <Form.Group controlId="formFirstname">
             <Form.Label>firstName</Form.Label>
