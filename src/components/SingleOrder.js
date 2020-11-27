@@ -17,6 +17,13 @@ const SingleOrder = (props) => {
 
     // console.log("ORDERS in Single Order", orders)
 
+    // function getSum(total, num) {
+    //     return total + num
+    // }
+    // let totalSum = price.reduce(getSum);
+    // console.log('totalsum', totalSum)
+
+
 
     return ( <>
         <div className="single-order">
@@ -24,8 +31,9 @@ const SingleOrder = (props) => {
             <h1>My Order: </h1>
                 { orders && orders.map(({products, id, userId, datePlaced, status}) =>
                  <div key={id} className="orders">
-                    {/* {console.log('12345', orders.userId)}
-                    {console.log('products in orders map', products)} */}
+                    {console.log('12345', orders.userId)}
+                    {console.log('products in orders map', products)}
+                    {/* {console.log('priceOrders', price)} */}
                     <header className="order-info">
                         <div> Order #{id} </div>
                         <div> Order Status: {status} </div>
@@ -33,7 +41,9 @@ const SingleOrder = (props) => {
                     </header>
 
                         { products && products.map(({id, name, description, category, price, quantity}) => user && user.id === userId && <>
-                        {/* {console.log('map data 23', id, name, description, category, price, quantity)} */}
+                        {console.log('map data 23', id, name, description, category, price, quantity)}
+                        {/* {console.log('priceOrders', products.price)} */}
+
 
                         <h3>Product: {name}</h3>
                             <div key={id} className="product">
@@ -43,6 +53,10 @@ const SingleOrder = (props) => {
                                 <div>Quantity: {quantity}</div>
                                 <div>Price: {price/100.0}</div>
                             </div>
+                            <div>
+
+
+                    </div>
                             </>
 
                     )
@@ -56,9 +70,8 @@ const SingleOrder = (props) => {
             </div>
             <footer>
                 <div className="total">
-                    <div>
-                        Total: $349.95
-                    </div>
+                TEMP Total: $349.95
+
                 </div>
             </footer>
         </div>
