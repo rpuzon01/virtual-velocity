@@ -46,6 +46,8 @@ const App = () => {
         getOrdersByUserId(user.id, token).then(setOrders);
     }, [token]);
 
+    console.log('orders in main app', orders)
+
   return (
     <>
       <div className="App">
@@ -71,7 +73,7 @@ const App = () => {
             <SingleProduct />
         </Route>
         <Route exact path="/orders/:orderId">
-            <SingleOrder user={user}/>
+            <SingleOrder user={user} orders={orders} setOrders={setOrders} products={products} token={token}/>
         </Route>
       </div>
     </>
