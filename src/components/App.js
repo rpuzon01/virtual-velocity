@@ -14,7 +14,8 @@ import {
     NavBar,
     Register,
     SingleOrder,
-    Account
+    Account,
+    Footer,
 } from "./";
 
 import {
@@ -73,6 +74,7 @@ const App = () => {
         <Route exact path="/orders/:orderId">
             <SingleOrder user={user}/>
         </Route>
+        < Footer />
       </div>
     </>
   );

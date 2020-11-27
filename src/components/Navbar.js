@@ -8,7 +8,7 @@ const NavBar = (props) => {
     const { setUser, token, setToken } = props;
 
   return (
-    <Navbar bg="dark" variant="dark">
+    <Navbar className="navbar fixed-top" bg="dark" variant="dark">
       <Navbar.Brand href="#home">Virtual Velocity</Navbar.Brand>
       <Nav className="mr-auto">
         <Nav.Link href="/">Home</Nav.Link>
