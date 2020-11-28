@@ -16,6 +16,7 @@ import {
     SingleOrder,
     Account,
     Home,
+    Footer,
 } from "./";
 
 import {
@@ -47,6 +48,8 @@ const App = () => {
         getOrdersByUserId(user.id, token).then(setOrders);
     }, [token]);
 
+    console.log('orders in main app', orders)
+
   return (
     <>
       <div className="App">
@@ -61,7 +64,7 @@ const App = () => {
           })} */}
         </Route>
         <Route exact path="/cart">
-          < Cart />
+          < Cart user={user} />
         </Route>
         <Route exact path="/register">
         < Register token={token} setToken={setToken} user={user} setUser={setUser} />
@@ -78,8 +81,9 @@ const App = () => {
             <SingleProduct />
         </Route>
         <Route exact path="/orders/:orderId">
-            <SingleOrder user={user}/>
+            <SingleOrder user={user} orders={orders} setOrders={setOrders} products={products} token={token}/>
         </Route>
+        < Footer />
       </div>
     </>
   );

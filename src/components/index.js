@@ -9,3 +9,4 @@ export { default as Logout } from "./Logout";
 export { default as Register} from "./Register"
 export { default as Account } from "./Account";
 export { default as Home } from "./Home"
+export { default as Footer } from "./Footer"
