@@ -256,6 +256,10 @@ const createOrder = async ({
 }
 
 const updateOrder = async ({ id, ...fields }) => {
+//   updateOrder({ id, status, userId })
+//  Find the order with id equal to the passed in id
+//  Don't update the order id, but do update the status and/or userId, as necessary
+//  Return the updated order
 
     const fieldKeys = Object.keys(fields);
 
@@ -286,6 +290,10 @@ const updateOrder = async ({ id, ...fields }) => {
 
 
 const completeOrder = async ({id}) => {
+  // Find the order with id equal to the passed in id
+//  Only update the status to completed
+//  Return the updated order
+
   try {
 
 const { rows: [order] } = await client.query(`
