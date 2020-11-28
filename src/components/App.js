@@ -15,6 +15,7 @@ import {
     Register,
     SingleOrder,
     Account,
+    Home,
     Footer,
 } from "./";
 
@@ -56,6 +57,12 @@ const App = () => {
             token={token}
             setToken={setToken}
             setUser={setUser}/>
+        <Route exact path="/">
+          < Home products={products} />
+          {/* {products.map((product) => {
+            return <Product key={product.id} product={product} />;
+          })} */}
+        </Route>
         <Route exact path="/cart">
           < Cart user={user} />
         </Route>
