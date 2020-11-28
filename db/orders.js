@@ -2,11 +2,11 @@ const { client } = require('./index')
 
 const reduceOrders = (queriedOrders) => {
     const ordersWithProducts = queriedOrders.reduce((acc, order) => {
-        const { 
-            id, 
-            status, 
-            userId, 
-            datePlaced, 
+        const {
+            id,
+            status,
+            userId,
+            datePlaced,
             productId,
             orderId,
             totalProductPrice,
@@ -54,11 +54,11 @@ const getOrderById = async (id) => {
   // return the order, include the order's products
   try {
     const { rows: orders } = await client.query(`
-        SELECT 
-        orders.id, 
-        orders.status, 
-        orders."userId", 
-        orders."datePlaced", 
+        SELECT
+        orders.id,
+        orders.status,
+        orders."userId",
+        orders."datePlaced",
         order_products."productId",
         order_products."orderId",
         order_products.price as "totalProductPrice",
@@ -70,9 +70,9 @@ const getOrderById = async (id) => {
         products."inStock",
         products.category
         FROM orders
-        LEFT JOIN order_products 
+        LEFT JOIN order_products
         ON orders.id = order_products."orderId"
-        LEFT JOIN products 
+        LEFT JOIN products
         ON products.id = order_products."productId"
         WHERE orders.id = $1;
 `, [id])
@@ -87,11 +87,11 @@ const getAllOrders = async () => {
 
   try {
     const { rows: orders } = await client.query(`
-        SELECT 
-        orders.id, 
-        orders.status, 
-        orders."userId", 
-        orders."datePlaced", 
+        SELECT
+        orders.id,
+        orders.status,
+        orders."userId",
+        orders."datePlaced",
         order_products."productId",
         order_products."orderId",
         order_products.price as "totalProductPrice",
@@ -103,9 +103,9 @@ const getAllOrders = async () => {
         products."inStock",
         products.category
         FROM orders
-        LEFT JOIN order_products 
+        LEFT JOIN order_products
         ON order_products."orderId" = orders.id
-        LEFT JOIN products 
+        LEFT JOIN products
         ON products.id = order_products."productId"
 `)
     return reduceOrders(orders);
@@ -118,11 +118,11 @@ const getOrdersByUser = async ({id}) => {
   //  select and return an array of orders made by user, inlude their products
   try {
     const { rows: orders } = await client.query(`
-        SELECT 
-        orders.id, 
-        orders.status, 
-        orders."userId", 
-        orders."datePlaced", 
+        SELECT
+        orders.id,
+        orders.status,
+        orders."userId",
+        orders."datePlaced",
         order_products."productId",
         order_products."orderId",
         order_products.price as "totalProductPrice",
@@ -134,9 +134,9 @@ const getOrdersByUser = async ({id}) => {
         products."inStock",
         products.category
         FROM orders
-        LEFT JOIN order_products 
+        LEFT JOIN order_products
         ON order_products."orderId" = orders.id
-        LEFT JOIN products 
+        LEFT JOIN products
         ON products.id = order_products."productId"
         WHERE orders."userId" = $1;
 `, [id])
@@ -154,7 +154,7 @@ const getOrdersByProduct = async ({id}) => {
         FROM order_products
         WHERE "productId"=$1
       `, [id]);
-       
+
       const arrOrderNumbers = orderNumbers.map(({orderId}) => {
           return orderId;
       });
@@ -170,11 +170,11 @@ const getOrdersByProduct = async ({id}) => {
       }
 
     const {rows: orders} = await client.query(`
-        SELECT 
-        orders.id, 
-        orders.status, 
-        orders."userId", 
-        orders."datePlaced", 
+        SELECT
+        orders.id,
+        orders.status,
+        orders."userId",
+        orders."datePlaced",
         order_products."productId",
         order_products."orderId",
         order_products.price as "totalProductPrice",
@@ -186,9 +186,9 @@ const getOrdersByProduct = async ({id}) => {
         products."inStock",
         products.category
         FROM orders
-        LEFT JOIN order_products 
+        LEFT JOIN order_products
         ON order_products."orderId" = orders.id
-        LEFT JOIN products 
+        LEFT JOIN products
         ON products.id = order_products."productId"
         WHERE orders.id = ${conditionalString()};
 `, arrOrderNumbers)
@@ -206,11 +206,11 @@ const getCartByUser = async ({id}) => {
 //  return the order, include the order's products
   try {
     const {rows: orders} = await client.query(`
-        SELECT 
-        orders.id, 
-        orders.status, 
-        orders."userId", 
-        orders."datePlaced", 
+        SELECT
+        orders.id,
+        orders.status,
+        orders."userId",
+        orders."datePlaced",
         order_products."productId",
         order_products."orderId",
         order_products.price as "totalProductPrice",
@@ -222,9 +222,9 @@ const getCartByUser = async ({id}) => {
         products."inStock",
         products.category
         FROM orders
-        LEFT JOIN order_products 
+        LEFT JOIN order_products
         ON order_products."orderId" = orders.id
-        LEFT JOIN products 
+        LEFT JOIN products
         ON products.id = order_products."productId"
         WHERE orders."userId" = $1
         AND orders.status = 'created';
@@ -266,14 +266,14 @@ const updateOrder = async ({ id, ...fields }) => {
     const setValues = Object.values(fields);
     setValues.push(id);
 
-    if (fieldKeys.length === 0) { 
-        return; 
+    if (fieldKeys.length === 0) {
+        return;
     }
 
     try {
         const { rows: [order] } = await client.query(`
           UPDATE orders
-          SET ${setString} 
+          SET ${setString}
           WHERE id = $${setValues.length}
           RETURNING *;
           `, setValues)

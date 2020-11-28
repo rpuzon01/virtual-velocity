@@ -4,58 +4,78 @@ import { getOrdersByUserId } from '../api';
 import './SingleOrder.css'
 
 const SingleOrder = (props) => {
-    const { orderId } = useParams();
-    const { user } = props;
-    const [order, setOrder] = useState({
-            id: 1,
-            status: 'created',
-            userId: 1,
-            datePlaced: "January 1, 2000",
-            products: [{
-                id: 2,
-                name: "PSA grade 10 Base set Blastoise",
-                description: "(dummy description)",
-                price: 349995,
-                inStock: true,
-                category: "Pokemon Cards",
-                quantity: 1
-            }]
-    });
+    const { orderId, } = useParams();
+    const { user, orders, setOrders, token } = props;
+     const [order, setOrder] = useState({})
 
-    useEffect(() => {
-    }, [])
+    // console.log('user', user)
+    // console.log('userId!', user.id)
+    // console.log('token', token)
+
+    // console.log("order in single order2", order)
+    // console.log("order id", orderId)
+
+    // console.log("ORDERS in Single Order", orders)
+
+    // function getSum(total, num) {
+    //     return total + num
+    // }
+    // let totalSum = price.reduce(getSum);
+    // console.log('totalsum', totalSum)
 
 
-    return (
+
+    return ( <>
         <div className="single-order">
-            <header className="order-info"> 
-                <div> Order#{order.id} </div>
-                <div> Order Status: {order.status} </div>
-                <div> Order Placed: {order.datePlaced} </div>
-            </header>
             <div className="products">
-                {
-                    order.products.map(({id, name, description, category, price, quantity}) => {
-                        return (
+            <h1>My Order: </h1>
+                { orders && orders.map(({products, id, userId, datePlaced, status}) =>
+                 <div key={id} className="orders">
+                    {console.log('12345', orders.userId)}
+                    {console.log('products in orders map', products)}
+                    {/* {console.log('priceOrders', price)} */}
+                    <header className="order-info">
+                        <div> Order #{id} </div>
+                        <div> Order Status: {status} </div>
+                        <div> Order Placed: {datePlaced} </div>
+                    </header>
+
+                        { products && products.map(({id, name, description, category, price, quantity}) => user && user.id === userId && <>
+                        {console.log('map data 23', id, name, description, category, price, quantity)}
+                        {/* {console.log('priceOrders', products.price)} */}
+
+
+                        <h3>Product: {name}</h3>
                             <div key={id} className="product">
-                                <div>{name}</div>
-                                <div>{category}</div>
-                                <div>{description}</div>
-                                <div>{quantity}</div>
-                                <div>{price/100.0}</div>
+                                <div>Name: {name}</div>
+                                <div>Category: {category}</div>
+                                <div>Description: {description}</div>
+                                <div>Quantity: {quantity}</div>
+                                <div>Price: {price/100.0}</div>
                             </div>
-                        );
-                    })
-                }  
+                            <div>
+
+
+                    </div>
+                            </>
+
+                    )
+                }
+
+
+                </div>
+                )
+
+                }
             </div>
             <footer>
                 <div className="total">
-                    <div>
-                        Total: $349.95
-                    </div>
+                TEMP Total: $349.95
+
                 </div>
             </footer>
         </div>
+        </>
     );
 }
 

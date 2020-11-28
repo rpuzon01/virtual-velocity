@@ -6,7 +6,7 @@ const BASE_URL = "/api"
 export async function getProductById(id) {
     try {
     const { data } = await axios.get(`${BASE_URL}/products/${id}`);
-    console.log("data from index API getProducts", data);
+    // console.log("data from index API getProducts", data);
     return data;
   } catch (error) {
     throw error;
@@ -16,7 +16,7 @@ export async function getProductById(id) {
 export async function getProducts() {
   try {
     const { data } = await axios.get(`${BASE_URL}/products`);
-    console.log("data from index API getProducts", data);
+    // console.log("data from index API getProducts", data);
     return data;
   } catch (error) {
     throw error;
@@ -66,13 +66,15 @@ export async function getUser(token) {
   }
 }
 
-export async function getOrdersByUserId(id, token) {
+export async function getOrdersByUserId(userId, token) {
     try {
-        const { data } = await axios.get(`${BASE_URL}/users/${id}/orders`, {
+        const { data } = await axios.get(`${BASE_URL}/users/${userId}/orders`, {
             headers: {
                 "Authorization": `Bearer ${token}`
             }
         });
+        console.log("orders in api orders", data)
+
         return data;
     } catch (error) {
         throw error;
