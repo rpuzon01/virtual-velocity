@@ -56,7 +56,7 @@ const App = () => {
             setToken={setToken}
             setUser={setUser}/>
         <Route exact path="/cart">
-          < Cart />
+          < Cart user={user} />
         </Route>
         <Route exact path="/register">
         < Register token={token} setToken={setToken} user={user} setUser={setUser} />
