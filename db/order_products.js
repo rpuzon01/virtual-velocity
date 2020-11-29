@@ -1,6 +1,6 @@
 const client = require("./client");
 
-async function createOrderProduct({productId, orderId, price, quantity}) {
+async function createOrderProduct({ productId, orderId, price, quantity }) {
   try {
     const {
       rows: [order_product],
@@ -12,11 +12,12 @@ async function createOrderProduct({productId, orderId, price, quantity}) {
         `,
       [productId, orderId, price, quantity]
     );
-    
-    return order_product
+
+    return order_product;
   } catch (error) {
-    throw error
+    throw error;
   }
+}
 
 async function getOrderProductById(id) {
   try {

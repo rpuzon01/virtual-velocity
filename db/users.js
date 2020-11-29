@@ -2,6 +2,7 @@ const { client } = require("./index");
 const bcrypt = require("bcrypt");
 const SALT_COUNT = 10;
 
+<<<<<<< HEAD
 async function createUser({
   username,
   password,
@@ -10,6 +11,14 @@ async function createUser({
   email,
   imageURL,
   isAdmin,
+=======
+async function createUser({ 
+    username, 
+    password, 
+    firstName, 
+    lastName, 
+    email 
+>>>>>>> 6a53fb92c576b571452f5353bc5dd6c33f2e236e
 }) {
   try {
     const hashedPassword = await bcrypt.hash(password, SALT_COUNT);
@@ -18,12 +27,12 @@ async function createUser({
       rows: [user],
     } = await client.query(
       `
-        INSERT INTO users (username, password, "firstName", "lastName", email, "imageURL", "isAdmin")
-        VALUES($1, $2, $3, $4, $5, $6, $7)
+        INSERT INTO users (username, password, "firstName", "lastName", email)
+        VALUES($1, $2, $3, $4, $5)
         ON CONFLICT (username) DO NOTHING
         RETURNING *;
       `,
-      [username, hashedPassword, firstName, lastName, email, imageURL, isAdmin]
+      [username, hashedPassword, firstName, lastName, email]
     );
 
     delete user.password;
@@ -31,6 +40,20 @@ async function createUser({
   } catch (error) {
     throw error;
   }
+}
+
+async function setUserAsAdmin(id){
+    console.log(`Setting user with id: ${id} as an admin`);
+    try {
+    await client.query(`
+        UPDATE users
+        SET "isAdmin" = true
+        WHERE id = $1;
+    `, [id]);
+    } catch (error) {
+        console.error('Unable to set admin');
+        throw error;
+    }
 }
 
 async function getUser({ username, password }) {
@@ -47,7 +70,7 @@ async function getUser({ username, password }) {
 
     const isAMatch = await bcrypt.compare(password, user.password);
 
-    if (isAMatch === true) {
+    if (isAMatch) {
       console.log("isAMatch: ", isAMatch);
       delete user.password;
       return user;
@@ -112,10 +135,10 @@ async function getUserByUsername(username) {
 }
 
 module.exports = {
-  client,
   createUser,
   getUser,
   getAllUsers,
   getUserById,
   getUserByUsername,
+  setUserAsAdmin
 };

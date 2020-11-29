@@ -1,9 +1,13 @@
 const express = require("express");
 const ordersRouter = express.Router();
 const { requireUser, isAdmin } = require("./utils");
+<<<<<<< HEAD
 const { addProductToOrder } = require("../db/order_product");
+=======
+const { getAllOrders, getCartByUser, createOrder, updateOrder, cancelOrder } = require('../db/utils');
+>>>>>>> 6a53fb92c576b571452f5353bc5dd6c33f2e236e
 
-ordersRouter.get("/orders", requireUser, isAdmin, async (req, res, next) => {
+ordersRouter.get("/", [requireUser, isAdmin], async (req, res, next) => {
   try {
     const orders = await getAllOrders();
     res.send(orders);
@@ -12,42 +16,66 @@ ordersRouter.get("/orders", requireUser, isAdmin, async (req, res, next) => {
   }
 });
 
-ordersRouter.get(
-  "/orders/cart",
-  requireUser,
-  isAdmin,
-  async (req, res, next) => {
+ordersRouter.get("/cart", requireUser, async (req, res, next) => {
     try {
-      const orders = await getPendingOrdersByUsers();
-      res.send(orders);
+      const order = await getCartByUser(req.user);
+      res.send(order);
     } catch (error) {
       next(error);
     }
   }
 );
 
-ordersRouter.post("/orders", requireUser, async (req, res, next) => {
+ordersRouter.post("/", requireUser, async (req, res, next) => {
   try {
-    const orders = await createNewOrder(productId, orderId, price, quantity);
-    res.send(orders);
+    const order = await createOrder({status: 'created', userId: req.user.id});
+    res.send(order);
   } catch (error) {
     next(error);
   }
 });
 
-ordersRouter.get(
-  "/users/:userId/orders",
-  requireUser,
-  async (req, res, next) => {
-    const { userId } = req.params;
-    try {
-      const orders = await getOrderByUser(userId);
-      res.send(orders);
-    } catch (error) {
-      next(error);
-    }
+ordersRouter.patch("/:orderId", requireUser, async (req, res, next) => {
+  // Orders - API Routes
+//  PATCH /orders/:orderId (**)
+// Update an order, notably change status
+
+const {orderId} = req.params
+const {status} = req.body
+const {userId} = req.user.id
+
+  try {
+    const order = await updateOrder({orderId, status, userId })
+    res.send(order)
+
+  } catch (error) {
+    next(error)
   }
-);
+
+})
+
+ordersRouter.delete("/:orderId", requireUser, async (req, res, next) => {
+  // CANCEL ORDER
+  //  DELETE /orders/:orderId (**)
+// Update the order's status to cancelled
+const {orderId} = req.params
+// const {status} = req.body
+  try {
+
+    const order = await cancelOrder(orderId)
+    res.send(order)
+
+  } catch (error) {
+    next(error)
+  }
+
+})
+
+
+
+
+
+
 
 //Add a single product to an order (using order_products). Prevent duplication on ("orderId", "productId") pair. If product already exists on order, increment quantity and update price.
 //cannot complete without addProductToOrder
