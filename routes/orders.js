@@ -1,11 +1,8 @@
 const express = require("express");
 const ordersRouter = express.Router();
 const { requireUser, isAdmin } = require("./utils");
-<<<<<<< HEAD
 const { addProductToOrder } = require("../db/order_product");
-=======
 const { getAllOrders, getCartByUser, createOrder, updateOrder, cancelOrder } = require('../db/utils');
->>>>>>> 6a53fb92c576b571452f5353bc5dd6c33f2e236e
 
 ordersRouter.get("/", [requireUser, isAdmin], async (req, res, next) => {
   try {
