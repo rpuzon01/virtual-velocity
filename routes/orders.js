@@ -1,6 +1,7 @@
 const express = require("express");
 const ordersRouter = express.Router();
 const { requireUser, isAdmin } = require("./utils");
+const { addProductToOrder } = require("../db/order_product");
 
 ordersRouter.get("/orders", requireUser, isAdmin, async (req, res, next) => {
   try {
@@ -42,6 +43,32 @@ ordersRouter.get(
     try {
       const orders = await getOrderByUser(userId);
       res.send(orders);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+//Add a single product to an order (using order_products). Prevent duplication on ("orderId", "productId") pair. If product already exists on order, increment quantity and update price.
+//cannot complete without addProductToOrder
+//500 error
+//orders folder
+ordersRouter.post(
+  "orders/:orderId/products",
+  requireUser,
+  async (req, res, next) => {
+    const { orderId } = req.params;
+    const { productId, price, quantity } = req.body;
+
+    try {
+      const orderProducts = await addProductToOrder(
+        orderId,
+        productId,
+        price,
+        quantity
+      );
+      console.log("orderProducts:", orderProducts);
+      res.send(orderProducts);
     } catch (error) {
       next(error);
     }
