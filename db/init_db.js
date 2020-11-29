@@ -162,38 +162,14 @@ async function populateInitialData() {
     const usersToCreate = [
       {
         firstName: "elmar",
-<<<<<<< HEAD
-        lastName: "fudd",
-        email: "elmarisawesome@me.com",
-        imageURL: "",
-        username: "elmarisme",
-        password: "elmar12345",
-        isAdmin: "false",
-=======
         lastName: 'fudd',
         email: 'elmarisawesome@me.com',
         username: "elmarisme",
         password: 'elmar12345',
->>>>>>> 6a53fb92c576b571452f5353bc5dd6c33f2e236e
       },
 
       {
         firstName: "dougy",
-<<<<<<< HEAD
-        lastName: "fresh",
-        email: "dougIstheman@me.com",
-        imageURL:
-          "https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg",
-        username: "dougIsMe",
-        password: "dougy12345",
-        isAdmin: true,
-      },
-    ];
-    const users = await Promise.all(
-      usersToCreate.map((user) => createUser(user))
-    );
-    console.log("order created:", users);
-=======
         lastName: 'fresh',
         email: 'dougIstheman@me.com',
         username: "dougIsMe",
@@ -214,7 +190,6 @@ async function populateInitialData() {
       console.log('Getting user with name', userWithUsername);
       const userWithUserPass = await getUser({username: 'elmarisme', password: 'elmar12345'});
       console.log('getting user with login:', userWithUserPass);
->>>>>>> 6a53fb92c576b571452f5353bc5dd6c33f2e236e
 
     // ------
 
@@ -230,7 +205,6 @@ async function populateInitialData() {
     ];
     const orders = await Promise.all(
       ordersToCreate.map((order) => createOrder(order))
-<<<<<<< HEAD
     );
     console.log("order created:", orders);
 
@@ -251,10 +225,6 @@ async function populateInitialData() {
       )
     );
     console.log("order_product created:", order_product);
-=======
-    )
-    console.log('orders created:', orders)
->>>>>>> 6a53fb92c576b571452f5353bc5dd6c33f2e236e
 
     // -----------
     console.log('order testing');
