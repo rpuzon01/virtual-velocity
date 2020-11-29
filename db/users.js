@@ -2,23 +2,12 @@ const { client } = require("./index");
 const bcrypt = require("bcrypt");
 const SALT_COUNT = 10;
 
-<<<<<<< HEAD
-async function createUser({
-  username,
-  password,
-  firstName,
-  lastName,
-  email,
-  imageURL,
-  isAdmin,
-=======
 async function createUser({ 
     username, 
     password, 
     firstName, 
     lastName, 
     email 
->>>>>>> 6a53fb92c576b571452f5353bc5dd6c33f2e236e
 }) {
   try {
     const hashedPassword = await bcrypt.hash(password, SALT_COUNT);
