@@ -32,14 +32,14 @@ const { client } = require('./db');
 
 // error handler
 server.use((err, req, res, next) => {
-    console.error(err);
-    res.status(500).send(err);
+  console.error(err);
+  res.status(500).send(err);
 });
 
 // connect to the server
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, async () => {
-  console.log(`Server is running on ${ PORT }!`);
+  console.log(`Server is running on ${PORT}!`);
 
   try {
     await client.connect();

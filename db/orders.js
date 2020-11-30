@@ -55,11 +55,19 @@ const getOrderById = async (id) => {
   try {
     const { rows: orders } = await client.query(
       `
+<<<<<<< HEAD
         SELECT 
         orders.id, 
         orders.status, 
         orders."userId", 
         orders."datePlaced", 
+=======
+        SELECT
+        orders.id,
+        orders.status,
+        orders."userId",
+        orders."datePlaced",
+>>>>>>> ddef0da5bd69d34ee5fcb86455d9143edf2c3494
         order_products."productId",
         order_products."orderId",
         order_products.price as "totalProductPrice",
@@ -71,9 +79,9 @@ const getOrderById = async (id) => {
         products."inStock",
         products.category
         FROM orders
-        LEFT JOIN order_products 
+        LEFT JOIN order_products
         ON orders.id = order_products."orderId"
-        LEFT JOIN products 
+        LEFT JOIN products
         ON products.id = order_products."productId"
         WHERE orders.id = $1;
 `,
@@ -90,11 +98,11 @@ const getAllOrders = async () => {
 
   try {
     const { rows: orders } = await client.query(`
-        SELECT 
-        orders.id, 
-        orders.status, 
-        orders."userId", 
-        orders."datePlaced", 
+        SELECT
+        orders.id,
+        orders.status,
+        orders."userId",
+        orders."datePlaced",
         order_products."productId",
         order_products."orderId",
         order_products.price as "totalProductPrice",
@@ -106,9 +114,9 @@ const getAllOrders = async () => {
         products."inStock",
         products.category
         FROM orders
-        LEFT JOIN order_products 
+        LEFT JOIN order_products
         ON order_products."orderId" = orders.id
-        LEFT JOIN products 
+        LEFT JOIN products
         ON products.id = order_products."productId"
 `);
     return reduceOrders(orders);
@@ -122,11 +130,19 @@ const getOrdersByUser = async ({ id }) => {
   try {
     const { rows: orders } = await client.query(
       `
+<<<<<<< HEAD
         SELECT 
         orders.id, 
         orders.status, 
         orders."userId", 
         orders."datePlaced", 
+=======
+        SELECT
+        orders.id,
+        orders.status,
+        orders."userId",
+        orders."datePlaced",
+>>>>>>> ddef0da5bd69d34ee5fcb86455d9143edf2c3494
         order_products."productId",
         order_products."orderId",
         order_products.price as "totalProductPrice",
@@ -138,9 +154,9 @@ const getOrdersByUser = async ({ id }) => {
         products."inStock",
         products.category
         FROM orders
-        LEFT JOIN order_products 
+        LEFT JOIN order_products
         ON order_products."orderId" = orders.id
-        LEFT JOIN products 
+        LEFT JOIN products
         ON products.id = order_products."productId"
         WHERE orders."userId" = $1;
 `,
@@ -182,11 +198,19 @@ const getOrdersByProduct = async ({ id }) => {
 
     const { rows: orders } = await client.query(
       `
+<<<<<<< HEAD
         SELECT 
         orders.id, 
         orders.status, 
         orders."userId", 
         orders."datePlaced", 
+=======
+        SELECT
+        orders.id,
+        orders.status,
+        orders."userId",
+        orders."datePlaced",
+>>>>>>> ddef0da5bd69d34ee5fcb86455d9143edf2c3494
         order_products."productId",
         order_products."orderId",
         order_products.price as "totalProductPrice",
@@ -198,9 +222,9 @@ const getOrdersByProduct = async ({ id }) => {
         products."inStock",
         products.category
         FROM orders
-        LEFT JOIN order_products 
+        LEFT JOIN order_products
         ON order_products."orderId" = orders.id
-        LEFT JOIN products 
+        LEFT JOIN products
         ON products.id = order_products."productId"
         WHERE orders.id = ${conditionalString()};
 `,
@@ -220,11 +244,19 @@ const getCartByUser = async ({ id }) => {
   try {
     const { rows: orders } = await client.query(
       `
+<<<<<<< HEAD
         SELECT 
         orders.id, 
         orders.status, 
         orders."userId", 
         orders."datePlaced", 
+=======
+        SELECT
+        orders.id,
+        orders.status,
+        orders."userId",
+        orders."datePlaced",
+>>>>>>> ddef0da5bd69d34ee5fcb86455d9143edf2c3494
         order_products."productId",
         order_products."orderId",
         order_products.price as "totalProductPrice",
@@ -236,9 +268,9 @@ const getCartByUser = async ({ id }) => {
         products."inStock",
         products.category
         FROM orders
-        LEFT JOIN order_products 
+        LEFT JOIN order_products
         ON order_products."orderId" = orders.id
-        LEFT JOIN products 
+        LEFT JOIN products
         ON products.id = order_products."productId"
         WHERE orders."userId" = $1
         AND orders.status = 'created';
@@ -293,7 +325,7 @@ const updateOrder = async ({ id, ...fields }) => {
     } = await client.query(
       `
           UPDATE orders
-          SET ${setString} 
+          SET ${setString}
           WHERE id = $${setValues.length}
           RETURNING *;
           `,
@@ -306,6 +338,10 @@ const updateOrder = async ({ id, ...fields }) => {
 };
 
 const completeOrder = async ({ id }) => {
+  // Find the order with id equal to the passed in id
+  //  Only update the status to completed
+  //  Return the updated order
+
   try {
     const {
       rows: [order],
