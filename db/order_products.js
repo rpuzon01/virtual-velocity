@@ -6,7 +6,7 @@ async function createOrderProduct({ productId, orderId, price, quantity }) {
       rows: [order_product],
     } = await client.query(
       `
-      INSERT INTO orders ("productId", "orderId", price, quantity)
+      INSERT INTO order_products ("productId", "orderId", price, quantity)
       VALUES ($1, $2, $3, $4)
       RETURNING * ;
         `,

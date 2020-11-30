@@ -212,12 +212,23 @@ async function populateInitialData() {
 
     const orderProductsToCreate = [
       {
-        id: 1,
         productId: 1,
         orderId: 1,
-        price: 40000.99,
+        price: 5000,
         quantity: 1,
       },
+      {
+        productId: 2,
+        orderId: 1,
+        price: 5001,
+        quantity: 1,
+      },
+      {
+        productId: 3,
+        orderId: 1,
+        price: 5002,
+        quantity: 1,
+      }
     ];
     const order_product = await Promise.all(
       orderProductsToCreate.map((order_product) =>
@@ -228,14 +239,6 @@ async function populateInitialData() {
 
     // -----------
     console.log('order testing');
-    await client.query(`
-        INSERT INTO order_products ("productId", "orderId", price, quantity)
-        VALUES (1, 1, 5000, 1);
-        INSERT INTO order_products ("productId", "orderId", price, quantity)
-        VALUES (2, 1, 5001, 1);
-        INSERT INTO order_products ("productId", "orderId", price, quantity)
-        VALUES (3, 1, 5002, 1);
-    `);
       const order1 = await getOrderById(1);
       console.log('getting order with id1: ', order1);
       console.log('products of order1', order1.products);
