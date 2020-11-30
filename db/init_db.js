@@ -1,5 +1,7 @@
 const { client } = require("./index");
+
 const { 
+    createOrderProduct,
     createProduct, 
     createOrder, 
     createUser,
@@ -193,20 +195,36 @@ async function populateInitialData() {
 
     const ordersToCreate = [
       {
-        status: 'created',
+        status: "created",
         userId: 1,
-
       },
       {
-        status: 'created',
+        status: "created",
         userId: 1,
-
       },
-    ]
+    ];
     const orders = await Promise.all(
       ordersToCreate.map((order) => createOrder(order))
-    )
-    console.log('orders created:', orders)
+    );
+    console.log("order created:", orders);
+
+    // -----------
+
+    const orderProductsToCreate = [
+      {
+        id: 1,
+        productId: 1,
+        orderId: 1,
+        price: 40000.99,
+        quantity: 1,
+      },
+    ];
+    const order_product = await Promise.all(
+      orderProductsToCreate.map((order_product) =>
+        createOrderProduct(order_product)
+      )
+    );
+    console.log("order_product created:", order_product);
 
     // -----------
     console.log('order testing');
@@ -245,9 +263,7 @@ async function populateInitialData() {
   }
 }
 
-
 buildTables()
   .then(populateInitialData)
   .catch(console.error)
   .finally(() => client.end());
-

@@ -5,13 +5,15 @@ import {
   getOrdersByUserId
 } from "../api";
 import {
-  Product,
-  SingleProduct,
-  Cart,
-  NavBar,
-  Register,
-  SingleOrder,
-  Account
+    Product,
+    SingleProduct,
+    Cart,
+    NavBar,
+    Register,
+    SingleOrder,
+    Account,
+    Home,
+    Footer,
 } from "./";
 import {
   BrowserRouter as Router,
@@ -35,17 +37,29 @@ const App = () => {
       getUser(localToken).then(data => setUser(data));
     }
   }, []);
-  useEffect(() => {
-  }, [token]);
+
+    useEffect(() => {
+        getUser(token).then(setUser);
+        getOrdersByUserId(user.id, token).then(setOrders);
+    }, [token]);
+
+    console.log('orders in main app', orders)
+
   return (
     <>
       <div className="App">
         <NavBar
-          token={token}
-          setToken={setToken}
-          setUser={setUser} />
+            token={token}
+            setToken={setToken}
+            setUser={setUser}/>
+        <Route exact path="/">
+          < Home products={products} />
+          {/* {products.map((product) => {
+            return <Product key={product.id} product={product} />;
+          })} */}
+        </Route>
         <Route exact path="/cart">
-          <Cart />
+          < Cart user={user} />
         </Route>
         <Route exact path="/register">
           <Register token={token} setToken={setToken} user={user} setUser={setUser} />
@@ -62,8 +76,9 @@ const App = () => {
           <SingleProduct />
         </Route>
         <Route exact path="/orders/:orderId">
-          <SingleOrder user={user} />
+            <SingleOrder user={user} orders={orders} setOrders={setOrders} products={products} token={token}/>
         </Route>
+        < Footer />
       </div>
     </>
   );

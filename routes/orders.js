@@ -1,7 +1,8 @@
 const express = require("express");
 const ordersRouter = express.Router();
 const { requireUser, isAdmin } = require("./utils");
-const { getAllOrders, getCartByUser, createOrder } = require('../db/utils');
+const { addProductToOrder } = require("../db/order_product");
+const { getAllOrders, getCartByUser, createOrder, updateOrder, cancelOrder } = require('../db/utils');
 
 ordersRouter.get("/", [requireUser, isAdmin], async (req, res, next) => {
   try {
@@ -31,5 +32,72 @@ ordersRouter.post("/", requireUser, async (req, res, next) => {
   }
 });
 
+ordersRouter.patch("/:orderId", requireUser, async (req, res, next) => {
+  // Orders - API Routes
+//  PATCH /orders/:orderId (**)
+// Update an order, notably change status
+
+const {orderId} = req.params
+const {status} = req.body
+const {userId} = req.user.id
+
+  try {
+    const order = await updateOrder({orderId, status, userId })
+    res.send(order)
+
+  } catch (error) {
+    next(error)
+  }
+
+})
+
+ordersRouter.delete("/:orderId", requireUser, async (req, res, next) => {
+  // CANCEL ORDER
+  //  DELETE /orders/:orderId (**)
+// Update the order's status to cancelled
+const {orderId} = req.params
+// const {status} = req.body
+  try {
+
+    const order = await cancelOrder(orderId)
+    res.send(order)
+
+  } catch (error) {
+    next(error)
+  }
+
+})
+
+
+
+
+
+
+
+//Add a single product to an order (using order_products). Prevent duplication on ("orderId", "productId") pair. If product already exists on order, increment quantity and update price.
+//cannot complete without addProductToOrder
+//500 error
+//orders folder
+ordersRouter.post(
+  "orders/:orderId/products",
+  requireUser,
+  async (req, res, next) => {
+    const { orderId } = req.params;
+    const { productId, price, quantity } = req.body;
+
+    try {
+      const orderProducts = await addProductToOrder(
+        orderId,
+        productId,
+        price,
+        quantity
+      );
+      console.log("orderProducts:", orderProducts);
+      res.send(orderProducts);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
 module.exports = ordersRouter;
