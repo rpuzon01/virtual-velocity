@@ -1,7 +1,7 @@
 const express = require("express");
 const ordersRouter = express.Router();
 const { requireUser, isAdmin } = require("./utils");
-const { addProductToOrder } = require("../db/order_product");
+const { addProductToOrder } = require("../db/order_products");
 const { getAllOrders, getCartByUser, createOrder, updateOrder, cancelOrder } = require('../db/utils');
 
 ordersRouter.get("/", [requireUser, isAdmin], async (req, res, next) => {
