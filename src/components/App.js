@@ -30,7 +30,7 @@ const App = () => {
   const [user, setUser] = useState();
   const [orders, setOrders] = useState([]);
   useEffect(() => {
-    // getProducts().then(setProducts);
+    getProducts().then(setProducts);
     const localToken = getLocalToken();
     if (localToken) {
       setToken(localToken);
@@ -44,6 +44,7 @@ const App = () => {
     }, [token]);
 
     console.log('orders in main app', orders)
+    console.log('products in main app', products)
 
   return (
     <>
@@ -54,9 +55,6 @@ const App = () => {
             setUser={setUser}/>
         <Route exact path="/">
           < Home products={products} />
-          {/* {products.map((product) => {
-            return <Product key={product.id} product={product} />;
-          })} */}
         </Route>
         <Route exact path="/cart">
           < Cart user={user} />
@@ -68,9 +66,7 @@ const App = () => {
           <Account user={user} token={token} />
         </Route>
         <Route exact path="/products">
-          {products.map((product) => {
-            return <Product key={product.id} product={product} />;
-          })}
+          < Product products={products} setProducts={setProducts} user={user} />
         </Route>
         <Route exact path="/products/:productId">
           <SingleProduct />
