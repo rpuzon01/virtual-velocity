@@ -40,7 +40,7 @@ const App = () => {
 
     useEffect(() => {
         getUser(token).then(setUser);
-        getOrdersByUserId(user.id, token).then(setOrders);
+        getOrdersByUserId(user?.id, token).then(setOrders);
     }, [token]);
 
     console.log('orders in main app', orders)
