@@ -9,6 +9,34 @@ const Product = (props) => {
   const { product, products, setProducts, user } = props;
   const { productId } = useParams();
 
+  const handleAddToOrder = () => {
+    console.log('add to order clicked')
+    try {
+
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  const handleRemoveFromOrder = () => {
+    console.log('remove order clicked')
+    try {
+
+    } catch (error) {
+      throw error
+    }
+  }
+
+  const handleLinkToProduct = () => {
+    try {
+      //select the order's id and link to it
+      console.log('link to product by ID clicked')
+
+    } catch (error) {
+      throw error
+    }
+  }
+
   return (
     <>
       { products && products.map(({category, description, id, imageURL, inStock, name, price}) => <>
@@ -21,7 +49,25 @@ const Product = (props) => {
           <Card.Text>{price}</Card.Text>
           <Card.Text>{category}</Card.Text>
           <Card.Text>{inStock}</Card.Text>
-          <Button variant="primary">Go somewhere</Button>
+          <Button className="btn btn-primary" onClick={ (event) => {
+            event.preventDefault()
+            handleAddToOrder()
+          }
+
+          }
+          >Add</Button>
+          <Button className="btn btn-danger" onClick={
+            (event) => {
+              event.preventDefault()
+              handleRemoveFromOrder()
+            }
+          }
+          >Remove</Button>
+          <Button className="btn" onClick={ (event) => {
+            event.preventDefault()
+            handleLinkToProduct()
+          }}
+          >View Product</Button>
         </Card.Body>
       </Card>
 
