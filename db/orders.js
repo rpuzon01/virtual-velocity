@@ -334,14 +334,6 @@ const completeOrder = async ({ id }) => {
   }
 };
 
-// async function testing() {
-//   client.connect();
-//   const order = await getOrdersByUser();
-//   console.log("order:", order);
-// }
-
-// testing();
-
 const cancelOrder = async (id) => {
   try {
     //  cancelOrder
