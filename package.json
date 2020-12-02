@@ -9,7 +9,11 @@
     "client:build": "react-scripts build",
     "server:dev": "nodemon index.js",
     "db:build": "node ./db/init_db",
-    "start": "node index.js"
+    "start": "node index.js",
+    "test": "jest --runInBand --verbose",
+    "test:watch": "jest --watchAll --runInBand --verbose",
+    "test:watch:db": "jest --watchAll db",
+    "test:watch:api": "jest --watchAll api"
   },
   "keywords": [],
   "author": "",

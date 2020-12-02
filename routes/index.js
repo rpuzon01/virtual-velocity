@@ -46,6 +46,7 @@ apiRouter.use((req, res, next) => {
 apiRouter.use('/users', require('./users'))
 apiRouter.use('/products', require('./products'));
 apiRouter.use('/orders', require('./orders'));
+apiRouter.use('/order_products', require('./order_products'));
 
 // 404 handler
 apiRouter.get('*', (req, res, next) => {
