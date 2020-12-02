@@ -2,17 +2,11 @@ const { client } = require("./index.js");
 
 async function createOrderProduct({ productId, orderId, price, quantity }) {
   try {
-    const {
-      rows: [order_product],
-    } = await client.query(
-      `
+    const { rows: [order_product] } = await client.query(`
       INSERT INTO order_products ("productId", "orderId", price, quantity)
       VALUES ($1, $2, $3, $4)
       RETURNING * ;
-        `,
-      [productId, orderId, price, quantity]
-    );
-
+    `, [productId, orderId, price, quantity]);
     return order_product;
   } catch (error) {
     throw error;
@@ -21,16 +15,10 @@ async function createOrderProduct({ productId, orderId, price, quantity }) {
 
 async function getOrderProductById(id) {
   try {
-    const {
-      rows: [order_product],
-    } = await client.query(
-      `
+    const { rows: [order_product] } = await client.query(`
       SELECT * FROM order_products
       WHERE id = $1;
-        `,
-      [id]
-    );
-
+    `, [id]);
     return order_product;
   } catch (error) {
     throw error;
@@ -38,42 +26,58 @@ async function getOrderProductById(id) {
 }
 
 async function addProductToOrder({ orderId, productId, price, quantity }) {
-  try {
-    const {
-      rows: [order_product],
-    } = await client.query(
-      `
-        INSERT INTO order_products ( "orderId", "productId", price, quantity )
-        VALUES ($1, $2, $3, $4)
-        RETURNING *;
-        `,
-      [orderId, productId, price, quantity]
-    );
-
-    return order_product;
-  } catch (error) {
-    throw error;
-  }
+    try {
+        const { rows: currentOrderProduct } = await client.query(`
+        SELECT * FROM order_products
+        WHERE "orderId" = $1
+        AND "productId" = $2;
+    `, [ orderId, productId ]);
+        if (currentOrderProduct.length === 0){
+            const { rows: [order_product] } = await client.query(`
+            INSERT INTO order_products ( "orderId", "productId", price, quantity )
+            VALUES ($1, $2, $3, $4)
+            RETURNING *;
+            `, [orderId, productId, price, quantity]);
+            return order_product;
+        } else {
+            const updatedOrderProduct = await updateOrderProduct({
+                id: currentOrderProduct.id, 
+                price,
+                quantity: currentOrderProduct.quantity + 1
+            });
+            return updatedOrderProduct;
+        }
+    } catch (error) {
+        throw error;
+    }
 }
 
-async function updateOrderProduct({ id, price, quantity }) {
-  try {
-    const {
-      rows: [order_product],
-    } = await client.query(
-      `
-      UPDATE order_products
-      SET price = $2, quantity = $3
-      WHERE order_products.id = $1
-      RETURNING *;
-        `,
-      [id, price, quantity]
-    );
+async function updateOrderProduct({ id, ...fields }) {
+    try {
+        const fieldKeys = Object.keys(fields);
+        const setString = fieldKeys
+            .map((fieldName, index) => {
+              return `"${fieldName}"=$${index + 1}`;
+            })
+            .join(", ");
+        const setValues = Object.values(fields);
+        setValues.push(id);
 
-    return order_product;
-  } catch (error) {
-    throw error;
-  }
+        if (fieldKeys.length === 0) {
+          return;
+        }
+
+        const { rows: [order_product] } = await client.query(`
+            UPDATE order_products
+            SET ${setString}
+            WHERE id = ${setValues.length}
+            RETURNING *;
+        `, setValues );
+
+        return order_product;
+    } catch (error) {
+        throw error;
+    }
 }
 
 async function destroyOrderProduct(id) {
