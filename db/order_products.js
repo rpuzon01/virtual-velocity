@@ -27,25 +27,27 @@ async function getOrderProductById(id) {
 
 async function addProductToOrder({ orderId, productId, price, quantity }) {
     try {
-        const { rows: currentOrderProduct } = await client.query(`
-        SELECT * FROM order_products
-        WHERE "orderId" = $1
-        AND "productId" = $2;
-    `, [ orderId, productId ]);
-        if (currentOrderProduct.length === 0){
-            const { rows: [order_product] } = await client.query(`
-            INSERT INTO order_products ( "orderId", "productId", price, quantity )
-            VALUES ($1, $2, $3, $4)
-            RETURNING *;
-            `, [orderId, productId, price, quantity]);
-            return order_product;
-        } else {
+        const { rows: [orderProduct] } = await client.query(`
+            SELECT * FROM order_products
+            WHERE "orderId" = $1
+            AND "productId" = $2;
+        `, [orderId, productId]);
+
+        if (orderProduct) {
             const updatedOrderProduct = await updateOrderProduct({
-                id: currentOrderProduct.id, 
+                id: orderProduct.id,
                 price,
-                quantity: currentOrderProduct.quantity + 1
+                quantity
             });
             return updatedOrderProduct;
+        } else {
+            const newOrderProduct = await createOrderProduct({
+                orderId, 
+                productId,
+                price,
+                quantity
+            })
+            return newOrderProduct;
         }
     } catch (error) {
         throw error;
@@ -55,22 +57,24 @@ async function addProductToOrder({ orderId, productId, price, quantity }) {
 async function updateOrderProduct({ id, ...fields }) {
     try {
         const fieldKeys = Object.keys(fields);
+
         const setString = fieldKeys
             .map((fieldName, index) => {
-              return `"${fieldName}"=$${index + 1}`;
+                return `"${fieldName}"=$${index + 1}`;
             })
             .join(", ");
+
         const setValues = Object.values(fields);
         setValues.push(id);
 
         if (fieldKeys.length === 0) {
-          return;
+            return;
         }
 
         const { rows: [order_product] } = await client.query(`
             UPDATE order_products
             SET ${setString}
-            WHERE id = ${setValues.length}
+            WHERE id = $${setValues.length}
             RETURNING *;
         `, setValues );
 

@@ -17,13 +17,14 @@ const {
     getOrdersByProduct,
     updateOrder,
     cancelOrder,
-    completeOrder
+    completeOrder,
+    getOrderProductById,
+    addProductToOrder,
+    destroyOrderProduct
 } = require("./utils");
 
 async function buildTables() {
   try {
-    client.connect();
-
     console.log("Dropping All Tables...");
     await client.query(`
     DROP TABLE IF EXISTS order_products;
@@ -69,7 +70,7 @@ async function buildTables() {
     );
     `);
   } catch (error) {
-    throw error;
+      console.error(error);
   }
 }
 
@@ -260,13 +261,42 @@ async function populateInitialData() {
       const cancelledOrder = await cancelOrder(2);
       console.log('cancelling order', cancelledOrder);
 
+      // starting to test order prods
+      console.log('order prods testing');
+      const orderProd1 = await getOrderProductById(1);
+      console.log('getting order prod with id of 1', orderProd1);
+      const addToPrevOP = await addProductToOrder({
+          orderId: 1,
+          productId: 1,
+          price: 10000,
+          quantity: 2
+      });
+      console.log('adding to made op', addToPrevOP);
+      const addToNewOP = await addProductToOrder({
+          orderId: 1,
+          productId: 5,
+          price: 7000,
+          quantity: 3
+      });
+      console.log('adding to unmade op', addToNewOP);
+      await destroyOrderProduct(4);
+      const destroyedOP = await getOrderProductById(4);
+      console.log('deleting op 4', destroyedOP);
+
+
 
   } catch (error) {
-    throw error;
+      console.error(error);
   }
 }
 
-buildTables()
+client.connect()
+  .then(buildTables)
   .then(populateInitialData)
   .catch(console.error)
   .finally(() => client.end());
+
+module.exports = { 
+    buildTables,
+    populateInitialData
+}
