@@ -6,6 +6,7 @@ import { SingleOrder } from "./"
 
 const Cart = (props) => {
   const {user, setUser} = props
+  console.log('user in cart', user)
 
   const handleCheckout = () => {
     try {
@@ -20,7 +21,7 @@ const Cart = (props) => {
 
   return ( <>
   <h1> Shopping Cart </h1>
-    <h5> Welcome {user.firstName} {user.lastName}</h5>
+    {/* <h5> Welcome {user.firstName} {user.lastName}</h5> */}
     <p> Ready to checkout? With our stripe integration you can checkout feeling secure.</p>
 
       < SingleOrder />

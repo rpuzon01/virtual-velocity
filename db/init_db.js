@@ -215,12 +215,23 @@ async function populateInitialData() {
 
     const orderProductsToCreate = [
       {
-        id: 1,
         productId: 1,
         orderId: 1,
-        price: 4000099,
+        price: 5000,
         quantity: 1,
       },
+      {
+        productId: 2,
+        orderId: 1,
+        price: 5001,
+        quantity: 1,
+      },
+      {
+        productId: 3,
+        orderId: 1,
+        price: 5002,
+        quantity: 1,
+      }
     ];
     const order_product = await Promise.all(
       orderProductsToCreate.map((order_product) =>
@@ -230,35 +241,29 @@ async function populateInitialData() {
     console.log("order_product created:", order_product);
 
     // -----------
-    console.log("order testing");
-    // await client.query(`
-    //     INSERT INTO order_products ("productId", "orderId", price, quantity)
-    //     VALUES (1, 1, 5000, 1);
-    //     INSERT INTO order_products ("productId", "orderId", price, quantity)
-    //     VALUES (2, 1, 5001, 1);
-    //     INSERT INTO order_products ("productId", "orderId", price, quantity)
-    //     VALUES (3, 1, 5002, 1);
-    // `);
-    const order1 = await getOrderById(1);
-    console.log("getting order with id1: ", order1);
-    console.log("products of order1", order1.products);
-    const allOrders = await getAllOrders();
-    console.log("getting all orders", allOrders);
-    const userOrders = await getOrdersByUser({ id: 1 });
-    console.log("getting orders of user with id1:", userOrders);
-    const userCart = await getCartByUser({ id: 1 });
-    console.log("getCartByUser({id: 1})", userCart);
-    const orderByProduct = await getOrdersByProduct({ id: 1 });
-    console.log("getOrdersByProduct({id: 1})", orderByProduct);
-    console.log("UpdatingOrders---");
-    const updatedOrder = await updateOrder({ id: 2, status: "updating" });
-    console.log("changing status to updating", updatedOrder);
-    const updatedOrder2 = await updateOrder({ id: 2, userId: 2 });
-    console.log("changing userid to 2", updatedOrder2);
-    const completedOrder = await completeOrder({ id: 2 });
-    console.log("completing order", completedOrder);
-    const cancelledOrder = await cancelOrder(2);
-    console.log("cancelling order", cancelledOrder);
+
+    console.log('order testing');
+      const order1 = await getOrderById(1);
+      console.log('getting order with id1: ', order1);
+      console.log('products of order1', order1.products);
+      const allOrders = await getAllOrders();
+      console.log('getting all orders', allOrders);
+      const userOrders = await getOrdersByUser({id: 1});
+      console.log('getting orders of user with id1:', userOrders);
+      const userCart = await getCartByUser({id: 1});
+      console.log('getCartByUser({id: 1})', userCart);
+      const orderByProduct = await getOrdersByProduct({id: 1});
+      console.log('getOrdersByProduct({id: 1})', orderByProduct);
+      console.log('UpdatingOrders---');
+      const updatedOrder = await updateOrder({id: 2, status: 'updating'});
+      console.log('changing status to updating', updatedOrder);
+      const updatedOrder2 = await updateOrder({id: 2, userId: 2});
+      console.log('changing userid to 2', updatedOrder2);
+      const completedOrder = await completeOrder({id: 2});
+      console.log('completing order', completedOrder);
+      const cancelledOrder = await cancelOrder(2);
+      console.log('cancelling order', cancelledOrder);
+
   } catch (error) {
     throw error;
   }

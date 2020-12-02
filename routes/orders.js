@@ -10,6 +10,7 @@ const {
   cancelOrder,
 } = require("../db/utils");
 
+
 ordersRouter.get("/", [requireUser, isAdmin], async (req, res, next) => {
   try {
     const orders = await getAllOrders();
