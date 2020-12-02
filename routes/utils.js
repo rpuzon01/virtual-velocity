@@ -22,5 +22,5 @@ function isAdmin(req, res, next) {
 
 module.exports = {
   requireUser,
-  isAdmin
+  isAdmin,
 };

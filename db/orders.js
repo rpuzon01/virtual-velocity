@@ -55,11 +55,11 @@ const getOrderById = async (id) => {
   try {
     const { rows: orders } = await client.query(
       `
-        SELECT
-        orders.id,
-        orders.status,
-        orders."userId",
-        orders."datePlaced",
+        SELECT 
+        orders.id, 
+        orders.status, 
+        orders."userId", 
+        orders."datePlaced", 
         order_products."productId",
         order_products."orderId",
         order_products.price as "totalProductPrice",
@@ -122,11 +122,11 @@ const getOrdersByUser = async ({ id }) => {
   try {
     const { rows: orders } = await client.query(
       `
-        SELECT
-        orders.id,
-        orders.status,
-        orders."userId",
-        orders."datePlaced",
+        SELECT 
+        orders.id, 
+        orders.status, 
+        orders."userId", 
+        orders."datePlaced", 
         order_products."productId",
         order_products."orderId",
         order_products.price as "totalProductPrice",
@@ -182,11 +182,11 @@ const getOrdersByProduct = async ({ id }) => {
 
     const { rows: orders } = await client.query(
       `
-        SELECT
-        orders.id,
-        orders.status,
-        orders."userId",
-        orders."datePlaced",
+        SELECT 
+        orders.id, 
+        orders.status, 
+        orders."userId", 
+        orders."datePlaced", 
         order_products."productId",
         order_products."orderId",
         order_products.price as "totalProductPrice",
@@ -220,11 +220,11 @@ const getCartByUser = async ({ id }) => {
   try {
     const { rows: orders } = await client.query(
       `
-        SELECT
-        orders.id,
-        orders.status,
-        orders."userId",
-        orders."datePlaced",
+        SELECT 
+        orders.id, 
+        orders.status, 
+        orders."userId", 
+        orders."datePlaced", 
         order_products."productId",
         order_products."orderId",
         order_products.price as "totalProductPrice",
@@ -272,11 +272,6 @@ const createOrder = async ({ status, userId }) => {
 };
 
 const updateOrder = async ({ id, ...fields }) => {
-  //   updateOrder({ id, status, userId })
-  //  Find the order with id equal to the passed in id
-  //  Don't update the order id, but do update the status and/or userId, as necessary
-  //  Return the updated order
-
   const fieldKeys = Object.keys(fields);
 
   const setString = fieldKeys
