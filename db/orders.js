@@ -55,19 +55,11 @@ const getOrderById = async (id) => {
   try {
     const { rows: orders } = await client.query(
       `
-<<<<<<< HEAD
         SELECT 
         orders.id, 
         orders.status, 
         orders."userId", 
         orders."datePlaced", 
-=======
-        SELECT
-        orders.id,
-        orders.status,
-        orders."userId",
-        orders."datePlaced",
->>>>>>> ddef0da5bd69d34ee5fcb86455d9143edf2c3494
         order_products."productId",
         order_products."orderId",
         order_products.price as "totalProductPrice",
@@ -130,19 +122,11 @@ const getOrdersByUser = async ({ id }) => {
   try {
     const { rows: orders } = await client.query(
       `
-<<<<<<< HEAD
         SELECT 
         orders.id, 
         orders.status, 
         orders."userId", 
         orders."datePlaced", 
-=======
-        SELECT
-        orders.id,
-        orders.status,
-        orders."userId",
-        orders."datePlaced",
->>>>>>> ddef0da5bd69d34ee5fcb86455d9143edf2c3494
         order_products."productId",
         order_products."orderId",
         order_products.price as "totalProductPrice",
@@ -198,19 +182,11 @@ const getOrdersByProduct = async ({ id }) => {
 
     const { rows: orders } = await client.query(
       `
-<<<<<<< HEAD
         SELECT 
         orders.id, 
         orders.status, 
         orders."userId", 
         orders."datePlaced", 
-=======
-        SELECT
-        orders.id,
-        orders.status,
-        orders."userId",
-        orders."datePlaced",
->>>>>>> ddef0da5bd69d34ee5fcb86455d9143edf2c3494
         order_products."productId",
         order_products."orderId",
         order_products.price as "totalProductPrice",
@@ -244,19 +220,11 @@ const getCartByUser = async ({ id }) => {
   try {
     const { rows: orders } = await client.query(
       `
-<<<<<<< HEAD
         SELECT 
         orders.id, 
         orders.status, 
         orders."userId", 
         orders."datePlaced", 
-=======
-        SELECT
-        orders.id,
-        orders.status,
-        orders."userId",
-        orders."datePlaced",
->>>>>>> ddef0da5bd69d34ee5fcb86455d9143edf2c3494
         order_products."productId",
         order_products."orderId",
         order_products.price as "totalProductPrice",
