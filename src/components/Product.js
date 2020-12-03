@@ -62,7 +62,7 @@ const Product = (props) => {
           <Card.Text>{price}</Card.Text>
           <Card.Text>{category}</Card.Text>
           <Card.Text>{inStock}</Card.Text>
-          <Link to={`/products/${id}`}>View Product2</Link>
+          <Link className="btn btn-primary" to={`/products/${id}`}>View Product2</Link>
 
           <Button className="btn btn-primary" onClick={ (event) => {
             event.preventDefault()
@@ -70,7 +70,7 @@ const Product = (props) => {
           }
 
           }
-          >Add</Button>
+          > + </Button>
           <Button className="btn btn-danger" onClick={
             (event) => {
               event.preventDefault()
@@ -80,12 +80,8 @@ const Product = (props) => {
               handleRemoveFromOrder()
             }
           }
-          >Remove</Button>
-          <Button className="btn" onClick={ (event) => {
-            event.preventDefault()
-            handleLinkToProduct()
-          }}
-          >View Product</Button>
+          > - </Button>
+
         </Card.Body>
       </Card>
 
