@@ -2,7 +2,12 @@ import React, { useEffect, useState } from "react";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import "./Product.css";
-import { useParams } from "react-router-dom";
+import { BrowserRouter as Router,
+  useParams,
+  Link,
+  Route,
+
+} from "react-router-dom";
 import {getProducts} from '../api'
 
 const Product = (props) => {
@@ -57,6 +62,8 @@ const Product = (props) => {
           <Card.Text>{price}</Card.Text>
           <Card.Text>{category}</Card.Text>
           <Card.Text>{inStock}</Card.Text>
+          <Link to={`/products/${id}`}>View Product2</Link>
+
           <Button className="btn btn-primary" onClick={ (event) => {
             event.preventDefault()
             handleAddToOrder()
