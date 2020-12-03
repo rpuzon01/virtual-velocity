@@ -6,12 +6,20 @@ import { useParams } from "react-router-dom";
 import {getProducts} from '../api'
 
 const Product = (props) => {
-  const { product, products, setProducts, user } = props;
+  const { product, products, orders, setOrders, setProducts, user } = props;
   const { productId } = useParams();
+  console.log('orders', orders)
+  console.log('user', user)
+  console.log('products', products)
+
 
   const handleAddToOrder = () => {
     console.log('add to order clicked')
+//     For each product NOT in cart
+//  Create add-to-cart button
+//  Up to you if you want this to increment previously-existing product quantity.
     try {
+
 
     } catch (error) {
       throw error;
@@ -59,6 +67,9 @@ const Product = (props) => {
           <Button className="btn btn-danger" onClick={
             (event) => {
               event.preventDefault()
+                    // if not in cart
+      // if order.product.id !== product.id
+      //display button
               handleRemoveFromOrder()
             }
           }
