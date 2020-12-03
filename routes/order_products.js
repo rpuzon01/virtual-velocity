@@ -1,8 +1,11 @@
 const express = require("express");
 const orderProductsRouter = express.Router();
 const { requireUser, isAdmin } = require("./utils");
-const { getUserById } = require("./users");
-const { getOrderById } = require("./orders");
+const { 
+    getOrderById, 
+    getUserById,
+    updateOrderProduct
+} = require("../db/utils.js");
 
 const { getOrderProductById, destroyOrderProduct } = require("../db/utils");
 
