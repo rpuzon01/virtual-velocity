@@ -5,22 +5,7 @@ const {
     createProduct, 
     createOrder, 
     createUser,
-    setUserAsAdmin,
-    getAllUsers,
-    getUserById,
-    getUser,
-    getUserByUsername,
-    getOrderById,
-    getAllOrders,
-    getOrdersByUser,
-    getCartByUser,
-    getOrdersByProduct,
-    updateOrder,
-    cancelOrder,
-    completeOrder,
-    getOrderProductById,
-    addProductToOrder,
-    destroyOrderProduct
+    setUserAsAdmin
 } = require("./utils");
 
 async function buildTables() {
@@ -180,17 +165,7 @@ async function populateInitialData() {
     const users = await Promise.all(
       usersToCreate.map((user) => createUser(user))
     )
-      console.log('user testing');
-    console.log('users created:', users)
-      const allUsers = await getAllUsers();
-      console.log('Getting users with getAllUsers(): ', allUsers);
-      const user1 = await getUserById(1);
-      console.log('Getting user 1: ', user1);
     await setUserAsAdmin(2);
-      const userWithUsername = await getUserByUsername('dougIsMe');
-      console.log('Getting user with name', userWithUsername);
-      const userWithUserPass = await getUser({username: 'elmarisme', password: 'elmar12345'});
-      console.log('getting user with login:', userWithUserPass);
 
     // ------
 
@@ -237,53 +212,6 @@ async function populateInitialData() {
       )
     );
     console.log("order_product created:", order_product);
-
-    // -----------
-    console.log('order testing');
-      const order1 = await getOrderById(1);
-      console.log('getting order with id1: ', order1);
-      console.log('products of order1', order1.products);
-      const allOrders = await getAllOrders();
-      console.log('getting all orders', allOrders);
-      const userOrders = await getOrdersByUser({id: 1});
-      console.log('getting orders of user with id1:', userOrders);
-      const userCart = await getCartByUser({id: 1});
-      console.log('getCartByUser({id: 1})', userCart);
-      const orderByProduct = await getOrdersByProduct({id: 1});
-      console.log('getOrdersByProduct({id: 1})', orderByProduct);
-      console.log('UpdatingOrders---');
-      const updatedOrder = await updateOrder({id: 2, status: 'updating'});
-      console.log('changing status to updating', updatedOrder);
-      const updatedOrder2 = await updateOrder({id: 2, userId: 2});
-      console.log('changing userid to 2', updatedOrder2);
-      const completedOrder = await completeOrder({id: 2});
-      console.log('completing order', completedOrder);
-      const cancelledOrder = await cancelOrder(2);
-      console.log('cancelling order', cancelledOrder);
-
-      // starting to test order prods
-      console.log('order prods testing');
-      const orderProd1 = await getOrderProductById(1);
-      console.log('getting order prod with id of 1', orderProd1);
-      const addToPrevOP = await addProductToOrder({
-          orderId: 1,
-          productId: 1,
-          price: 10000,
-          quantity: 2
-      });
-      console.log('adding to made op', addToPrevOP);
-      const addToNewOP = await addProductToOrder({
-          orderId: 1,
-          productId: 5,
-          price: 7000,
-          quantity: 3
-      });
-      console.log('adding to unmade op', addToNewOP);
-      await destroyOrderProduct(4);
-      const destroyedOP = await getOrderProductById(4);
-      console.log('deleting op 4', destroyedOP);
-
-
 
   } catch (error) {
       console.error(error);
