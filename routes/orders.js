@@ -46,7 +46,7 @@ ordersRouter.patch("/:orderId", requireUser, async (req, res, next) => {
   const { orderId } = req.params;
   const { status } = req.body;
   const { userId } = req.user.id;
-
+  
   try {
     const order = await updateOrder({ orderId, status, userId });
     res.send(order);
@@ -70,25 +70,18 @@ ordersRouter.delete("/:orderId", requireUser, async (req, res, next) => {
 });
 
 //Add a single product to an order (using order_products). Prevent duplication on ("orderId", "productId") pair. If product already exists on order, increment quantity and update price.
-//cannot complete without addProductToOrder
-//500 error
-//orders folder
-ordersRouter.post(
-  "orders/:orderId/products",
-  requireUser,
-  async (req, res, next) => {
+ordersRouter.post( "/:orderId/products", requireUser, async (req, res, next) => {
     const { orderId } = req.params;
     const { productId, price, quantity } = req.body;
 
     try {
-      const orderProducts = await addProductToOrder(
-        orderId,
-        productId,
-        price,
-        quantity
-      );
-      console.log("orderProducts:", orderProducts);
-      res.send(orderProducts);
+      const orderProduct = await addProductToOrder({
+          orderId,
+          productId,
+          price,
+          quantity
+      });
+      res.send(orderProduct);
     } catch (error) {
       next(error);
     }

@@ -1,17 +1,17 @@
 const express = require("express");
 const orderProductsRouter = express.Router();
 const { requireUser, isAdmin } = require("./utils");
-const { getUserById } = require("./users");
-const { getOrderById } = require("./orders");
+const { 
+    getOrderById, 
+    getUserById,
+    updateOrderProduct
+} = require("../db/utils.js");
 
 const { getOrderProductById, destroyOrderProduct } = require("../db/utils");
 
-//500 error
-orderProductsRouter.patch(
-  "/:orderProductId",
-  requireUser,
-  async (req, res, next) => {
+orderProductsRouter.patch("/:orderProductId", requireUser, async (req, res, next) => {
     const { orderProductId } = req.params;
+    const { price, quantity } = req.body;
 
     try {
       const orderProduct = await getOrderProductById(orderProductId);
@@ -21,9 +21,9 @@ orderProductsRouter.patch(
       if (req.user.id === order.userId) {
         const updatedOrderProducts = await updateOrderProduct({
           id: orderProductId,
-          ...req.body,
+          price,
+          quantity
         });
-        console.log("updatedOrderProducts:", updatedOrderProducts);
         res.send(updatedOrderProducts);
       } else {
         next({
@@ -37,7 +37,6 @@ orderProductsRouter.patch(
   }
 );
 
-//500 error
 orderProductsRouter.delete(
   "/:orderProductId",
   requireUser,
@@ -51,9 +50,8 @@ orderProductsRouter.delete(
       const user = await getUserById(order.userId);
 
       if (req.user.id === order.userId) {
-        const deletedOrderProducts = await destroyOrderProduct(id);
-        console.log("deletedOrderProducts:", deletedOrderProducts);
-        res.send(deletedOrderProducts);
+        const deletedOrderProduct = await destroyOrderProduct(id);
+        res.send(deletedOrderProduct);
       } else {
         next({
           message:
