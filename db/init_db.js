@@ -148,20 +148,20 @@ async function populateInitialData() {
     const usersToCreate = [
       {
         firstName: "elmar",
-        lastName: 'fudd',
-        email: 'elmarisawesome@me.com',
+        lastName: "fudd",
+        email: "elmarisawesome@me.com",
         username: "elmarisme",
-        password: 'elmar12345',
+        password: "elmar12345",
       },
 
       {
         firstName: "dougy",
-        lastName: 'fresh',
-        email: 'dougIstheman@me.com',
+        lastName: "fresh",
+        email: "dougIstheman@me.com",
         username: "dougIsMe",
-        password: 'dougy12345',
-      }
-    ]
+        password: "dougy12345",
+      },
+    ];
     const users = await Promise.all(
       usersToCreate.map((user) => createUser(user))
     )
@@ -212,6 +212,7 @@ async function populateInitialData() {
       )
     );
     console.log("order_product created:", order_product);
+
 
   } catch (error) {
       console.error(error);
