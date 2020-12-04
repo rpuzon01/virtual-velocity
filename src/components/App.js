@@ -22,6 +22,7 @@ import { getLocalToken } from "../util";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import CheckoutForm from "./CheckoutForm";
+import Checkout from "./Checkout";
 
 const stripePromise = loadStripe(
   "pk_test_51Ht3KIDb1cCPXKe0pegkjh96D6Wf83gqHU1T6RaalLEfch8L4XcJnUismKd2bctYGkVLbb5rkG7a1jYvNz7Wh0eG00v9V1t8T9"
@@ -87,6 +88,9 @@ const App = () => {
             products={products}
             token={token}
           />
+          <Route exact path="/cart/checkout">
+            <Checkout user={user} token={token} setToken={setToken} setUser={setUser} />
+          </Route>
         </Route>
         <Route exact path="/stripe">
           <Elements stripe={stripePromise}>

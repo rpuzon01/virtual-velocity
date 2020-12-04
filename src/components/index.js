@@ -12,3 +12,4 @@ export { default as Home } from "./Home";
 export { default as Footer } from "./Footer";
 export { default as CheckoutForm } from "./CheckoutForm";
 export { default as CardSection } from "./CardSection";
+export { default as Checkout } from "./Checkout";
