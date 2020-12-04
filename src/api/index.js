@@ -87,3 +87,43 @@ export async function getAllOrders(){
     } catch (error) { throw error;
     }
 }
+
+export async function addProductToOrder({orderId, productId, price, quantity}) {
+
+  try {
+    // /  post
+    const {data} = await axios.post(`${BASE_URL}/orders/:orderId/products`, {
+      orderId,
+      productId,
+      price,
+      quantity
+    })
+
+    return data
+
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function removeProductFromOrder(orderId) {
+  try {
+
+    const data = axios.delete(`${BASE_URL}/order_products/:orderProductId`, {
+      // productId,
+      // orderId,
+      // userId,
+    })
+
+    return data
+
+  } catch (error) {
+    throw error
+  }
+}
+
+//  PATCH /order_products/:orderProductId (**)
+//  Update the quantity or price on the order product
+
+//  DELETE /order_products/:orderProductId (**)
+//  Remove a product from a order, use hard delete

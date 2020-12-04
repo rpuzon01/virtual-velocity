@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import "./Product.css";
+import {addProductToOrder, removeProductFromOrder} from "../api"
 import { BrowserRouter as Router,
   useParams,
   Link,
@@ -49,6 +50,11 @@ const orderProductId = ordersProducts.map(({id, name}) => {
     try {
       if(!orders && orderProductId) {
         console.log('add to order clicked')
+        const {data} = await addProductToOrder({
+          orderId,
+          productId,
+          price,
+          quantity})
 
         // create order
         //add product to the order
@@ -70,6 +76,8 @@ const orderProductId = ordersProducts.map(({id, name}) => {
     try {
       if(orders && orders.products.id === product.id) {
         console.log('remove order clicked')
+
+        const data = await
       }
 
     } catch (error) {
