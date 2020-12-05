@@ -53,6 +53,15 @@ const createProduct = async ({
   }
 };
 
+
+
+// destroyProduct
+// destroyProduct({ id })
+// hard delete a product.
+// make sure to delete all the order_products whose product is the one being deleted.
+// make sure the orders for the order_products being deleted do not have a status = completed
+
+
 module.exports = {
   getProductById,
   getAllProducts,
