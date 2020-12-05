@@ -8,8 +8,10 @@ import {
   Register,
   SingleOrder,
   Account,
+  UserInfo,
   Home,
   Footer,
+  // Checkout,
 } from "./";
 import {
   BrowserRouter as Router,
@@ -22,6 +24,7 @@ import { getLocalToken } from "../util";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import CheckoutForm from "./CheckoutForm";
+import Checkout from "./Checkout";
 
 const stripePromise = loadStripe(`${process.env.REACT_APP_PUBLISHABLE_KEY}`);
 
@@ -66,6 +69,10 @@ const App = () => {
             user={user}
             setUser={setUser}
           />
+        </Route>
+        <Route exact path="/cart/checkout">
+          <Account user={user} token={token} isInCheckout />
+          <Checkout user={user} token={token} />
         </Route>
         <Route exact path="/account">
           <Account user={user} token={token} />
