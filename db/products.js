@@ -84,7 +84,27 @@ const updateProduct = async ({ id, ...fields }) => {
   }
 };
 
+const destroyProduct = ({id}) => {
+  try {
+    const { rows: [products] } = await client.query(`
+    DELETE FROM order_products
+    USING products
+    WHERE products.id = order_products."productId"
+    AND products.id = $1;
+
+    DELETE FROM products
+    WHERE products.id = $1
+    RETURNING *;
+    `, [id])
+    return products
+
+  } catch (error) {
+    throw error
+  }
+}
+
 module.exports = {
+  destroyProduct,
   getProductById,
   getAllProducts,
   createProduct,
