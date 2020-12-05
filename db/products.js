@@ -53,7 +53,23 @@ const createProduct = async ({
   }
 };
 
+const destroyProduct = ({id}) => {
+  try {
+    const { rows: [products] } = await client.query(`
+    DELETE FROM order_products
+    USING products
+    WHERE products.id = order_products."productId"
+    AND products.id = $1;
 
+    DELETE FROM products
+    WHERE products.id = $1
+    `, [id])
+    return products
+
+  } catch (error) {
+    throw error
+  }
+}
 
 // destroyProduct
 // destroyProduct({ id })
@@ -63,6 +79,7 @@ const createProduct = async ({
 
 
 module.exports = {
+  destroyProduct,
   getProductById,
   getAllProducts,
   createProduct,
