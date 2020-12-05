@@ -49,8 +49,9 @@ const Account = (props) => {
                 {!isInCheckout && orders && orders.map((order) => {
                     return (
                         <Card id="orderStyle" style={{ width: '18rem', marginTop: "2rem" }}>
-                            <Card.Header>Featured</Card.Header>
+                            <Card.Header>Order</Card.Header>
                             <ListGroup variant="flush">
+
                                 <ListGroup.Item>{order.id}</ListGroup.Item>
                                 <ListGroup.Item>{order.status}</ListGroup.Item>
                                 <ListGroup.Item>{order.datePlaced}</ListGroup.Item>
