@@ -36,6 +36,13 @@ const App = () => {
   const [token, setToken] = useState("");
   const [user, setUser] = useState();
   const [orders, setOrders] = useState([]);
+
+    //this handles all of  initial axios calls that occur initial load
+    const handleInitialLoad = async () => {
+        if (getLocalToken()){
+        }
+    }
+
   useEffect(() => {
     getProducts().then(setProducts);
     const localToken = getLocalToken();
