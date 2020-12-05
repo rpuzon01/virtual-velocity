@@ -1,29 +1,15 @@
 const { client } = require("./index");
 
-const { 
-    createOrderProduct,
-    createProduct, 
-    createOrder, 
-    createUser,
-    setUserAsAdmin,
-    getAllUsers,
-    getUserById,
-    getUser,
-    getUserByUsername,
-    getOrderById,
-    getAllOrders,
-    getOrdersByUser,
-    getCartByUser,
-    getOrdersByProduct,
-    updateOrder,
-    cancelOrder,
-    completeOrder
+const {
+  createOrderProduct,
+  createProduct,
+  createOrder,
+  createUser,
+  setUserAsAdmin,
 } = require("./utils");
 
 async function buildTables() {
   try {
-    client.connect();
-
     console.log("Dropping All Tables...");
     await client.query(`
     DROP TABLE IF EXISTS order_products;
@@ -69,7 +55,7 @@ async function buildTables() {
     );
     `);
   } catch (error) {
-    throw error;
+    console.error(error);
   }
 }
 
@@ -84,6 +70,8 @@ async function populateInitialData() {
         name: "PSA grade 10 Base set Charzard",
         description: "(dummy description)",
         price: 399995,
+        imageURL:
+          "https://goldinauctions.com/ItemImages/000051/51339a_med.jpeg",
         inStock: true,
         category: "Pokemon Cards",
       },
@@ -92,6 +80,8 @@ async function populateInitialData() {
         name: "PSA grade 10 Base set Blastoise",
         description: "(dummy description)",
         price: 349995,
+        imageURL:
+          "https://d1w8cc2yygc27j.cloudfront.net/-6057793498564273079/7643880271689788165.jpg",
         inStock: true,
         category: "Pokemon Cards",
       },
@@ -100,6 +90,8 @@ async function populateInitialData() {
         name: "PSA grade 10 Base set Venusaur",
         description: "(dummy description)",
         price: 339995,
+        imageURL:
+          "https://d9nvuahg4xykp.cloudfront.net/2175094541022248778/2533966137030091563.jpg",
         inStock: true,
         category: "Pokemon Cards",
       },
@@ -108,6 +100,7 @@ async function populateInitialData() {
         name: "PSA grade 10 Base set Mew",
         description: "(dummy description)",
         price: 299999,
+        imageURL: "https://i.ebayimg.com/images/g/kacAAOSwX-BfmKOL/s-l400.jpg",
         inStock: true,
         category: "Pokemon Cards",
       },
@@ -116,6 +109,8 @@ async function populateInitialData() {
         name: "PSA grade 10 Base set MewTwo",
         description: "(dummy description)",
         price: 299999,
+        imageURL:
+          "https://images.psacard.com/s3/cu-psa/cardfacts/1999-pokemon-game-10-mewtwo-holo-1st-edition-gem-mt-69935.jpg?h=1000&format=png&s.roundcorners=10",
         inStock: true,
         category: "Pokemon Cards",
       },
@@ -124,6 +119,8 @@ async function populateInitialData() {
         name: "Pokemon Jungle 1st Edition Box(Sealed)",
         description: "(dummy description)",
         price: 2400099,
+        imageURL:
+          "https://assets.catawiki.nl/assets/2017/2/9/5/a/d/5ada6bef-9993-4143-8d95-048fa7db6f5a.jpg",
         inStock: true,
         category: "Pokemon Cards",
       },
@@ -132,6 +129,8 @@ async function populateInitialData() {
         name: "Pokemon Fossil 1st Edition Box(Sealed)",
         description: "(dummy description)",
         price: 1800099,
+        imageURL:
+          "https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/1109930.jpg",
         inStock: true,
         category: "Pokemon Cards",
       },
@@ -140,6 +139,8 @@ async function populateInitialData() {
         name: "Pokemon Base Set 1st Edition Box(Sealed)",
         description: "(dummy description)",
         price: 4000099,
+        imageURL:
+          "https://dyn1.heritagestatic.com/lf?set=path%5B2%2F0%2F3%2F6%2F8%2F20368081%5D%2Csizedata%5B850x600%5D&call=url%5Bfile%3Aproduct.chain%5D",
         inStock: true,
         category: "Pokemon Cards",
       },
@@ -148,6 +149,7 @@ async function populateInitialData() {
         name: "Pokemon Mystery Box",
         description: "(dummy description)",
         price: 4599,
+        imageURL: "https://i.ebayimg.com/images/g/5aoAAOSwOghfnj31/s-l400.jpg",
         inStock: true,
         category: "Pokemon Cards",
       },
@@ -162,34 +164,24 @@ async function populateInitialData() {
     const usersToCreate = [
       {
         firstName: "elmar",
-        lastName: 'fudd',
-        email: 'elmarisawesome@me.com',
+        lastName: "fudd",
+        email: "elmarisawesome@me.com",
         username: "elmarisme",
-        password: 'elmar12345',
+        password: "elmar12345",
       },
 
       {
         firstName: "dougy",
-        lastName: 'fresh',
-        email: 'dougIstheman@me.com',
+        lastName: "fresh",
+        email: "dougIstheman@me.com",
         username: "dougIsMe",
-        password: 'dougy12345',
-      }
-    ]
+        password: "dougy12345",
+      },
+    ];
     const users = await Promise.all(
       usersToCreate.map((user) => createUser(user))
-    )
-      console.log('user testing');
-    console.log('users created:', users)
-      const allUsers = await getAllUsers();
-      console.log('Getting users with getAllUsers(): ', allUsers);
-      const user1 = await getUserById(1);
-      console.log('Getting user 1: ', user1);
+    );
     await setUserAsAdmin(2);
-      const userWithUsername = await getUserByUsername('dougIsMe');
-      console.log('Getting user with name', userWithUsername);
-      const userWithUserPass = await getUser({username: 'elmarisme', password: 'elmar12345'});
-      console.log('getting user with login:', userWithUserPass);
 
     // ------
 
@@ -228,7 +220,7 @@ async function populateInitialData() {
         orderId: 1,
         price: 5002,
         quantity: 1,
-      }
+      },
     ];
     const order_product = await Promise.all(
       orderProductsToCreate.map((order_product) =>
@@ -236,37 +228,19 @@ async function populateInitialData() {
       )
     );
     console.log("order_product created:", order_product);
-
-    // -----------
-    console.log('order testing');
-      const order1 = await getOrderById(1);
-      console.log('getting order with id1: ', order1);
-      console.log('products of order1', order1.products);
-      const allOrders = await getAllOrders();
-      console.log('getting all orders', allOrders);
-      const userOrders = await getOrdersByUser({id: 1});
-      console.log('getting orders of user with id1:', userOrders);
-      const userCart = await getCartByUser({id: 1});
-      console.log('getCartByUser({id: 1})', userCart);
-      const orderByProduct = await getOrdersByProduct({id: 1});
-      console.log('getOrdersByProduct({id: 1})', orderByProduct);
-      console.log('UpdatingOrders---');
-      const updatedOrder = await updateOrder({id: 2, status: 'updating'});
-      console.log('changing status to updating', updatedOrder);
-      const updatedOrder2 = await updateOrder({id: 2, userId: 2});
-      console.log('changing userid to 2', updatedOrder2);
-      const completedOrder = await completeOrder({id: 2});
-      console.log('completing order', completedOrder);
-      const cancelledOrder = await cancelOrder(2);
-      console.log('cancelling order', cancelledOrder);
-
-
   } catch (error) {
-    throw error;
+    console.error(error);
   }
 }
 
-buildTables()
+client
+  .connect()
+  .then(buildTables)
   .then(populateInitialData)
   .catch(console.error)
   .finally(() => client.end());
+
+module.exports = {
+  buildTables,
+  populateInitialData,
+};

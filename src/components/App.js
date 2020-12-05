@@ -1,19 +1,15 @@
 import React, { useState, useEffect } from "react";
+import { getProducts, getUser, getOrdersByUserId } from "../api";
 import {
-  getProducts,
-  getUser,
-  getOrdersByUserId
-} from "../api";
-import {
-    Product,
-    SingleProduct,
-    Cart,
-    NavBar,
-    Register,
-    SingleOrder,
-    Account,
-    Home,
-    Footer,
+  Product,
+  SingleProduct,
+  Cart,
+  NavBar,
+  Register,
+  SingleOrder,
+  Account,
+  Home,
+  Footer,
 } from "./";
 import {
   BrowserRouter as Router,
@@ -21,12 +17,20 @@ import {
   Switch,
   Redirect,
 } from "react-router-dom";
-import {
-  getLocalToken
-} from "../util";
+import { getLocalToken } from "../util";
+
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import CheckoutForm from "./CheckoutForm";
+
+const stripePromise = loadStripe(`${process.env.REACT_APP_PUBLISHABLE_KEY}`);
+
 const App = () => {
+  //upon a successful purchase, stripe form should disappear and reset state
+  const [showStripe, setShowStripe] = useState(true);
+
   const [products, setProducts] = useState([]);
-  const [token, setToken] = useState('');
+  const [token, setToken] = useState("");
   const [user, setUser] = useState();
   const [orders, setOrders] = useState([]);
   useEffect(() => {
@@ -34,33 +38,34 @@ const App = () => {
     const localToken = getLocalToken();
     if (localToken) {
       setToken(localToken);
-      getUser(localToken).then(data => setUser(data));
+      getUser(localToken).then((data) => setUser(data));
     }
   }, []);
 
-    useEffect(() => {
-        getUser(token).then(setUser);
-        getOrdersByUserId(user?.id, token).then(setOrders);
-    }, [token]);
+  useEffect(() => {
+    getUser(token).then(setUser);
+    // getOrdersByUserId(user.id, token).then(setOrders);
+  }, [token]);
 
-    console.log('orders in main app', orders)
-    console.log('products in main app', products)
+  console.log("orders in main app", orders);
 
   return (
     <>
       <div className="App">
-        <NavBar
-            token={token}
-            setToken={setToken}
-            setUser={setUser}/>
+        <NavBar token={token} setToken={setToken} setUser={setUser} />
         <Route exact path="/">
-          < Home products={products} />
+          <Home products={products} />
         </Route>
         <Route exact path="/cart">
-          < Cart user={user} />
+          <Cart user={user} />
         </Route>
         <Route exact path="/register">
-          <Register token={token} setToken={setToken} user={user} setUser={setUser} />
+          <Register
+            token={token}
+            setToken={setToken}
+            user={user}
+            setUser={setUser}
+          />
         </Route>
         <Route exact path="/account">
           <Account user={user} token={token} />
@@ -72,9 +77,25 @@ const App = () => {
           <SingleProduct />
         </Route>
         <Route exact path="/orders/:orderId">
-            <SingleOrder user={user} orders={orders} setOrders={setOrders} products={products} token={token}/>
+          <SingleOrder
+            user={user}
+            orders={orders}
+            setOrders={setOrders}
+            products={products}
+            token={token}
+          />
         </Route>
-        < Footer />
+        <Route exact path="/stripe">
+          <Elements stripe={stripePromise}>
+            {showStripe === true ? (
+              <CheckoutForm
+                showStripe={showStripe}
+                setShowStripe={setShowStripe}
+              />
+            ) : null}
+          </Elements>
+        </Route>
+        <Footer />
       </div>
     </>
   );
