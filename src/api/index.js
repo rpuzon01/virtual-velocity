@@ -87,3 +87,61 @@ export async function getAllOrders(){
     } catch (error) { throw error;
     }
 }
+
+export async function addProductToOrder({orderId, productId, price, quantity}) {
+
+  try {
+    // /  post
+    const {data} = await axios.post(`${BASE_URL}/orders/:orderId/products`, {
+      orderId,
+      productId,
+      price,
+      quantity
+    })
+
+    return data
+
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function removeProductFromOrder(productId) {
+  try {
+
+        const data = axios.delete(`${BASE_URL}/order_products/${productId}`)
+    // const data = axios.delete(`${BASE_URL}/order_products/:orderProductId`)
+    console.log('remove prod in api', data)
+
+    return data
+
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function getCartByUser() {
+  try {
+
+    const data = axios.get(`${BASE_URL}/users/cart`)
+    console.log('getcart in api', data)
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function createOrder() {
+  try {
+    const data = axios.get(`${BASE_URL}/orders`)
+    console.log('new order in api', data)
+
+  } catch (error) {
+    throw error
+  }
+}
+
+//  PATCH /order_products/:orderProductId (**)
+//  Update the quantity or price on the order product
+
+//  DELETE /order_products/:orderProductId (**)
+//  Remove a product from a order, use hard delete
