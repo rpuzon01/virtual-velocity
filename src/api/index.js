@@ -106,16 +106,34 @@ export async function addProductToOrder({orderId, productId, price, quantity}) {
   }
 }
 
-export async function removeProductFromOrder(orderId) {
+export async function removeProductFromOrder(productId) {
   try {
 
-    const data = axios.delete(`${BASE_URL}/order_products/:orderProductId`, {
-      // productId,
-      // orderId,
-      // userId,
-    })
+        const data = axios.delete(`${BASE_URL}/order_products/${productId}`)
+    // const data = axios.delete(`${BASE_URL}/order_products/:orderProductId`)
+    console.log('remove prod in api', data)
 
     return data
+
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function getCartByUser() {
+  try {
+
+    const data = axios.get(`${BASE_URL}/users/cart`)
+    console.log('getcart in api', data)
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function createOrder() {
+  try {
+    const data = axios.get(`${BASE_URL}/orders`)
+    console.log('new order in api', data)
 
   } catch (error) {
     throw error

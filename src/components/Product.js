@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import "./Product.css";
-import {addProductToOrder, removeProductFromOrder} from "../api"
+import {addProductToOrder, removeProductFromOrder, getCartByUser, createOrder} from "../api"
 import { BrowserRouter as Router,
   useParams,
   Link,
@@ -24,44 +24,56 @@ const Product = (props) => {
 
 
 
-  const handleAddToOrder = () => {
+  const handleAddToOrder = async ({id, price, quantity}) => {
     // console.log('add to order clicked')
+    const currentOrder = await getCartByUser()
+    console.log('existingOrder', currentOrder)
+    const productId = id
 //     For each product NOT in cart
 //  Create add-to-cart button
 //  Up to you if you want this to increment previously-existing product quantity.
-console.log('222', products)
+console.log('222', productId, price, quantity)
 
-const product = products.map((product) => {
-  // console.log('products all', product)
-  return product
-})
-console.log('products all3', product)
+// const product = products.map((product) => {
+//   // console.log('products all', product)
+//   return product
+// })
+// console.log('products all3', product)
 
-const ordersProducts = orders.map(({products, id, userId, datePlaced, status}) => {
-  return products
+// const ordersProducts = orders.map(({products, id, userId, datePlaced, status}) => {
+//   return products
 
-})
+// })
 
-const orderProductId = ordersProducts.map(({id, name}) => {
-  console.log('55555', ordersProducts)
-  return id
-})
+// const orderProductId = ordersProducts.map(({id, name}) => {
+//   console.log('55555', ordersProducts)
+//   return id
+// })
 
     try {
-      if(!orders && orderProductId) {
+      if(currentOrder) {
         console.log('add to order clicked')
         const {data} = await addProductToOrder({
-          orderId,
+          // orderId,
           productId,
           price,
           quantity})
+          console.log('data in prouduct comp add to order', data)
 
         // create order
         //add product to the order
-      } else if (orders && orderProductId) {
+      } else {
         console.log('!!!!!')
                 // create order
+         const newOrder = await createOrder()
+         console.log('data in prouduct comp add to order', newOrder)
         //add product to the order
+        const {data} = await addProductToOrder({
+          // orderId,
+          productId,
+          price,
+          quantity})
+        console.log('data in prouduct comp add to order', data)
 
       }
 
@@ -71,14 +83,12 @@ const orderProductId = ordersProducts.map(({id, name}) => {
     }
   }
 
-  const handleRemoveFromOrder = () => {
-    // console.log('remove order clicked')
+  const handleRemoveFromOrder = async (productId) => {
     try {
-      if(orders && orders.products.id === product.id) {
         console.log('remove order clicked')
 
-        const data = await
-      }
+        const data = await removeProductFromOrder(productId)
+        console.log('remove prod in product comp', data)
 
     } catch (error) {
       throw error
@@ -88,7 +98,7 @@ const orderProductId = ordersProducts.map(({id, name}) => {
 
   return (
     <>
-      { products && products.map(({category, description, id, imageURL, inStock, name, price}) => <>
+      { products && products.map(({category, description, id, imageURL, quantity, inStock, name, price}) => <>
 
             <Card style={{ width: "18rem" }}>
         <Card.Img variant="top" src={imageURL} />
@@ -102,7 +112,7 @@ const orderProductId = ordersProducts.map(({id, name}) => {
 
           <Button className="btn btn-primary" onClick={ (event) => {
             event.preventDefault()
-            handleAddToOrder()
+            handleAddToOrder({id, price, quantity })
           }
 
           }
@@ -113,7 +123,7 @@ const orderProductId = ordersProducts.map(({id, name}) => {
                     // if not in cart
       // if order.product.id !== product.id
       //display button
-              handleRemoveFromOrder()
+              handleRemoveFromOrder(id)
             }
           }
           > - </Button>
