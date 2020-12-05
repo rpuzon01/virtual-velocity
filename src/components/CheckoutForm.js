@@ -2,6 +2,7 @@ import React from "react";
 import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
 import CardSection from "./CardSection";
 import { Button } from "react-bootstrap";
+import { useHistory } from "react-router-dom";
 
 // Set your secret key. Remember to switch to your live secret key in production.
 // See your keys here: https://dashboard.stripe.com/account/apikeys
@@ -11,9 +12,10 @@ import { Button } from "react-bootstrap";
 // Get the payment token ID submitted by the form:
 // const token = request.body.stripeToken; // Using Express
 
-const CheckoutForm = () => {
+const CheckoutForm = ({ showStripe, setShowStripe }) => {
   const stripe = useStripe();
   const elements = useElements();
+  let history = useHistory();
 
   async function stripeTokenHandler(token) {
     try {
@@ -57,7 +59,9 @@ const CheckoutForm = () => {
     } else {
       // Send the token to your server.
       // This function does not exist yet; we will define it in the next step.
+      setShowStripe(false);
       stripeTokenHandler(result.token);
+      history.push("/products");
     }
   };
 
@@ -73,11 +77,11 @@ const CheckoutForm = () => {
       <CardSection />
       <Button
         type="submit"
-        style={{ marginLeft: "69%" }}
+        style={{ marginLeft: "67%" }}
         disabled={!stripe}
         variant="primary"
       >
-        Primary
+        Buy Now
       </Button>{" "}
     </form>
   );

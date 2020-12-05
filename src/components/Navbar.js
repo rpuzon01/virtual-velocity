@@ -5,7 +5,7 @@ import { Route, Switch } from "react-router-dom";
 import { Login } from './';
 
 const NavBar = (props) => {
-    const { setUser, token, setToken } = props;
+  const { setUser, token, setToken } = props;
 
   return (
     <Navbar className="navbar fixed-top" bg="dark" variant="dark">
@@ -15,12 +15,13 @@ const NavBar = (props) => {
         <Nav.Link href="/products">Products</Nav.Link>
         <Nav.Link href="/cart">Cart</Nav.Link>
         <Nav.Link href="/account">Account</Nav.Link>
-      {(!token) && <Nav.Link href="/register">Register</Nav.Link>}
+        <Nav.Link href="/cart/checkout">Checkout</Nav.Link>
+        {(!token) && <Nav.Link href="/register">Register</Nav.Link>}
       </Nav>
       <Login
         setUser={setUser}
         token={token}
-        setToken={setToken}/>
+        setToken={setToken} />
     </Navbar>
   );
 };
