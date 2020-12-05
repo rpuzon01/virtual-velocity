@@ -1,3 +1,5 @@
-#orderStyle {
-  padding-top: 2rem;
+.dash-board {
+  display: grid;
+  margin-top: 4rem;
+  grid-template-columns: 1fr 1fr;
 }

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Card, ListGroupItem, ListGroup, Button, Nav } from "react-bootstrap";
 import { getOrdersByUserId } from '../api';
 import { useParams } from "react-router-dom";
+import "./Account.css"
 
 // export function UserInfo(props) {
 //     const { user } = props;
@@ -28,34 +29,37 @@ const Account = (props) => {
     }, [orders, user, token])
     return (
         <>
-            <Card style={{ width: '18rem' }}>
-                {/* <Card.Img variant="top" src="holder.js/100px180?text=Image cap" /> */}
-                {!isInCheckout && <Card.Body>
-                    {user && <Card.Title>Hello {user.username} welcome to your account!</Card.Title>}
-                    <Card.Text>
-                        From your account dashboard you can view your recent orderss, manage your shopping and billing address and edit your account details.
+            <div className="dash-board">
+                <Card style={{ width: '18rem' }}>
+                    {/* <Card.Img variant="top" src="holder.js/100px180?text=Image cap" /> */}
+                    {!isInCheckout && <Card.Body>
+                        {user && <Card.Title>Hello {user.username} welcome to your account!</Card.Title>}
+                        <Card.Text>
+                            From your account dashboard you can view your recent orderss, manage your shopping and billing address and edit your account details.
                     </Card.Text>
-                </Card.Body>}
-                <ListGroup className="list-group-flush">
-                    {user && <>
-                        <ListGroupItem>{user.lastName}</ListGroupItem>
-                        <ListGroupItem>{user.firstName}</ListGroupItem>
-                        <ListGroupItem>{user.email}</ListGroupItem>
-                    </>}
-                </ListGroup>
-            </Card>
-            {!isInCheckout && orders && orders.map((order) => {
-                return (
-                    <Card id="orderStyle" style={{ width: '18rem' }}>
-                        <Card.Header>Featured</Card.Header>
-                        <ListGroup variant="flush">
-                            <ListGroup.Item>{order.id}</ListGroup.Item>
-                            <ListGroup.Item>{order.status}</ListGroup.Item>
-                            <ListGroup.Item>{order.datePlaced}</ListGroup.Item>
-                        </ListGroup>
-                    </Card>
-                )
-            })}
+                    </Card.Body>}
+                    <ListGroup className="list-group-flush">
+                        {user && <>
+                            <ListGroupItem>{user.lastName}</ListGroupItem>
+                            <ListGroupItem>{user.firstName}</ListGroupItem>
+                            <ListGroupItem>{user.email}</ListGroupItem>
+                        </>}
+                    </ListGroup>
+                </Card>
+                {!isInCheckout && orders && orders.map((order) => {
+                    return (
+                        <Card id="orderStyle" style={{ width: '18rem', marginTop: "2rem" }}>
+                            <Card.Header>Featured</Card.Header>
+                            <ListGroup variant="flush">
+                                <ListGroup.Item>{order.id}</ListGroup.Item>
+                                <ListGroup.Item>{order.status}</ListGroup.Item>
+                                <ListGroup.Item>{order.datePlaced}</ListGroup.Item>
+                            </ListGroup>
+                        </Card>
+
+                    )
+                })}
+            </div>
         </>
     );
 };
