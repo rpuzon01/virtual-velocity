@@ -31,7 +31,7 @@ try {
   res.send(products)
 
 } catch (error) {
-  throw error;
+  next(error);
 }
 
 }
