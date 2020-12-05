@@ -8,8 +8,10 @@ import {
   Register,
   SingleOrder,
   Account,
+  UserInfo,
   Home,
   Footer,
+  // Checkout,
 } from "./";
 import {
   BrowserRouter as Router,
@@ -71,6 +73,10 @@ const App = () => {
             setUser={setUser}
           />
         </Route>
+        <Route exact path="/cart/checkout">
+          <Account user={user} token={token} isInCheckout />
+          <Checkout user={user} token={token} />
+        </Route>
         <Route exact path="/account">
           <Account user={user} token={token} />
         </Route>
@@ -88,9 +94,6 @@ const App = () => {
             products={products}
             token={token}
           />
-          <Route exact path="/cart/checkout">
-            <Checkout user={user} token={token} setToken={setToken} setUser={setUser} />
-          </Route>
         </Route>
         <Route exact path="/stripe">
           <Elements stripe={stripePromise}>

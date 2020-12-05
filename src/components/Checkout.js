@@ -1,28 +1,41 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
+import { useHistory } from 'react-router-dom';
 import { Account, SingleOrder, Cart } from "./"
+import { getOrdersByUserId } from '../api';
 
-const Checkout = () => {
+const Checkout = (props) => {
+    // const { user, setUser, token, setToken, } = props;
+    // const [orders, setOrders] = useState();
+    let history = useHistory();
+
+    const redirect = () => {
+        history.push('/')
+    }
+
+    // useEffect(() => {
+    //     if (token && user && !orders) {
+    //         getOrdersByUserId(user.id, token).then(data => {
+    //             setOrders(data)
+    //         });
+    //     }
+    // }, [orders, user, token])
 
     return (
         <>
             <div className="Checkout">
-                <Account />
-
-
                 <Modal.Dialog>
                     <Modal.Header closeButton>
-                        <Modal.Title>Your Final Order</Modal.Title>
+                        <Modal.Title>Your Order</Modal.Title>
                     </Modal.Header>
 
                     <Modal.Body>
                         <SingleOrder />
-                        <Cart />
                     </Modal.Body>
 
                     <Modal.Footer>
-                        <Button variant="primary">Complete Order</Button>
-                        <Button variant="primary">Cancel Order</Button>
+                        <Button variant="success">Complete Order</Button>
+                        <Button onClick={redirect} variant="warning">Cancel Order</Button>
                     </Modal.Footer>
                 </Modal.Dialog>
 

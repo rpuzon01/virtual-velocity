@@ -8,8 +8,9 @@ export { default as Cart } from "./Cart";
 export { default as Logout } from "./Logout";
 export { default as Register } from "./Register";
 export { default as Account } from "./Account";
+export * from "./Account";
 export { default as Home } from "./Home";
 export { default as Footer } from "./Footer";
 export { default as CheckoutForm } from "./CheckoutForm";
 export { default as CardSection } from "./CardSection";
-export { default as Checkout } from "./Checkout";
+
