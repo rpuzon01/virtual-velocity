@@ -8,8 +8,10 @@ import {
   Register,
   SingleOrder,
   Account,
+  UserInfo,
   Home,
   Footer,
+  // Checkout,
 } from "./";
 import {
   BrowserRouter as Router,
@@ -22,16 +24,14 @@ import { getLocalToken } from "../util";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import CheckoutForm from "./CheckoutForm";
+import Checkout from "./Checkout";
 
-const stripePromise = loadStripe(
-  "pk_test_51Ht3KIDb1cCPXKe0pegkjh96D6Wf83gqHU1T6RaalLEfch8L4XcJnUismKd2bctYGkVLbb5rkG7a1jYvNz7Wh0eG00v9V1t8T9"
-);
-
-// secret key = sk_test_51Ht3KIDb1cCPXKe0gynICwL36yklzfwCh1pynYEjOvyxSh4pXzWSob4gm84g6DgEDCaHefsgNL9gQqp5PNPAmQjg00jOeKHYYY
-
-//publishable key = pk_test_51Ht3KIDb1cCPXKe0pegkjh96D6Wf83gqHU1T6RaalLEfch8L4XcJnUismKd2bctYGkVLbb5rkG7a1jYvNz7Wh0eG00v9V1t8T9
+const stripePromise = loadStripe(`${process.env.REACT_APP_PUBLISHABLE_KEY}`);
 
 const App = () => {
+  //upon a successful purchase, stripe form should disappear and reset state
+  const [showStripe, setShowStripe] = useState(true);
+
   const [products, setProducts] = useState([]);
   const [token, setToken] = useState("");
   const [user, setUser] = useState();
@@ -64,7 +64,7 @@ const App = () => {
       <div className="App">
         <NavBar token={token} setToken={setToken} setUser={setUser} />
         <Route exact path="/">
-          < Home products={products} />
+          <Home products={products} />
         </Route>
         <Route exact path="/cart">
           <Cart user={user} />
@@ -77,11 +77,15 @@ const App = () => {
             setUser={setUser}
           />
         </Route>
+        <Route exact path="/cart/checkout">
+          <Account user={user} token={token} isInCheckout />
+          <Checkout user={user} token={token} />
+        </Route>
         <Route exact path="/account">
           <Account user={user} token={token} />
         </Route>
         <Route exact path="/products">
-          < Product products={products} setProducts={setProducts} user={user} />
+          < Product products={products} setProducts={setProducts} user={user} orders={orders} setOrders={setOrders} />
         </Route>
         <Route exact path="/products/:productId">
           <SingleProduct />
@@ -97,7 +101,12 @@ const App = () => {
         </Route>
         <Route exact path="/stripe">
           <Elements stripe={stripePromise}>
-            <CheckoutForm />
+            {showStripe === true ? (
+              <CheckoutForm
+                showStripe={showStripe}
+                setShowStripe={setShowStripe}
+              />
+            ) : null}
           </Elements>
         </Route>
         <Footer />
