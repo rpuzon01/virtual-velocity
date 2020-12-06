@@ -26,7 +26,7 @@ const SingleOrder = (props) => {
 
 
     return ( <>
-        <div className="single-order">
+        <div className="single-order bodyWrapper">
             <div className="products">
             <h1>My Order: </h1>
                 { orders && orders.map(({products, id, userId, datePlaced, status}) =>
