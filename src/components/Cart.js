@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { SingleOrder } from "./"
+import "./index.css";
 // import { useParams } from "react-router-dom";
 
 
@@ -20,6 +21,7 @@ const Cart = (props) => {
 
 
   return ( <>
+  <div className="bodyWrapper">
   <h1> Shopping Cart </h1>
     {/* <h5> Welcome {user.firstName} {user.lastName}</h5> */}
     <p> Ready to checkout? With our stripe integration you can checkout feeling secure.</p>
@@ -57,7 +59,7 @@ const Cart = (props) => {
         </div>
       </div>
 
-
+      </div>
   </>)
 
 }
