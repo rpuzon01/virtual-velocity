@@ -1,7 +1,11 @@
 const router = require("express").Router();
 const { requireUser, isAdmin } = require("./utils");
 
-const { getAllProducts, getProductById } = require("../db/utils");
+const {
+  getAllProducts,
+  getProductById,
+  updateProduct,
+} = require("../db/utils");
 
 router.get("/", async (req, res, next) => {
   try {
@@ -17,6 +21,27 @@ router.get("/:productId", async (req, res, next) => {
   try {
     const product = await getProductById(productId);
     res.send(product);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.patch("/:productId", isAdmin, async (req, res, next) => {
+  const { productId } = req.params;
+  const { name, description, price, imageURL, inStock, category } = req.body;
+
+  try {
+    const updatedProduct = await updateProduct({
+      id: productId,
+      name,
+      description,
+      price,
+      imageURL,
+      inStock,
+      category,
+    });
+    console.log("updatedProduct", updatedProduct);
+    res.send(updatedProduct);
   } catch (error) {
     next(error);
   }

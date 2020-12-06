@@ -53,6 +53,37 @@ const createProduct = async ({
   }
 };
 
+const updateProduct = async ({ id, ...fields }) => {
+  const fieldKeys = Object.keys(fields)
+    .map((fieldName, index) => `"${fieldName}"=$${index + 1}`)
+    .join(", ");
+
+  const setValues = Object.values(fields);
+
+  if (fieldKeys.length === 0) {
+    return;
+  }
+
+  setValues.push(id);
+
+  try {
+    const {
+      rows: [product],
+    } = await client.query(
+      `
+            UPDATE products
+            SET ${setString}
+            WHERE id = $${setValues.length}
+            RETURNING *;
+        `,
+      setValues
+    );
+    return product;
+  } catch (error) {
+    throw error;
+  }
+};
+
 const destroyProduct = async ({id}) => {
   try {
     const { rows: [products] } = await client.query(`
@@ -72,28 +103,10 @@ const destroyProduct = async ({id}) => {
   }
 }
 
-// destroyProduct
-// destroyProduct({ id })
-// hard delete a product.
-// make sure to delete all the order_products whose product is the one being deleted.
-// make sure the orders for the order_products being deleted do not have a status = completed
-
-// DELETE FROM order_products
-// JOIN orders
-// ON orders.id = order_products."orderId"
-// USING products
-// WHERE products.id = order_products."productId"
-// AND products.id = $1;
-// AND NOT orders.status = 'completed';
-
-// DELETE FROM products
-// WHERE products.id = $1
-// RETURNING *;
-
-
 module.exports = {
   destroyProduct,
   getProductById,
   getAllProducts,
   createProduct,
+  updateProduct,
 };
