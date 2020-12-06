@@ -84,9 +84,12 @@ const updateProduct = async ({ id, ...fields }) => {
   }
 };
 
-const destroyProduct = ({id}) => {
+const destroyProduct = async ({ id }) => {
   try {
-    const { rows: [products] } = await client.query(`
+    const {
+      rows: [products],
+    } = await client.query(
+      `
     DELETE FROM order_products
     USING products
     WHERE products.id = order_products."productId"
@@ -95,13 +98,14 @@ const destroyProduct = ({id}) => {
     DELETE FROM products
     WHERE products.id = $1
     RETURNING *;
-    `, [id])
-    return products
-
+    `,
+      [id]
+    );
+    return products;
   } catch (error) {
-    throw error
+    throw error;
   }
-}
+};
 
 module.exports = {
   destroyProduct,
