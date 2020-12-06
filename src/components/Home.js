@@ -1,5 +1,7 @@
 import React from 'react'
 import './Home.css'
+import "./index.css";
+
 import {
   Link,
 } from 'react-router-dom'
@@ -7,7 +9,7 @@ import {
 // import { Product } from "./"
 
 const Home = (props) => {
-  return <div>
+  return <div className="bodyWrapper">
     <div className="hero-image">
   <div className="hero-text">
     <h1>Welcome to Virtual Traders</h1>
