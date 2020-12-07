@@ -84,9 +84,12 @@ const updateProduct = async ({ id, ...fields }) => {
   }
 };
 
-const destroyProduct = async ({id}) => {
+const destroyProduct = async ({ id }) => {
   try {
-    const { rows: [products] } = await client.query(`
+    const {
+      rows: [products],
+    } = await client.query(
+      `
     DELETE FROM order_products
     USING products
     WHERE products.id = order_products."productId"
@@ -95,13 +98,25 @@ const destroyProduct = async ({id}) => {
     DELETE FROM products
     WHERE products.id = $1
     RETURNING *;
-    `, [id])
-    return products
-
+    `,
+      [id]
+    );
+    return products;
   } catch (error) {
-    throw error
+    throw error;
   }
-}
+};
+
+// DELETE FROM order_products
+//     JOIN orders
+//     ON orders.id = order_products."orderId"
+//     USING products
+//     WHERE products.id = order_products."productId"
+//     AND products.id = 1
+//     AND NOT orders.status = 'completed'
+//     DELETE FROM products
+//     WHERE products.id = 1
+//     RETURNING *;
 
 module.exports = {
   destroyProduct,

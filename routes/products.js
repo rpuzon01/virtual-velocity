@@ -5,6 +5,7 @@ const {
   getAllProducts,
   getProductById,
   updateProduct,
+  destroyProduct,
 } = require("../db/utils");
 
 router.get("/", async (req, res, next) => {
@@ -47,18 +48,16 @@ router.patch("/:productId", isAdmin, async (req, res, next) => {
   }
 });
 
-router.delete("/:productId"), isAdmin, async (req, res, next) => {
-// DELETE /products/:productId (*admin) Only admins can delete a product
-const { productId} = req.params;
+router.delete("/:productId", isAdmin, async (req, res, next) => {
+  // DELETE /products/:productId (*admin) Only admins can delete a product
+  const { productId } = req.params;
 
-try {
-  const products = await destroyProduct({ id })
-  res.send(products)
-
-} catch (error) {
-  next(error);
-}
-
-}
+  try {
+    const products = await destroyProduct(productId);
+    res.send(products);
+  } catch (error) {
+    next(error);
+  }
+});
 
 module.exports = router;
