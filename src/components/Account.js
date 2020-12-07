@@ -3,6 +3,7 @@ import { Card, ListGroupItem, ListGroup, Button, Nav } from "react-bootstrap";
 import { getOrdersByUserId } from '../api';
 import { useParams } from "react-router-dom";
 import "./Account.css"
+import "./index.css";
 
 // export function UserInfo(props) {
 //     const { user } = props;
@@ -29,6 +30,7 @@ const Account = (props) => {
     }, [orders, user, token])
     return (
         <>
+        <div className="bodyWrapper">
             <div className="dash-board">
                 <Card style={{ width: '18rem' }}>
                     {/* <Card.Img variant="top" src="holder.js/100px180?text=Image cap" /> */}
@@ -61,6 +63,7 @@ const Account = (props) => {
                     )
                 })}
             </div>
+         </div>
         </>
     );
 };

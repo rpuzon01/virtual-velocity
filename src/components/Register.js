@@ -4,6 +4,7 @@ import {useHistory} from 'react-router-dom'
 import {InputGroup, Form, FormControl, Button, Alert} from 'react-bootstrap';
 import Modal from 'react-bootstrap/Modal'
 import {register, getUser} from "../api"
+import "./index.css";
 
 import {getLocalToken, setLocalToken} from '../util'
 
@@ -54,6 +55,7 @@ export default props => {
 
   return (
     <>
+    <div className="bodyWrapper">
       {/* <Button variant="primary" onClick={handleShow}>
         Register Modal
       </Button> */}
@@ -151,6 +153,7 @@ export default props => {
         <p className="btn-danger"> {message} </p>
         </Modal.Footer>
       </Modal>
+      </div>
     </>
   );
 
