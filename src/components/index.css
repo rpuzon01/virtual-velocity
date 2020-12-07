@@ -1,0 +1,12 @@
+.flexWrapper {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  padding: 10px;
+}
+
+.bodyWrapper {
+  position: relative;
+  /* min-height: 80vh; */
+  padding-top: 3.5rem;
+  min-height: 100vh;
+}

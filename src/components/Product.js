@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import "./Product.css";
+import "./index.css";
 import {addProductToOrder, removeProductFromOrder, getCartByUser, createOrder} from "../api"
 import { BrowserRouter as Router,
   useParams,
@@ -98,6 +99,7 @@ console.log('222', productId, price, quantity)
 
   return (
     <>
+    <div className="bodyWrapper flexWrapper">
       { products && products.map(({category, description, id, imageURL, quantity, inStock, name, price}) => <>
 
             <Card style={{ width: "18rem" }}>
@@ -108,7 +110,7 @@ console.log('222', productId, price, quantity)
           <Card.Text>{price}</Card.Text>
           <Card.Text>{category}</Card.Text>
           <Card.Text>{inStock}</Card.Text>
-          <Link className="btn btn-primary" to={`/products/${id}`}>View Product2</Link>
+          <Link className="btn btn-primary " to={`/products/${id}`}>View Product2</Link>
 
           <Button className="btn btn-primary" onClick={ (event) => {
             event.preventDefault()
@@ -133,7 +135,7 @@ console.log('222', productId, price, quantity)
 
       </>
       )}
-
+      </div>
     </>
   );
 };
