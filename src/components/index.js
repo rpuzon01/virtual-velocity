@@ -12,5 +12,6 @@ export * from "./Account";
 export { default as Home } from "./Home";
 export { default as Footer } from "./Footer";
 export { default as CheckoutForm } from "./CheckoutForm";
+export { default as Checkout } from "./Checkout";
 export { default as CardSection } from "./CardSection";
 

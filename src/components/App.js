@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { getProducts, getUser, getOrdersByUserId } from "../api";
+
 import {
   Product,
   SingleProduct,
@@ -11,27 +12,26 @@ import {
   UserInfo,
   Home,
   Footer,
-  // Checkout,
+  Checkout,
+  CheckoutForm
 } from "./";
+
 import {
   BrowserRouter as Router,
   Route,
   Switch,
   Redirect,
 } from "react-router-dom";
-import { getLocalToken } from "../util";
 
+import { getLocalToken } from "../util";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
-import CheckoutForm from "./CheckoutForm";
-import Checkout from "./Checkout";
 
 const stripePromise = loadStripe(`${process.env.REACT_APP_PUBLISHABLE_KEY}`);
 
 const App = () => {
   //upon a successful purchase, stripe form should disappear and reset state
   const [showStripe, setShowStripe] = useState(true);
-
   const [products, setProducts] = useState([]);
   const [token, setToken] = useState("");
   const [user, setUser] = useState({});
@@ -43,22 +43,16 @@ const App = () => {
         setProducts(fetchProducts);
         if (getLocalToken()){
             setToken(getLocalToken());
+            const userData = getUser(getLocalToken());
+            setUser(userData);
         }
     }
 
   useEffect(() => {
-    getProducts().then(setProducts);
-    const localToken = getLocalToken();
-    if (localToken) {
-      setToken(localToken);
-      getUser(localToken).then((data) => setUser(data));
-    }
+      handleInitialLoad();
   }, []);
 
-  console.log("orders in main app", orders);
-
   return (
-    <>
       <div className="App">
         <NavBar token={token} setToken={setToken} setUser={setUser} />
         <Route exact path="/">
@@ -109,7 +103,7 @@ const App = () => {
         </Route>
         <Footer />
       </div>
-    </>
   );
 };
+
 export default App;

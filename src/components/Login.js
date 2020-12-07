@@ -1,13 +1,10 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useState } from "react";
 import { Button, Form, FormControl, Alert } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 
 import { setLocalToken } from "../util";
 import { Logout } from "./";
-import { fetchUser, login } from "../api";
-
-const BASE_URL = "/api";
+import { login } from "../api";
 
 export default (props) => {
   const { setUser, token, setToken } = props;
