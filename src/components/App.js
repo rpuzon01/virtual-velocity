@@ -34,12 +34,15 @@ const App = () => {
 
   const [products, setProducts] = useState([]);
   const [token, setToken] = useState("");
-  const [user, setUser] = useState();
+  const [user, setUser] = useState({});
   const [orders, setOrders] = useState([]);
 
     //this handles all of  initial axios calls that occur initial load
     const handleInitialLoad = async () => {
+        const fetchProducts = await getProducts();
+        setProducts(fetchProducts);
         if (getLocalToken()){
+            setToken(getLocalToken());
         }
     }
 
@@ -51,11 +54,6 @@ const App = () => {
       getUser(localToken).then((data) => setUser(data));
     }
   }, []);
-
-  useEffect(() => {
-    getUser(token).then(setUser);
-    // getOrdersByUserId(user.id, token).then(setOrders);
-  }, [token]);
 
   console.log("orders in main app", orders);
 
