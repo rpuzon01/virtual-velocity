@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { getProducts, getUser, getOrdersByUserId } from "../api";
+import { 
+    getProducts, 
+    getUser, 
+    getOrdersByUserId 
+} from "../api";
 
 import {
   Product,
@@ -9,7 +13,6 @@ import {
   Register,
   SingleOrder,
   Account,
-  UserInfo,
   Home,
   Footer,
   Checkout,
@@ -17,10 +20,7 @@ import {
 } from "./";
 
 import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Redirect,
+  Route
 } from "react-router-dom";
 
 import { getLocalToken } from "../util";
@@ -30,12 +30,13 @@ import { loadStripe } from "@stripe/stripe-js";
 const stripePromise = loadStripe(`${process.env.REACT_APP_PUBLISHABLE_KEY}`);
 
 const App = () => {
-  //upon a successful purchase, stripe form should disappear and reset state
-  const [showStripe, setShowStripe] = useState(true);
-  const [products, setProducts] = useState([]);
-  const [token, setToken] = useState("");
-  const [user, setUser] = useState({});
-  const [orders, setOrders] = useState([]);
+    //upon a successful purchase, stripe form should disappear and reset state
+    const [showStripe, setShowStripe] = useState(true);
+    const [products, setProducts] = useState([]);
+    const [token, setToken] = useState("");
+    const [user, setUser] = useState({});
+    const [orders, setOrders] = useState([]);
+    const [cart, setCart] = useState({});
 
     //this handles all of  initial axios calls that occur initial load
     const handleInitialLoad = async () => {
@@ -43,14 +44,21 @@ const App = () => {
         setProducts(fetchProducts);
         if (getLocalToken()){
             setToken(getLocalToken());
-            const userData = getUser(getLocalToken());
+            const userData = await getUser(getLocalToken());
             setUser(userData);
+            if(userData.isAdmin){
+                // grab all orders
+            } else {
+                // grab all current users orders including the cart
+                const fetchOrders = await getOrdersByUserId(userData.id, getLocalToken());  
+                setOrders(fetchOrders);
+            }
         }
     }
 
-  useEffect(() => {
-      handleInitialLoad();
-  }, []);
+    useEffect(() => {
+        handleInitialLoad();
+    }, []);
 
   return (
       <div className="App">

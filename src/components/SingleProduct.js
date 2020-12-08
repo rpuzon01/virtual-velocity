@@ -9,9 +9,14 @@ const SingleProduct = () => {
     const [product, setProduct] = useState({});
     const { productId } = useParams();
 
+    const handleInitialLoad = async () => {
+        const fetchProduct = await getProductById(productId);
+        setProduct(fetchProduct);
+    };
+
     useEffect(() => {
-        getProductById(productId).then(setProduct);
-    }, [])
+        handleInitialLoad();
+    }, [product])
 
     return ( <>
     <div className="bodyWrapper">

@@ -194,7 +194,7 @@ async function populateInitialData() {
         userId: 1,
       },
       {
-        status: "created",
+        status: "completed",
         userId: 1,
       },
     ];

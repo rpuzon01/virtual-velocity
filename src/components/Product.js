@@ -19,11 +19,6 @@ const Product = (props) => {
   console.log('order id', orders.id)
   console.log('user', user)
   console.log('products all1', products)
-  // console.log('products all id', products.id)
-
-
-
-
 
   const handleAddToOrder = async ({id, price, quantity}) => {
     // console.log('add to order clicked')
@@ -100,9 +95,8 @@ console.log('222', productId, price, quantity)
   return (
     <>
     <div className="bodyWrapper flexWrapper">
-      { products && products.map(({category, description, id, imageURL, quantity, inStock, name, price}) => <>
-
-            <Card style={{ width: "18rem" }}>
+      { products && products.map(({category, description, id, imageURL, quantity, inStock, name, price}) => 
+        <Card key={id} style={{ width: "18rem" }}>
         <Card.Img variant="top" src={imageURL} />
         <Card.Body>
           <Card.Title>{name}</Card.Title>
@@ -132,8 +126,6 @@ console.log('222', productId, price, quantity)
 
         </Card.Body>
       </Card>
-
-      </>
       )}
       </div>
     </>

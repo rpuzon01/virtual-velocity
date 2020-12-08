@@ -223,7 +223,7 @@ const getCartByUser = async ({ id }) => {
 `,
       [id]
     );
-    return reduceOrders(orders);
+    return reduceOrders(orders)[0];
   } catch (error) {
     throw error;
   }

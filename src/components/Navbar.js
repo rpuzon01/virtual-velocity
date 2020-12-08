@@ -9,7 +9,7 @@ const NavBar = (props) => {
 
   return (
     <Navbar className="navbar fixed-top" bg="dark" variant="dark">
-      <Navbar.Brand href="#home">Virtual Velocity</Navbar.Brand>
+      <Navbar.Brand href="/">Virtual Velocity</Navbar.Brand>
       <Nav className="mr-auto">
         <Nav.Link href="/">Home</Nav.Link>
         <Nav.Link href="/products">Products</Nav.Link>
