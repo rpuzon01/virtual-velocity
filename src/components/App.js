@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { 
     getProducts, 
     getUser, 
-    getOrdersByUserId 
+    getOrdersByUserId,
+    getCartByUser,
 } from "../api";
 
 import {
@@ -52,6 +53,9 @@ const App = () => {
                 // grab all current users orders including the cart
                 const fetchOrders = await getOrdersByUserId(userData.id, getLocalToken());  
                 setOrders(fetchOrders);
+                const fetchCart = await getCartByUser(getLocalToken());
+                console.log('fetchcart', fetchCart);
+                setCart(fetchCart);
             }
         }
     }

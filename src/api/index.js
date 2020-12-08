@@ -122,11 +122,16 @@ export async function removeProductFromOrder(productId) {
   }
 }
 
-export async function getCartByUser() {
+export async function getCartByUser(token) {
   try {
 
-    const data = axios.get(`${BASE_URL}/users/cart`)
+    const { data } = axios.get(`${BASE_URL}/orders/cart`, {
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
+    })
     console.log('getcart in api', data)
+      return data;
   } catch (error) {
     throw error
   }
