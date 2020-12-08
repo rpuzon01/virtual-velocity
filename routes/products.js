@@ -4,6 +4,7 @@ const { requireUser, isAdmin } = require("./utils");
 const {
   getAllProducts,
   getProductById,
+  createProducts,
   updateProduct,
   destroyProduct,
 } = require("../db/utils");
@@ -22,6 +23,23 @@ router.get("/:productId", async (req, res, next) => {
   try {
     const product = await getProductById(productId);
     res.send(product);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.post("/", isAdmin, async (req, res, next) => {
+  try {
+    const createdProduct = await createProducts({
+      id: productId,
+      name,
+      description,
+      price,
+      imageURL,
+      inStock,
+      category,
+    });
+    res.send(createdProduct);
   } catch (error) {
     next(error);
   }
@@ -49,12 +67,11 @@ router.patch("/:productId", isAdmin, async (req, res, next) => {
 });
 
 router.delete("/:productId", isAdmin, async (req, res, next) => {
-  // DELETE /products/:productId (*admin) Only admins can delete a product
   const { productId } = req.params;
 
   try {
-    const products = await destroyProduct(productId);
-    res.send(products);
+    const deletedProducts = await destroyProduct(productId);
+    res.send(deletedProducts);
   } catch (error) {
     next(error);
   }

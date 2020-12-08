@@ -1,21 +1,31 @@
 import React, { useEffect, useState } from "react";
 import { Card, Button, Form } from "react-bootstrap";
-// import Button from "react-bootstrap/Button";
+
 import "./Product.css";
 import "./index.css";
+
+// import { isAdmin } from "../routes/utils";
+
 import {
   addProductToOrder,
   removeProductFromOrder,
   getCartByUser,
   createOrder,
 } from "../api";
+
 import {
   BrowserRouter as Router,
   useParams,
   Link,
   Route,
 } from "react-router-dom";
-import { getProducts, deleteProduct, updateProduct } from "../api";
+
+import {
+  getProducts,
+  createProduct,
+  deleteProduct,
+  updateProduct,
+} from "../api";
 
 const Product = (props) => {
   const {
@@ -27,20 +37,13 @@ const Product = (props) => {
     setProducts,
     user,
   } = props;
-  const { productId } = useParams();
 
-  // const [usersProducts, setUsersProducts] = useState([]);
-  // const [name, setName] = useState("");
-  // const [description, setDescription] = useState("");
-  // const [price, setPrice] = useState("");
-  // const [inStock, setInStock] = useState("");
-  // const [category, setCategory] = useState("");
-
-  console.log("orders", orders);
-  console.log("order id", orders.id);
-  console.log("user", user);
-  console.log("products all1", products);
-  // console.log('products all id', products.id)
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [price, setPrice] = useState("");
+  const [inStock, setInStock] = useState(false);
+  const [imageURL, setImageURL] = useState(null);
+  const [category, setCategory] = useState("");
 
   const handleAddToOrder = async ({ id, price, quantity }) => {
     // console.log('add to order clicked')
@@ -96,7 +99,7 @@ const Product = (props) => {
         console.log("data in prouduct comp add to order", data);
       }
     } catch (error) {
-      throw error;
+      console.error(error);
     }
   };
 
@@ -107,155 +110,155 @@ const Product = (props) => {
       const data = await removeProductFromOrder(productId);
       console.log("remove prod in product comp", data);
     } catch (error) {
-      throw error;
+      console.error(error);
     }
   };
 
-  // const handleSubmit = async (event) => {
-  //   try {
-  //     event.preventDefault();
-  //     const data = await createProduct({
-  //       name, description, price, imageURL, inStock, category
-  //       token
-  //     });
-  //     if (data) {
-  //       setName("");
-  //       setDescription("");
-  //       setPrice("");
-  //       setInStock("")
-  //       category("")
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+  const handleSubmit = async (event) => {
+    try {
+      event.preventDefault();
+      const data = await createProduct({
+        name,
+        description,
+        price,
+        inStock,
+        imageURL,
+        category,
+      });
+      console.log("made it here");
+      if (data) {
+        setName("");
+        setDescription("");
+        setPrice("");
+        setInStock(true);
+        setImageURL("");
+        setCategory("");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const handleProductsDelete = async (id) => {
     console.log("id", id);
     console.log("clicked");
     try {
-      // event.preventDefault();
       console.log("token", token);
       const data = await deleteProduct(id, token);
       // if (data) {
-      //   const deletedProduct = usersProducts.filter(
+      //   const deletedProduct = products.filter(
       //     (product) => data.id !== product.id
       //   );
-      console.log("data", data);
-      // console.log("deletedProduct", deletedProduct);
-      // setProducts(deleteProduct);
+      //   console.log("data", data);
+      //   console.log("deletedProduct", deletedProduct);
+      //   setProducts(deletedProduct);
       // }
     } catch (error) {
-      throw error;
+      console.error(error);
     }
   };
 
-  // const handleUpdateProducts = async (event) => {
-  //   const token = localStorage.getItem("token");
-  //   try {
-  //     event.preventDefault();
-  //     const data = await updateProduct(
-  //       { name, description, price, imageURL, inStock, category },
-  //       event.target.id,
-  //       token
-  //     );
-  //     if (data) {
-  //       console.log("some data:", data);
-  //       setNewName("");
-  //       setNewDescription("");
-  //       setNewPrice("");
-  //       setNewImageUrl("")
-  //       setNewIsInStock("");
-  //       setNewCategory("");
-  //     }
-  //   } catch (error) {
-  //     throw error;
-  //   }
-  // };
+  const handleUpdateProducts = async (event) => {
+    // const token = localStorage.getItem("token");
+    try {
+      // event.preventDefault();
+      const data = await updateProduct(
+        { name, description, price, imageURL, inStock, category }
+        // id
+        // token
+      );
+      if (data) {
+        console.log("some data:", data);
+        setName("");
+        setDescription("");
+        setPrice("");
+        setInStock(true);
+        setImageURL("");
+        setCategory("");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <>
-      <div id="publicRoutines">
-        <b
-          style={{
-            fontSize: "3rem",
-            marginLeft: "2rem",
-          }}
+      <div>
+        <Form.Group
+          style={{ marginTop: "5rem", marginLeft: "35%", marginRight: "35%" }}
         >
-          Your Routines
-        </b>
-      </div>
-      <div id="activities">
-        <Form style={{ marginLeft: "35%", marginRight: "35%" }} onSubmit={{}}>
-          <Form.Group controlId="formBasicEmail">
-            <Form.Label>
-              <b>Post a new Product</b>
-            </Form.Label>
-            <Form.Control
-              // value={name}
-              // type="text"
-              placeholder="name*"
-              // onChange={(event) => {
-              //   const name = event.target.value;
-              //   setName(name);
-              // }}
-            />
-            <Form.Text style={{ color: "white" }}>
-              {" "}
-              We'll never share your information with anyone else.
-            </Form.Text>
-          </Form.Group>
-          <Form.Group controlId="formBasicPassword">
-            <Form.Control
-              // value={description}
-              // type="text"
-              placeholder="description*"
-              // onChange={(event) => {
-              //   const description = event.target.value;
-              //   setDescription(description);
-              // }}
-            />
-          </Form.Group>
-          <Form.Group controlId="formBasicPassword">
-            <Form.Control
-              // value={price}
-              // type="text"
-              placeholder="price*"
-              // onChange={(event) => {
-              //   const price = event.target.value;
-              //   setPrice(price);
-              // }}
-            />
-          </Form.Group>
-          <Form.Group controlId="formBasicPassword">
-            <Form.Control
-              // value={category}
-              // type="text"
-              placeholder="category*"
-              // onChange={(event) => {
-              //   const category = event.target.value;
-              //   setCategory(category);
-              // }}
-            />
-          </Form.Group>
-          <Form.Group controlId="formBasicCheckbox">
-            <Form.Check
-              // value={inStock}
-              // type="checkbox"
-              label="In stock"
-              // onChange={{}}
-            />
-          </Form.Group>
-          <Button
-            style={{ marginBottom: "2em" }}
-            variant="outline-success"
-            type="submit"
-          >
-            Post
-          </Button>
-        </Form>
-      </div>
+          <h4 style={{ paddingLeft: "1rem" }}>Product Name</h4>
+          <Form.Control
+            value={name}
+            type="text"
+            placeholder=""
+            onChange={(event) => {
+              setName(event.target.value);
+            }}
+          />
+          <br />
+          <h4 style={{ paddingLeft: "1rem" }}>Description</h4>
+          <Form.Control
+            value={description}
+            type="text"
+            placeholder=""
+            onChange={(event) => {
+              setDescription(event.target.value);
+            }}
+          />
 
+          <h4 style={{ paddingLeft: "1rem" }}>Price</h4>
+          <Form.Control
+            value={price}
+            type="integer"
+            placeholder=""
+            onChange={(event) => {
+              setPrice(event.target.value);
+            }}
+          />
+
+          <h4 style={{ paddingLeft: "1rem" }}>Image URL</h4>
+          <Form.Control
+            value={imageURL}
+            type="text"
+            placeholder=""
+            onChange={(event) => {
+              setImageURL(event.target.value);
+            }}
+          />
+
+          <h4 style={{ paddingLeft: "1rem" }}>Category</h4>
+          <Form.Control
+            value={category}
+            type="text"
+            placeholder=""
+            onChange={(event) => {
+              setCategory(event.target.value);
+            }}
+          />
+
+          <Form.Check
+            type="checkbox"
+            style={{ marginLeft: "1rem", marginTop: "1rem" }}
+            onChange={(event) => {
+              if (event.target.value === "on") {
+                setInStock(true);
+              } else {
+                setInStock(event.target.value);
+              }
+            }}
+            label="In Stock? "
+          />
+          <Button
+            type="submit"
+            onClick={handleSubmit}
+            style={{ marginLeft: "1rem", marginTop: "1rem" }}
+            variant="success"
+          >
+            Create Product
+          </Button>
+        </Form.Group>
+      </div>
       <div className="bodyWrapper flexWrapper">
         {products &&
           products.map(
@@ -270,6 +273,7 @@ const Product = (props) => {
               price,
             }) => (
               <>
+                {/* {isAdmin ? ( */}
                 <Card style={{ width: "18rem" }}>
                   <Card.Img variant="top" src={imageURL} />
                   <Card.Body>
@@ -320,12 +324,16 @@ const Product = (props) => {
                     <Button
                       style={{}}
                       className="btn btn-primary"
-                      // onClick={{ handleUpdateProducts }}
+                      onClick={(event) => {
+                        event.preventDefault();
+                        handleUpdateProducts(id);
+                      }}
                     >
                       Edit
                     </Button>
                   </Card.Body>
                 </Card>
+                {/* ) : null} */}
               </>
             )
           )}

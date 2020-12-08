@@ -148,23 +148,84 @@ export async function createOrder() {
   }
 }
 
-export async function deleteProduct(id, token) {
-  console.log("id", id);
-  console.log("token", token);
+export async function createProduct({
+  name,
+  description,
+  price,
+  imageURL,
+  inStock,
+  category,
+  token,
+}) {
+  const bearer = {
+    headers: { Authorization: `Bearer ${token}` },
+  };
+
+  const body = {
+    name,
+    description,
+    price,
+    imageURL,
+    inStock,
+    category,
+  };
+
   try {
-    const { data } = axios.delete(`${BASE_URL}/products/${id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    console.log("deleted product", data);
+    const { data } = await axios.post(`${BASE_URL}/products`, body, bearer);
+    console.log("create new product data:", data);
     return data;
   } catch (error) {
     throw error;
   }
 }
-//  PATCH /order_products/:orderProductId (**)
-//  Update the quantity or price on the order product
 
-//  DELETE /order_products/:orderProductId (**)
-//  Remove a product from a order, use hard delete
+export async function updateProduct(
+  {
+    newName,
+    newDescription,
+    newPrice,
+    newImageURL,
+    newInStock,
+    newCategory,
+    token,
+  },
+  id
+) {
+  const bearer = {
+    headers: { Authorization: `Bearer ${token}` },
+  };
+
+  const body = {
+    name: newName,
+    description: newDescription,
+    price: newPrice,
+    imageURL: newImageURL,
+    inStock: newInStock,
+    category: newCategory,
+  };
+
+  try {
+    const { data } = await axios.patch(
+      `${BASE_URL}/products/${id}`,
+      body,
+      bearer
+    );
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function deleteProduct(id, token) {
+  try {
+    const { data } = await axios.delete(`${BASE_URL}/products/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log("deleted product data", data);
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
