@@ -100,7 +100,7 @@ const destroyProduct = async ({ id }) => {
       [id]
     );
     console.log(order_products);
-    const { rows: product } = await client.query(
+    const { rows: order_products } = await client.query(
       `
 		  	DELETE FROM products
 		  	WHERE id = $1
