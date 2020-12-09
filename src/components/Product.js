@@ -11,6 +11,10 @@ import {
   removeProductFromOrder,
   getCartByUser,
   createOrder,
+  getProducts,
+  createProduct,
+  deleteProduct,
+  updateProduct,
 } from "../api";
 
 import {
@@ -20,12 +24,6 @@ import {
   Route,
 } from "react-router-dom";
 
-import {
-  getProducts,
-  createProduct,
-  deleteProduct,
-  updateProduct,
-} from "../api";
 
 const Product = (props) => {
   const {
@@ -44,6 +42,14 @@ const Product = (props) => {
   const [inStock, setInStock] = useState(false);
   const [imageURL, setImageURL] = useState(null);
   const [category, setCategory] = useState("");
+
+  // console.log('user', user)
+  // const userAdmin = user.map(({isAdmin, id}) => {
+  //   console.log('isAdmin', id)
+
+  //     // return userAdmin
+
+  //   })
 
   const handleAddToOrder = async ({ id, price, quantity }) => {
     // console.log('add to order clicked')

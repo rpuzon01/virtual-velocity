@@ -88,14 +88,6 @@ export async function getAllOrders() {
   }
 }
 
-export async function getAllOrders() {
-  try {
-    const { data } = await axios.get(`${BASE_URL}/orders`);
-  } catch (error) {
-    throw error;
-  }
-}
-
 export async function addProductToOrder({
   orderId,
   productId,
