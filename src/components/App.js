@@ -62,6 +62,7 @@ const App = () => {
         } catch (error) {
             console.error(error);
         }
+        }
     }
 
     const handleSwitchUser = async () => {
