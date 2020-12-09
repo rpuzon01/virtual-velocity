@@ -9,6 +9,8 @@ import {
 // import { Product } from "./"
 
 const Home = (props) => {
+  // const {products} = props
+
   return <div className="bodyWrapper">
     <div className="hero-image">
   <div className="hero-text">
@@ -28,7 +30,11 @@ const Home = (props) => {
     <p>And checkout secured with Stripe</p>
 
 {/* <Product /> */}
-<h2>PRODUCTS COMPONENT HERE</h2>
+<div>
+  {
+
+  }
+</div>
 </div>
 
 </div>
