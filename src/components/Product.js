@@ -43,7 +43,8 @@ const Product = (props) => {
   const [imageURL, setImageURL] = useState(null);
   const [category, setCategory] = useState("");
 
-  // console.log('user', user)
+  console.log('user', user)
+  console.log('user.isAdmin', user.isAdmin)
   // const userAdmin = user.map(({isAdmin, id}) => {
   //   console.log('isAdmin', id)
 
