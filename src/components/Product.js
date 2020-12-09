@@ -125,7 +125,7 @@ const Product = (props) => {
         imageURL,
         category,
       });
-      console.log("made it here");
+      console.log("show me something!");
       if (data) {
         setName("");
         setDescription("");
