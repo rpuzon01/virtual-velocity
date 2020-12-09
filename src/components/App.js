@@ -82,7 +82,7 @@ const App = () => {
 
   return (
       <div className="App">
-        <NavBar token={token} setToken={setToken} setUser={setUser} />
+        <NavBar setOrders={setOrders} setCart={setCart} token={token} setToken={setToken} setUser={setUser} />
         <Route exact path="/">
           <Home products={products} />
         </Route>

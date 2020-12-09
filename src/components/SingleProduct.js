@@ -22,6 +22,23 @@ const SingleProduct = (props) => {
     const handleAddToCart = async () => {
         // grab the product of the card
         // place it into the product array of the cart
+        cart.products.forEach((cartItem, index) => {
+            if(cartItem.name === product.name){
+                const productToAdd = {
+                    ...product, 
+                    quantity: cartItem.quantity + 1
+                }
+                const newProducts = [...cart.products]
+                newProducts.splice(index, 1, productToAdd);
+                const newCart = {
+                    ...cart,
+                    products: newProducts
+                }
+                setCart(newCart);
+                return;
+            }
+        })
+
         const newCart = {
             ...cart, 
             products: [...cart.products, product]

@@ -7,7 +7,7 @@ import { Logout } from "./";
 import { login } from "../api";
 
 export default (props) => {
-  const { setUser, token, setToken } = props;
+  const { setUser, token, setToken, setCart, setOrders } = props;
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -36,7 +36,7 @@ export default (props) => {
     <>
       {error && <Alert>{error}</Alert>}
       {token ? (
-        <Logout setUser={setUser} setToken={setToken} />
+        <Logout setCart={setCart} setOrders={setOrders} setUser={setUser} setToken={setToken} />
       ) : (
         <Form inline onSubmit={handleSubmit}>
           <FormControl

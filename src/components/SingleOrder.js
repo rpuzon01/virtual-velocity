@@ -30,7 +30,6 @@ const SingleOrder = (props) => {
             )
             }
             </div>
-        )
         </div>
     );
 }

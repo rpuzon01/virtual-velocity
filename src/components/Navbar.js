@@ -5,7 +5,7 @@ import { Route, Link } from "react-router-dom";
 import { Login } from './';
 
 const NavBar = (props) => {
-  const { setUser, token, setToken } = props;
+  const { setUser, token, setToken, setOrders, setCart } = props;
 
   return (
     <Navbar className="navbar fixed-top" bg="dark" variant="dark">
@@ -18,6 +18,8 @@ const NavBar = (props) => {
         {(!token) && <Link to="/register">Register</Link>}
       </Nav>
       <Login
+        setCart={setCart}
+        setOrders={setOrders}
         setUser={setUser}
         token={token}
         setToken={setToken} />
