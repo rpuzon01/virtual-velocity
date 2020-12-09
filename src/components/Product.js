@@ -280,7 +280,7 @@ const Product = (props) => {
               price,
             }) => (
               <>
-                {/* {isAdmin ? ( */}
+
                 <Card style={{ width: "18rem" }}>
                   <Card.Img variant="top" src={imageURL} />
                   <Card.Body>
@@ -317,6 +317,8 @@ const Product = (props) => {
                       -{" "}
                     </Button>
 
+                    {user.isAdmin &&
+                    <>
                     <Button
                       style={{}}
                       className="btn btn-danger"
@@ -328,7 +330,9 @@ const Product = (props) => {
                     >
                       Delete
                     </Button>
-                    <Button
+
+
+                    {/* <Button
                       style={{}}
                       className="btn btn-primary"
                       onClick={(event) => {
@@ -337,10 +341,14 @@ const Product = (props) => {
                       }}
                     >
                       Edit
-                    </Button>
+                    </Button> */}
+
+                    </>
+                    }
+
                   </Card.Body>
                 </Card>
-                {/* ) : null} */}
+
               </>
             )
           )}
