@@ -62,7 +62,6 @@ const App = () => {
         } catch (error) {
             console.error(error);
         }
-        }
     }
 
     const handleSwitchUser = async () => {
@@ -107,7 +106,7 @@ const App = () => {
           <Account user={user} token={token} />
         </Route>
         <Route exact path="/products">
-          <Products user={user} products={products} setProducts={setProducts} user={user} cart={cart} setCart={setCart}/>
+          <Products setOrders={setOrders} token={token} user={user} products={products} setProducts={setProducts} user={user} cart={cart} setCart={setCart}/>
         </Route>
         <Route exact path="/products/:productId">
           <SingleProduct user={user}/>
