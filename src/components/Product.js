@@ -40,33 +40,20 @@ const Product = (props) => {
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [inStock, setInStock] = useState(false);
-  const [imageURL, setImageURL] = useState(null);
+  const [imageURL, setImageURL] = useState("");
   const [category, setCategory] = useState("");
 
-  console.log('user', user)
-  console.log('user.isAdmin', user.isAdmin)
-  // const userAdmin = user.map(({isAdmin, id}) => {
-  //   console.log('isAdmin', id)
-
-  //     // return userAdmin
-
-  //   })
-
   const handleAddToOrder = async ({ id, price, quantity }) => {
-    // console.log('add to order clicked')
     const currentOrder = await getCartByUser();
-    console.log("existingOrder", currentOrder);
     const productId = id;
     //     For each product NOT in cart
     //  Create add-to-cart button
     //  Up to you if you want this to increment previously-existing product quantity.
-    console.log("222", productId, price, quantity);
 
     // const product = products.map((product) => {
     //   // console.log('products all', product)
     //   return product
     // })
-    // console.log('products all3', product)
 
     // const ordersProducts = orders.map(({products, id, userId, datePlaced, status}) => {
     //   return products
@@ -74,28 +61,23 @@ const Product = (props) => {
     // })
 
     // const orderProductId = ordersProducts.map(({id, name}) => {
-    //   console.log('55555', ordersProducts)
     //   return id
     // })
 
     try {
       if (currentOrder) {
-        console.log("add to order clicked");
         const { data } = await addProductToOrder({
           // orderId,
           productId,
           price,
           quantity,
         });
-        console.log("data in prouduct comp add to order", data);
 
         // create order
         //add product to the order
       } else {
-        console.log("!!!!!");
         // create order
         const newOrder = await createOrder();
-        console.log("data in prouduct comp add to order", newOrder);
         //add product to the order
         const { data } = await addProductToOrder({
           // orderId,
@@ -103,7 +85,6 @@ const Product = (props) => {
           price,
           quantity,
         });
-        console.log("data in prouduct comp add to order", data);
       }
     } catch (error) {
       console.error(error);
@@ -112,18 +93,17 @@ const Product = (props) => {
 
   const handleRemoveFromOrder = async (productId) => {
     try {
-      console.log("remove order clicked");
 
       const data = await removeProductFromOrder(productId);
-      console.log("remove prod in product comp", data);
     } catch (error) {
       console.error(error);
     }
   };
 
   const handleSubmit = async (event) => {
+    event.preventDefault();
     try {
-      event.preventDefault();
+
       const data = await createProduct({
         name,
         description,
@@ -131,8 +111,8 @@ const Product = (props) => {
         inStock,
         imageURL,
         category,
+        token
       });
-      console.log("show me something!");
       if (data) {
         setName("");
         setDescription("");
@@ -147,17 +127,14 @@ const Product = (props) => {
   };
 
   const handleProductsDelete = async (id) => {
-    console.log("id", id);
-    console.log("clicked");
+
     try {
-      console.log("token", token);
       const data = await deleteProduct(id, token);
       // if (data) {
       //   const deletedProduct = products.filter(
       //     (product) => data.id !== product.id
       //   );
-      //   console.log("data", data);
-      //   console.log("deletedProduct", deletedProduct);
+
       //   setProducts(deletedProduct);
       // }
     } catch (error) {
@@ -190,10 +167,14 @@ const Product = (props) => {
 
   return (
     <>
+
       <div>
+        {user.isAdmin &&
         <Form.Group
           style={{ marginTop: "5rem", marginLeft: "35%", marginRight: "35%" }}
         >
+           <h5>Welcome Admin: {user.username} </h5>
+           <p>Ready to create a new product?</p>
           <h4 style={{ paddingLeft: "1rem" }}>Product Name</h4>
           <Form.Control
             value={name}
@@ -217,7 +198,7 @@ const Product = (props) => {
           <h4 style={{ paddingLeft: "1rem" }}>Price</h4>
           <Form.Control
             value={price}
-            type="integer"
+            type="number"
             placeholder=""
             onChange={(event) => {
               setPrice(event.target.value);
@@ -265,6 +246,7 @@ const Product = (props) => {
             Create Product
           </Button>
         </Form.Group>
+}
       </div>
       <div className="bodyWrapper flexWrapper">
         {products &&
@@ -323,7 +305,6 @@ const Product = (props) => {
                       style={{}}
                       className="btn btn-danger"
                       onClick={(event) => {
-                        console.log("id", id);
                         event.preventDefault();
                         handleProductsDelete(id);
                       }}

@@ -149,23 +149,18 @@ export async function createProduct({
   category,
   token,
 }) {
-  const bearer = {
-    headers: { Authorization: `Bearer ${token}` },
-  };
-
-  const body = {
-    name,
-    description,
-    price,
-    imageURL,
-    inStock,
-    category,
-  };
+  console.log('create Product params in api', name, description, price, inStock, imageURL, category, token)
 
   try {
-    const { data } = await axios.post(`${BASE_URL}/products`, body, bearer);
-    console.log("create new product data:", data);
+    const { data } = await axios.post(`${BASE_URL}/products`, {
+      name, description, price, inStock, imageURL, category
+    }, {headers: {
+      'Authorization': `Bearer ${token}`
+    }})
+
+    console.log("create new product data in api", data);
     return data;
+
   } catch (error) {
     throw error;
   }
