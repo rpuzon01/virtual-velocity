@@ -93,9 +93,7 @@ export async function getAllOrders() {
 export async function addProductToOrder({ orderId, productId, price, quantity }) {
 
   try {
-    // /  post
-    const { data } = await axios.post(`${BASE_URL}/orders/:orderId/products`, {
-      orderId,
+    const { data } = await axios.post(`${BASE_URL}/orders/${orderId}/products`, {
       productId,
       price,
       quantity

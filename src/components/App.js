@@ -63,9 +63,22 @@ const App = () => {
         }
     }
 
+    const handleSwitchUser = async () => {
+        const fetchOrders = await getOrdersByUserId(user.id, token);  
+        setOrders(fetchOrders);
+        const fetchCart = await getCartByUser(token);
+        setCart(fetchCart);
+    }
+
     useEffect(() => {
         handleInitialLoad();
     }, []);
+
+    useEffect(() => {
+        if (token) {
+        handleSwitchUser();
+        }
+    }, [token]);
 
   return (
       <div className="App">
@@ -92,10 +105,10 @@ const App = () => {
           <Account user={user} token={token} />
         </Route>
         <Route exact path="/products">
-          <Products products={products} setProducts={setProducts} user={user} cart={cart} />
+          <Products user={user} products={products} setProducts={setProducts} user={user} cart={cart} setCart={setCart}/>
         </Route>
         <Route exact path="/products/:productId">
-          <SingleProduct />
+          <SingleProduct user={user}/>
         </Route>
         <Route exact path="/orders/:orderId">
           <SingleOrder

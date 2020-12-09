@@ -6,6 +6,7 @@ import { getProductById } from "../api";
 import "./index.css";
 
 const SingleProduct = (props) => {
+    const {cart, setCart, user} = props;
     const [product, setProduct] = useState({});
     const { productId } = useParams();
 
@@ -17,6 +18,16 @@ const SingleProduct = (props) => {
             setProduct(props.product);
         }
     };
+
+    const handleAddToCart = async () => {
+        // grab the product of the card
+        // place it into the product array of the cart
+        const newCart = {
+            ...cart, 
+            products: [...cart.products, product]
+        };
+        setCart(newCart);
+    }
 
     useEffect(() => {
         handleInitialLoad();
@@ -33,8 +44,10 @@ const SingleProduct = (props) => {
           <Card.Text>{product.price}</Card.Text>
           <Card.Text>{product.category}</Card.Text>
           <Card.Text>{product.inStock}</Card.Text>
-          <Button variant="primary">Go somewhere</Button>
         </Card.Body>
+        {(Object.keys(user).length > 0) && <Button 
+            className="btn btn-primary"
+            onClick={handleAddToCart}>Add to cart</Button>}
       </Card>
       </div>
    </> );

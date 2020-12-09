@@ -1,141 +1,43 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import "./Products.css";
 import "./index.css";
 import {addProductToOrder, removeProductFromOrder, getCartByUser, createOrder} from "../api"
 import { BrowserRouter as Router,
-  useParams,
-  Link,
-  Route,
+    useParams,
+    Link,
+    Route,
 
 } from "react-router-dom";
 import {getProducts} from '../api'
 import { SingleProduct } from './'
 
 const Products = (props) => {
-  const { product, products, orders, setOrders, setProducts, user } = props;
-  const { productId } = useParams();
+    const { 
+        products, 
+        orders, 
+        setOrders, 
+        setProducts, 
+        cart, 
+        setCart,
+        user
+    } = props;
+    const { productId } = useParams();
 
-  const handleAddToOrder = async ({id, price, quantity}) => {
-    // console.log('add to order clicked')
-    const currentOrder = await getCartByUser()
-    console.log('existingOrder', currentOrder)
-    const productId = id
-//     For each product NOT in cart
-//  Create add-to-cart button
-//  Up to you if you want this to increment previously-existing product quantity.
-console.log('222', productId, price, quantity)
-
-// const product = products.map((product) => {
-//   // console.log('products all', product)
-//   return product
-// })
-// console.log('products all3', product)
-
-// const ordersProducts = orders.map(({products, id, userId, datePlaced, status}) => {
-//   return products
-
-// })
-
-// const orderProductId = ordersProducts.map(({id, name}) => {
-//   console.log('55555', ordersProducts)
-//   return id
-// })
-
-    try {
-      if(currentOrder) {
-        console.log('add to order clicked')
-        const {data} = await addProductToOrder({
-          // orderId,
-          productId,
-          price,
-          quantity})
-          console.log('data in prouduct comp add to order', data)
-
-        // create order
-        //add product to the order
-      } else {
-        console.log('!!!!!')
-                // create order
-         const newOrder = await createOrder()
-         console.log('data in prouduct comp add to order', newOrder)
-        //add product to the order
-        const {data} = await addProductToOrder({
-          // orderId,
-          productId,
-          price,
-          quantity})
-        console.log('data in prouduct comp add to order', data)
-
-      }
-
-
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  const handleRemoveFromOrder = async (productId) => {
-    try {
-        console.log('remove order clicked')
-
-        const data = await removeProductFromOrder(productId)
-        console.log('remove prod in product comp', data)
-
-    } catch (error) {
-      throw error
-    }
-  }
-
-
-  return (
-    <>
-    <div className="bodyWrapper flexWrapper">
-      {products && products.map((product)=> {
-          return <SingleProduct product={product} />
-      })}
-      { products && products.map(({category, description, id, imageURL, quantity, inStock, name, price}) => 
-        <Card key={id} style={{ width: "18rem" }}>
-        <Card.Img variant="top" src={imageURL} />
-        <Card.Body>
-          <Card.Title>{name}</Card.Title>
-          <Card.Text>{description}</Card.Text>
-          <Card.Text>{price}</Card.Text>
-          <Card.Text>{category}</Card.Text>
-          <Card.Text>{inStock}</Card.Text>
-          <Link className="btn btn-primary " to={`/products/${id}`}>View Product2</Link>
-
-          <Button className="btn btn-primary" onClick={ (event) => {
-            event.preventDefault()
-            handleAddToOrder({id, price, quantity })
-          }
-
-          }
-          > Add to Cart </Button>
-          <Button className="btn btn-danger" onClick={
-            (event) => {
-              event.preventDefault()
-                    // if not in cart
-      // if order.product.id !== product.id
-      //display button
-              handleRemoveFromOrder(id)
-            }
-          }
-          > - </Button>
-
-        </Card.Body>
-      </Card>
-      )}
-      </div>
-    </>
-  );
+    return (
+        <div className="bodyWrapper flexWrapper">
+        {products && products.map((product)=> {
+            return (
+                <React.Fragment key={product.id}>
+                    <SingleProduct product={product} cart={cart} setCart={setCart} user={user}/>
+                </ React.Fragment>
+            );
+        })}
+        </div>
+    );
 };
 
 
-const testFunc = () => {
-
-
-}
 
 export default Products;
