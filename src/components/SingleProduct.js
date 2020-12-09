@@ -5,18 +5,22 @@ import Button from "react-bootstrap/Button";
 import { getProductById } from "../api";
 import "./index.css";
 
-const SingleProduct = () => {
+const SingleProduct = (props) => {
     const [product, setProduct] = useState({});
     const { productId } = useParams();
 
     const handleInitialLoad = async () => {
+        if(productId){
         const fetchProduct = await getProductById(productId);
         setProduct(fetchProduct);
+        } else {
+            setProduct(props.product);
+        }
     };
 
     useEffect(() => {
         handleInitialLoad();
-    }, [product])
+    }, [])
 
     return ( <>
     <div className="bodyWrapper">

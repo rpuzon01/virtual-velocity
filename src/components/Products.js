@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
-import "./Product.css";
+import "./Products.css";
 import "./index.css";
 import {addProductToOrder, removeProductFromOrder, getCartByUser, createOrder} from "../api"
 import { BrowserRouter as Router,
@@ -11,14 +11,11 @@ import { BrowserRouter as Router,
 
 } from "react-router-dom";
 import {getProducts} from '../api'
+import { SingleProduct } from './'
 
-const Product = (props) => {
+const Products = (props) => {
   const { product, products, orders, setOrders, setProducts, user } = props;
   const { productId } = useParams();
-  console.log('orders', orders)
-  console.log('order id', orders.id)
-  console.log('user', user)
-  console.log('products all1', products)
 
   const handleAddToOrder = async ({id, price, quantity}) => {
     // console.log('add to order clicked')
@@ -95,6 +92,9 @@ console.log('222', productId, price, quantity)
   return (
     <>
     <div className="bodyWrapper flexWrapper">
+      {products && products.map((product)=> {
+          return <SingleProduct product={product} />
+      })}
       { products && products.map(({category, description, id, imageURL, quantity, inStock, name, price}) => 
         <Card key={id} style={{ width: "18rem" }}>
         <Card.Img variant="top" src={imageURL} />
@@ -112,7 +112,7 @@ console.log('222', productId, price, quantity)
           }
 
           }
-          > + </Button>
+          > Add to Cart </Button>
           <Button className="btn btn-danger" onClick={
             (event) => {
               event.preventDefault()
@@ -138,4 +138,4 @@ const testFunc = () => {
 
 }
 
-export default Product;
+export default Products;

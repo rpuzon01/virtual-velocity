@@ -4,14 +4,8 @@ import { getOrdersByUserId } from '../api';
 import './SingleOrder.css'
 
 const SingleOrder = (props) => {
+    const { order } = props;
     const { orderId, } = useParams();
-    const [order, setOrder] = useState(props.order || {})
-
-    useEffect(() => {
-        if (orderId) {
-            //fetch for the specific order
-        }
-    }, []);
 
     return (
         <div className="single-order">

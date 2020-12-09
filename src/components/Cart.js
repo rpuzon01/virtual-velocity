@@ -7,7 +7,7 @@ import "./index.css";
 
 const Cart = (props) => {
   const {user, setUser, cart} = props
-  console.log('user in cart', user)
+    console.log('cart state in Cart component', cart);
 
   const handleCheckout = () => {
     try {
@@ -26,7 +26,7 @@ const Cart = (props) => {
     {/* <h5> Welcome {user.firstName} {user.lastName}</h5> */}
     <p> Ready to checkout? With our stripe integration you can checkout feeling secure.</p>
 
-      < SingleOrder order={cart}/>
+      < SingleOrder order={cart} />
 
     <div className="mb-3">
         <div className="pt-4">

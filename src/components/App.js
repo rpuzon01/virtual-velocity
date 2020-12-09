@@ -7,7 +7,7 @@ import {
 } from "../api";
 
 import {
-  Product,
+  Products,
   SingleProduct,
   Cart,
   NavBar,
@@ -41,22 +41,25 @@ const App = () => {
 
     //this handles all of  initial axios calls that occur initial load
     const handleInitialLoad = async () => {
-        const fetchProducts = await getProducts();
-        setProducts(fetchProducts);
-        if (getLocalToken()){
-            setToken(getLocalToken());
-            const userData = await getUser(getLocalToken());
-            setUser(userData);
-            if(userData.isAdmin){
-                // grab all orders
-            } else {
-                // grab all current users orders including the cart
-                const fetchOrders = await getOrdersByUserId(userData.id, getLocalToken());  
-                setOrders(fetchOrders);
-                const fetchCart = await getCartByUser(getLocalToken());
-                console.log('fetchcart', fetchCart);
-                setCart(fetchCart);
+        try {
+            const fetchProducts = await getProducts();
+            setProducts(fetchProducts);
+            if (getLocalToken()){
+                setToken(getLocalToken());
+                const userData = await getUser(getLocalToken());
+                setUser(userData);
+                if(userData.isAdmin){
+                    // grab all orders
+                } else {
+                    // grab all current users orders including the cart
+                    const fetchOrders = await getOrdersByUserId(userData.id, getLocalToken());  
+                    setOrders(fetchOrders);
+                    const fetchCart = await getCartByUser(getLocalToken());
+                    setCart(fetchCart);
+                }
             }
+        } catch (error) {
+            console.error(error);
         }
     }
 
@@ -71,7 +74,7 @@ const App = () => {
           <Home products={products} />
         </Route>
         <Route exact path="/cart">
-          <Cart user={user} />
+          <Cart user={user} cart={cart} />
         </Route>
         <Route exact path="/register">
           <Register
@@ -89,7 +92,7 @@ const App = () => {
           <Account user={user} token={token} />
         </Route>
         <Route exact path="/products">
-          < Product products={products} setProducts={setProducts} user={user} orders={orders} setOrders={setOrders} />
+          <Products products={products} setProducts={setProducts} user={user} cart={cart} />
         </Route>
         <Route exact path="/products/:productId">
           <SingleProduct />
