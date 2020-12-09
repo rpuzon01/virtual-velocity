@@ -4,7 +4,9 @@ const { requireUser, isAdmin } = require("./utils");
 const {
   getAllProducts,
   getProductById,
+  createProducts,
   updateProduct,
+  destroyProduct,
 } = require("../db/utils");
 
 router.get("/", async (req, res, next) => {
@@ -26,20 +28,20 @@ router.get("/:productId", async (req, res, next) => {
   }
 });
 
+router.post("/", isAdmin, async (req, res, next) => {
+  try {
+    const createdProduct = await createProducts({ ...req.body });
+    res.send(createdProduct);
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.patch("/:productId", isAdmin, async (req, res, next) => {
   const { productId } = req.params;
-  const { name, description, price, imageURL, inStock, category } = req.body;
 
   try {
-    const updatedProduct = await updateProduct({
-      id: productId,
-      name,
-      description,
-      price,
-      imageURL,
-      inStock,
-      category,
-    });
+    const updatedProduct = await updateProduct({ id: productId, ...req.body });
     console.log("updatedProduct", updatedProduct);
     res.send(updatedProduct);
   } catch (error) {
@@ -47,18 +49,15 @@ router.patch("/:productId", isAdmin, async (req, res, next) => {
   }
 });
 
-router.delete("/:productId"), isAdmin, async (req, res, next) => {
-// DELETE /products/:productId (*admin) Only admins can delete a product
-const { productId} = req.params;
+router.delete("/:productId", isAdmin, async (req, res, next) => {
+  const { productId } = req.params;
 
-try {
-  const products = await destroyProduct({ id })
-  res.send(products)
-
-} catch (error) {
-  next(error);
-}
-
-}
+  try {
+    const deletedProducts = await destroyProduct(productId);
+    res.send(deletedProducts);
+  } catch (error) {
+    next(error);
+  }
+});
 
 module.exports = router;

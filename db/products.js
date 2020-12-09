@@ -86,22 +86,28 @@ const updateProduct = async ({ id, ...fields }) => {
 
 const destroyProduct = async ({ id }) => {
   try {
-    const {
-      rows: [products],
-    } = await client.query(
+    const { rows: order_products } = await client.query(
       `
-    DELETE FROM order_products
-    USING products
-    WHERE products.id = order_products."productId"
-    AND products.id = $1;
-
-    DELETE FROM products
-    WHERE products.id = $1
-    RETURNING *;
-    `,
+			DELETE FROM order_products
+			WHERE "productId" = $1
+			AND "orderId" NOT IN
+			(SELECT orders.id FROM orders
+			JOIN order_products ON orders.id = order_products."orderId"
+			WHERE orders.status = 'complete'
+			and order_products."productId" = ${id})
+			RETURNING *;
+		  `,
       [id]
     );
-    return products;
+    console.log(order_products);
+    const { rows: order_products } = await client.query(
+      `
+		  	DELETE FROM products
+		  	WHERE id = $1
+			`,
+      [id]
+    );
+    return product;
   } catch (error) {
     throw error;
   }
