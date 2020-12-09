@@ -4,7 +4,7 @@ const { requireUser, isAdmin } = require("./utils");
 const {
   getAllProducts,
   getProductById,
-  createProducts,
+  createProduct,
   updateProduct,
   destroyProduct,
 } = require("../db/utils");
@@ -29,8 +29,9 @@ router.get("/:productId", async (req, res, next) => {
 });
 
 router.post("/", isAdmin, async (req, res, next) => {
+  const { name, description, price, inStock, imageURL, category } = req.body
   try {
-    const createdProduct = await createProducts({ ...req.body });
+    const createdProduct = await createProduct({ name, description, price, inStock, imageURL, category,});
     res.send(createdProduct);
   } catch (error) {
     next(error);
