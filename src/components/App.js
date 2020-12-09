@@ -34,7 +34,7 @@ const App = () => {
 
   const [products, setProducts] = useState([]);
   const [token, setToken] = useState("");
-  const [user, setUser] = useState();
+  const [user, setUser] = useState({});
   const [orders, setOrders] = useState([]);
   useEffect(() => {
     getProducts().then(setProducts);
