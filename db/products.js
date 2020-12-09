@@ -113,23 +113,6 @@ const destroyProduct = async ({ id }) => {
   }
 };
 
-// const {rows: order_products} = await client.query(`
-// 			DELETE FROM order_products
-// 			WHERE "productId" = $1
-// 			AND "orderId" NOT IN
-// 			(SELECT orders.id FROM orders
-// 			JOIN order_products ON orders.id = order_products."orderId"
-// 			WHERE orders.status = 'complete'
-// 			and order_products."productId" = ${id})
-// 			RETURNING *;
-// 		  `, [id]);
-// 			console.log(order_products)
-// 		  	const {rows: product} = await client.query(`
-// 		  	DELETE FROM products
-// 		  	WHERE id = $1
-// 			`, [id]);
-// return product;
-
 module.exports = {
   destroyProduct,
   getProductById,

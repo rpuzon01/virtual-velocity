@@ -1,5 +1,6 @@
 import axios from "axios";
-import { getLocalToken } from "../util";
+
+import { getLocalToken } from '../util'
 
 const BASE_URL = "/api";
 
@@ -25,23 +26,15 @@ export async function getProducts() {
 
 export async function login(username, password) {
   try {
-    const { data } = await axios.post(`${BASE_URL}/users/login`, {
-      username,
-      password,
-    });
+    const { data } = await axios.post(`${BASE_URL}/users/login`, { username, password });
     return data;
   } catch (error) {
     throw error;
   }
 }
 
-export async function register({
-  username,
-  password,
-  firstName,
-  lastName,
-  email,
-}) {
+
+export async function register({ username, password, firstName, lastName, email }) {
   try {
     const { data } = await axios.post(`${BASE_URL}/users/register`, {
       username,
@@ -51,7 +44,6 @@ export async function register({
       email,
     });
     // setMessage(data.message)
-
     console.log("data register from API", data);
     return data;
   } catch (error) {
@@ -63,10 +55,10 @@ export async function getUser(token) {
   try {
     const { data } = await axios.get(`${BASE_URL}/users/me`, {
       headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    console.log("userData from API", data);
+        'Authorization': `Bearer ${token}`
+      }
+    })
+    console.log("userData from API", data)
     return data;
   } catch (error) {
     throw error;
@@ -77,12 +69,20 @@ export async function getOrdersByUserId(userId, token) {
   try {
     const { data } = await axios.get(`${BASE_URL}/users/${userId}/orders`, {
       headers: {
-        Authorization: `Bearer ${token}`,
-      },
+        "Authorization": `Bearer ${token}`
+      }
     });
-    console.log("orders in api orders", data);
+    console.log("orders in api orders", data)
 
     return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getAllOrders() {
+  try {
+    const { data } = await axios.get(`${BASE_URL}/orders`);
   } catch (error) {
     throw error;
   }
@@ -229,3 +229,13 @@ export async function deleteProduct(id, token) {
     throw error;
   }
 }
+
+//  DELETE /order_products/:orderProductId (**)
+//  Remove a product from a order, use hard delete
+
+export const client = axios.create({
+  baseURL: BASE_URL,
+  headers: {
+    "Authorization": `Bearer ${getLocalToken()}`
+  }
+});
