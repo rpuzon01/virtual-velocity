@@ -6,7 +6,15 @@ import { getProductById } from "../api";
 import "./index.css";
 
 const SingleProduct = (props) => {
-    const {cart, setCart, user} = props;
+    const {
+        user, 
+        token, 
+        products, 
+        setProducts, 
+        cart, 
+        setCart, 
+        handleProductsDelete
+    } = props;
     const [product, setProduct] = useState({});
     const { productId } = useParams();
 
@@ -65,6 +73,15 @@ const SingleProduct = (props) => {
         {(Object.keys(user).length > 0) && <Button 
             className="btn btn-primary"
             onClick={handleAddToCart}>Add to cart</Button>}
+        {user.isAdmin &&
+        <Button
+            style={{}}
+            className="btn btn-danger"
+            onClick={(event) => {
+                handleProductsDelete(product.id);
+            }}>
+        Delete
+        </Button>}
       </Card>
       </div>
    </> );
