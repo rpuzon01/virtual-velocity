@@ -16,10 +16,13 @@ async function buildTables() {
     DROP TABLE IF EXISTS products;
     DROP TABLE IF EXISTS orders;
     DROP TABLE IF EXISTS users;
+    DROP TYPE IF EXISTS STATUS_ENUMS;
     `);
 
     console.log("Starting to build tables...");
     await client.query(`
+    CREATE TYPE STATUS_ENUMS AS ENUM('created', 'cancelled', 'completed', 'processing');
+
     CREATE TABLE users(
       id SERIAL PRIMARY KEY,
       "firstName" VARCHAR(255) NOT NULL,
@@ -32,7 +35,7 @@ async function buildTables() {
     );
     CREATE TABLE orders(
       id SERIAL PRIMARY KEY,
-      status VARCHAR(255) DEFAULT 'created',
+      status STATUS_ENUMS DEFAULT 'created',
       "userId" INTEGER REFERENCES users(id),
       "datePlaced" DATE DEFAULT CURRENT_DATE
     );
@@ -191,7 +194,7 @@ async function populateInitialData() {
         userId: 1,
       },
       {
-        status: "created",
+        status: "completed",
         userId: 1,
       },
     ];

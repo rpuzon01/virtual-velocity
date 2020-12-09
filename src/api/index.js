@@ -95,9 +95,7 @@ export async function addProductToOrder({
   quantity,
 }) {
   try {
-    // /  post
-    const { data } = await axios.post(`${BASE_URL}/orders/:orderId/products`, {
-      orderId,
+    const { data } = await axios.post(`${BASE_URL}/orders/${orderId}/products`, {
       productId,
       price,
       quantity,
@@ -121,10 +119,15 @@ export async function removeProductFromOrder(productId) {
   }
 }
 
-export async function getCartByUser() {
+export async function getCartByUser(token) {
   try {
-    const data = axios.get(`${BASE_URL}/users/cart`);
-    console.log("getcart in api", data);
+    const { data } = await axios.get(`${BASE_URL}/orders/cart`, {
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
+    })
+    console.log('getcart in api', data)
+      return data;
   } catch (error) {
     throw error;
   }
