@@ -1,10 +1,12 @@
 import React from "react";
 import "./Home.css";
 import "./index.css";
+import {Product} from "./"
 
 import { Link } from "react-router-dom";
 
 const Home = (props) => {
+
   return (
     <div className="bodyWrapper">
       <div className="hero-image">
