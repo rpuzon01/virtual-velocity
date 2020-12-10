@@ -231,3 +231,31 @@ export async function deleteProduct(id, token) {
     throw error;
   }
 }
+
+export async function completeOrder(id, token){
+    try {
+        const { data } = await axios.patch(`${BASE_URL}/${id}/complete`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        });
+        return data;
+
+    } catch (error) {
+        throw error;
+    }
+}
+
+export async function cancelOrder(id, token){
+    try {
+        const { data } = await axios.delete(`${BASE_URL}/${id}`,{
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        });
+
+         return data;
+    } catch (error) {
+        throw error;
+    }
+};
