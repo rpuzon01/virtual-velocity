@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { getOrdersByUserId } from '../api';
-import './SingleOrder.css'
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { getOrdersByUserId } from "../api";
+import "./SingleOrder.css";
 
 const SingleOrder = (props) => {
-    const { order } = props;
-    const { orderId, } = useParams();
+  const { order } = props;
+  const { orderId } = useParams();
 
     return (
         order &&

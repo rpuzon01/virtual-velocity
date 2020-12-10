@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { SingleOrder } from "./"
+import React from "react";
+import { SingleOrder } from "./";
 import "./index.css";
 const Cart = (props) => {
     const {user, setUser, cart} = props
