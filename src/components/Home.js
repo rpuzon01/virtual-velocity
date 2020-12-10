@@ -1,6 +1,7 @@
 import React from 'react'
 import './Home.css'
 import "./index.css";
+import {Product} from "./"
 
 import {
   Link,
@@ -10,8 +11,10 @@ import {
 
 const Home = (props) => {
   // const {products} = props
+  // console.log(products.id)
 
-  return <div className="bodyWrapper">
+  return <>
+  <div className="bodyWrapper">
     <div className="hero-image">
   <div className="hero-text">
     <h1>Welcome to Virtual Traders</h1>
@@ -28,16 +31,19 @@ const Home = (props) => {
     <p>Select the card you want</p>
     <p>Add the card to your cart</p>
     <p>And checkout secured with Stripe</p>
+    {/* {
 
-{/* <Product /> */}
-<div>
-  {
+    products.slice(0, 3).map( <>
+     <Product key={products.id} products={products} />
+     </>
+    )
 
-  }
-</div>
+  } */}
+
 </div>
 
 </div>
+</>
 }
 
 export default Home;
