@@ -1,6 +1,6 @@
 const express = require("express");
 const orderProductsRouter = express.Router();
-const { requireUser, isAdmin } = require("./utils");
+const { requireUser } = require("./utils");
 const {
   getOrderById,
   getUserById,

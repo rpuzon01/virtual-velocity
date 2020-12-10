@@ -51,7 +51,6 @@ const CheckoutForm = ({ showStripe, setShowStripe }) => {
 
     const card = elements.getElement(CardElement);
     const result = await stripe.createToken(card);
-    console.log("result", result);
 
     if (result.error) {
       // Show error to your customer.
