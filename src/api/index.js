@@ -1,13 +1,12 @@
 import axios from "axios";
 
-import { getLocalToken } from '../util'
+import { getLocalToken } from "../util";
 
 const BASE_URL = "/api";
 
 export async function getProductById(id) {
   try {
     const { data } = await axios.get(`${BASE_URL}/products/${id}`);
-    // console.log("data from index API getProducts", data);
     return data;
   } catch (error) {
     throw error;
@@ -17,7 +16,6 @@ export async function getProductById(id) {
 export async function getProducts() {
   try {
     const { data } = await axios.get(`${BASE_URL}/products`);
-    // console.log("data from index API getProducts", data);
     return data;
   } catch (error) {
     throw error;
@@ -26,15 +24,23 @@ export async function getProducts() {
 
 export async function login(username, password) {
   try {
-    const { data } = await axios.post(`${BASE_URL}/users/login`, { username, password });
+    const { data } = await axios.post(`${BASE_URL}/users/login`, {
+      username,
+      password,
+    });
     return data;
   } catch (error) {
     throw error;
   }
 }
 
-
-export async function register({ username, password, firstName, lastName, email }) {
+export async function register({
+  username,
+  password,
+  firstName,
+  lastName,
+  email,
+}) {
   try {
     const { data } = await axios.post(`${BASE_URL}/users/register`, {
       username,
@@ -43,7 +49,6 @@ export async function register({ username, password, firstName, lastName, email 
       lastName,
       email,
     });
-    // setMessage(data.message)
     console.log("data register from API", data);
     return data;
   } catch (error) {
@@ -55,10 +60,9 @@ export async function getUser(token) {
   try {
     const { data } = await axios.get(`${BASE_URL}/users/me`, {
       headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    })
-    console.log("userData from API", data)
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return data;
   } catch (error) {
     throw error;
@@ -69,10 +73,9 @@ export async function getOrdersByUserId(userId, token) {
   try {
     const { data } = await axios.get(`${BASE_URL}/users/${userId}/orders`, {
       headers: {
-        "Authorization": `Bearer ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+      },
     });
-    console.log("orders in api orders", data)
 
     return data;
   } catch (error) {
@@ -83,6 +86,7 @@ export async function getOrdersByUserId(userId, token) {
 export async function getAllOrders() {
   try {
     const { data } = await axios.get(`${BASE_URL}/orders`);
+    return data;
   } catch (error) {
     throw error;
   }
@@ -95,11 +99,14 @@ export async function addProductToOrder({
   quantity,
 }) {
   try {
-    const { data } = await axios.post(`${BASE_URL}/orders/${orderId}/products`, {
-      productId,
-      price,
-      quantity,
-    });
+    const { data } = await axios.post(
+      `${BASE_URL}/orders/${orderId}/products`,
+      {
+        productId,
+        price,
+        quantity,
+      }
+    );
 
     return data;
   } catch (error) {
@@ -110,8 +117,6 @@ export async function addProductToOrder({
 export async function removeProductFromOrder(productId) {
   try {
     const data = axios.delete(`${BASE_URL}/order_products/${productId}`);
-    // const data = axios.delete(`${BASE_URL}/order_products/:orderProductId`)
-    console.log("remove prod in api", data);
 
     return data;
   } catch (error) {
@@ -123,11 +128,10 @@ export async function getCartByUser(token) {
   try {
     const { data } = await axios.get(`${BASE_URL}/orders/cart`, {
       headers: {
-        "Authorization": `Bearer ${token}`
-      }
-    })
-    console.log('getcart in api', data)
-      return data;
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return data;
   } catch (error) {
     throw error;
   }
@@ -136,7 +140,6 @@ export async function getCartByUser(token) {
 export async function createOrder() {
   try {
     const data = axios.get(`${BASE_URL}/orders`);
-    console.log("new order in api", data);
     return data;
   } catch (error) {
     throw error;
@@ -152,18 +155,25 @@ export async function createProduct({
   category,
   token,
 }) {
-  console.log('create Product params in api', name, description, price, inStock, imageURL, category, token)
-
   try {
-    const { data } = await axios.post(`${BASE_URL}/products`, {
-      name, description, price, inStock, imageURL, category
-    }, {headers: {
-      'Authorization': `Bearer ${token}`
-    }})
+    const { data } = await axios.post(
+      `${BASE_URL}/products`,
+      {
+        name,
+        description,
+        price,
+        inStock,
+        imageURL,
+        category,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
-    console.log("create new product data in api", data);
     return data;
-
   } catch (error) {
     throw error;
   }
@@ -213,19 +223,8 @@ export async function deleteProduct(id, token) {
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log("deleted product data", data);
     return data;
   } catch (error) {
     throw error;
   }
 }
-
-//  DELETE /order_products/:orderProductId (**)
-//  Remove a product from a order, use hard delete
-
-export const client = axios.create({
-  baseURL: BASE_URL,
-  headers: {
-    "Authorization": `Bearer ${getLocalToken()}`
-  }
-});

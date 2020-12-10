@@ -29,9 +29,16 @@ router.get("/:productId", async (req, res, next) => {
 });
 
 router.post("/", isAdmin, async (req, res, next) => {
-  const { name, description, price, inStock, imageURL, category } = req.body
+  const { name, description, price, inStock, imageURL, category } = req.body;
   try {
-    const createdProduct = await createProduct({ name, description, price, inStock, imageURL, category,});
+    const createdProduct = await createProduct({
+      name,
+      description,
+      price,
+      inStock,
+      imageURL,
+      category,
+    });
     res.send(createdProduct);
   } catch (error) {
     next(error);
@@ -43,7 +50,6 @@ router.patch("/:productId", isAdmin, async (req, res, next) => {
 
   try {
     const updatedProduct = await updateProduct({ id: productId, ...req.body });
-    console.log("updatedProduct", updatedProduct);
     res.send(updatedProduct);
   } catch (error) {
     next(error);

@@ -48,7 +48,6 @@ apiRouter.use("/products", require("./products"));
 apiRouter.use("/orders", require("./orders"));
 apiRouter.use("/order_products", require("./order_products"));
 apiRouter.use("/stripe", require("./stripe"));
-// apiRouter.use("/checkout", require("./checkout"));
 
 // 404 handler
 apiRouter.get("*", (req, res, next) => {
