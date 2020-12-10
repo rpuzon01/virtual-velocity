@@ -93,13 +93,19 @@ export async function addProductToOrder({
   productId,
   price,
   quantity,
-}) {
+}, token) {
   try {
-    const { data } = await axios.post(`${BASE_URL}/orders/${orderId}/products`, {
-      productId,
-      price,
-      quantity,
-    });
+      const { data } = await axios.post(`${BASE_URL}/orders/${orderId}/products`, {
+          productId,
+          price,
+          quantity,
+      }, 
+          {
+              headers: {
+                  'Authorization': `Bearer ${token}`
+              }
+          }
+      );
 
     return data;
   } catch (error) {

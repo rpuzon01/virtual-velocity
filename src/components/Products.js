@@ -188,6 +188,7 @@ const Products = (props) => {
             return (
                 <React.Fragment key={product.id}>
                     <SingleProduct 
+                        token={token}
                         handleProductsDelete={handleProductsDelete}
                         products={products} 
                         setProducts={setProducts} 
