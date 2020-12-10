@@ -88,7 +88,7 @@ const App = () => {
           <Home products={products} />
         </Route>
         <Route exact path="/cart">
-          <Cart user={user} cart={cart} />
+          <Cart setCart={setCart} user={user} cart={cart} token={token} />
         </Route>
         <Route exact path="/register">
           <Register

@@ -7,7 +7,7 @@ import "./index.css";
 
 
 const SingleProduct = (props) => {
-  const { user, cart, setCart, handleProductsDelete } = props;
+  const { token, user, cart, setCart, handleProductsDelete } = props;
   const [product, setProduct] = useState({});
   const { productId } = useParams();
 
@@ -48,6 +48,7 @@ const SingleProduct = (props) => {
                 return;
             }
         })
+        const newProducts = [...cart.products]
         const newCart = {
           ...cart,
           products: newProducts,

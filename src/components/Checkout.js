@@ -2,7 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import { Account, SingleOrder, Cart } from "./";
-import { getOrdersByUserId } from "../api";
+import { 
+    getOrdersByUserId,
+    cancelOrder,
+    completeOrder
+} from "../api";
 
 const Checkout = (props) => {
   const { user, setUser, token, setToken } = props;
