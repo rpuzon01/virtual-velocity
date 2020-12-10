@@ -1,48 +1,35 @@
 import React from "react";
 import { SingleOrder } from "./";
 import "./index.css";
-
 const Cart = (props) => {
-  const { user, setUser, cart } = props;
+    const {user, setUser, cart} = props
+    console.log('cart state in Cart component', cart);
 
-  const handleCheckout = () => {
-    try {
-      console.log("link to stripe or authorization HERE");
-    } catch (error) {
-      throw error;
+    const handleCheckout = async () => {
+        try {
+             
+        } catch (error) {
+            throw error;
+        }
     }
-  };
 
-  return (
-    <>
-      <div style={{ marginLeft: "2rem" }} className="bodyWrapper">
-        <h1> Shopping Cart </h1>
-        <p>
-          {" "}
-          Ready to checkout? With our stripe integration you can checkout
-          feeling secure.
-        </p>
+    const handleCancel = async () => {
+        try {
+        } catch (error) {
+            console.error(error);
+        }
+    }
 
-        <SingleOrder order={cart} />
-
-        <div className="mb-3">
-          <div className="pt-4">
-            <button
-              style={{ width: "10rem" }}
-              type="button"
-              className="btn btn-primary btn-block"
-              onClick={(event) => {
-                event.preventDefault();
-                handleCheckout();
-              }}
-            >
-              Check Out
-            </button>
-          </div>
+    return ( 
+        <div className="bodyWrapper">
+            <h1> Shopping Cart </h1>
+            < SingleOrder order={cart} />
+            <button type="button" className="btn btn-primary btn-block" onClick={() => {
+                handleCheckout()
+            }}>Confirm and Checkout</button>
+            <button className="btn btn-danger btn-block">Cancel Order</button>
         </div>
-      </div>
-    </>
-  );
-};
+        )
+}
 
 export default Cart;

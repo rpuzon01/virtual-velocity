@@ -145,17 +145,17 @@ const Products = (props) => {
         {products &&
           products.map((product) => {
             return (
-              <React.Fragment key={product.id}>
-                <SingleProduct
-                  handleProductsDelete={handleProductsDelete}
-                  products={products}
-                  setProducts={setProducts}
-                  product={product}
-                  cart={cart}
-                  setCart={setCart}
-                  user={user}
-                />
-              </React.Fragment>
+                <React.Fragment key={product.id}>
+                    <SingleProduct 
+                        token={token}
+                        handleProductsDelete={handleProductsDelete}
+                        products={products} 
+                        setProducts={setProducts} 
+                        product={product} 
+                        cart={cart} 
+                        setCart={setCart} 
+                        user={user}/>
+                </ React.Fragment>
             );
           })}
       </div>

@@ -2,49 +2,65 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
-import { getProductById } from "../api";
+import { getProductById, addProductToOrder } from "../api";
 import "./index.css";
+
 
 const SingleProduct = (props) => {
   const { user, cart, setCart, handleProductsDelete } = props;
   const [product, setProduct] = useState({});
   const { productId } = useParams();
 
-  const handleInitialLoad = async () => {
-    if (productId) {
-      const fetchProduct = await getProductById(productId);
-      setProduct(fetchProduct);
-    } else {
-      setProduct(props.product);
-    }
-  };
+    const handleInitialLoad = async () => {
+        if(productId){
+        const fetchProduct = await getProductById(productId);
+        setProduct(fetchProduct);
+        } else {
+            setProduct(props.product);
+        }
+    };
 
-  const handleAddToCart = async () => {
-    // grab the product of the card
-    // place it into the product array of the cart
-    cart.products.forEach((cartItem, index) => {
-      if (cartItem.name === product.name) {
-        const productToAdd = {
-          ...product,
-          quantity: cartItem.quantity + 1,
-        };
-        const newProducts = [...cart.products];
-        newProducts.splice(index, 1, productToAdd);
+    const handleAddToCart = async () => {
+        // grab the product of the card
+        // place it into the product array of the cart
+        cart.products.forEach(async (cartItem, index) => {
+            if(cartItem.name === product.name){
+                const productToAdd = {
+                    ...product, 
+                    quantity: cartItem.quantity + 1
+                }
+                console.log(productToAdd);
+                await addProductToOrder({
+                    orderId: cart.id, 
+                    productId: product.id,
+                    price: product.price,
+                    quantity: cartItem.quantity + 1
+                }, token);
+                const newProducts = [...cart.products]
+                newProducts.splice(index, 1, productToAdd);
+                console.log(newProducts);
+                const newCart = {
+                    ...cart,
+                    products: newProducts
+                }
+                console.log(newCart);
+                setCart(newCart);
+                return;
+            }
+        })
         const newCart = {
           ...cart,
           products: newProducts,
         };
         setCart(newCart);
-        return;
-      }
-    });
+        await addProductToOrder({
+            orderId: cart.id, 
+            productId: product.id,
+            price: product.price,
+            quantity: 1
+        }, token);
+    }
 
-    const newCart = {
-      ...cart,
-      products: [...cart.products, product],
-    };
-    setCart(newCart);
-  };
 
   useEffect(() => {
     handleInitialLoad();
@@ -104,6 +120,6 @@ const SingleProduct = (props) => {
       </div>
     </>
   );
-};
+}
 
 export default SingleProduct;
