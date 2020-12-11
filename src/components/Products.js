@@ -62,13 +62,11 @@ const Products = (props) => {
       }).then((willDelete) => {
         if (willDelete) {
           // handleProductsDelete();
-          const data = deleteProduct(id, token);
-          if (data) {
-            // const newProducts;
-            // console.log("products:", products);
-            // console.log("newProducts:", newProducts);
-            setProducts(products.filter((product) => data.id !== product.id));
-          }
+          deleteProduct(id, token);
+          // const newProducts;
+          // console.log("products:", products);
+          // console.log("newProducts:", newProducts);
+          setProducts(products.filter((product) => id !== product.id));
           swal("Your product has been deleted!", {
             icon: "success",
           });
@@ -166,18 +164,17 @@ const Products = (props) => {
         {products &&
           products.map((product) => {
             return (
-              <React.Fragment key={product.id}>
-                <SingleProduct
-                  handleConfirmDelete={handleProductsDelete}
-                  handleProductsDelete={handleProductsDelete}
-                  products={products}
-                  setProducts={setProducts}
-                  product={product}
-                  cart={cart}
-                  setCart={setCart}
-                  user={user}
-                />
-              </React.Fragment>
+              <SingleProduct
+                key={product.id}
+                token={token}
+                handleProductsDelete={handleProductsDelete}
+                products={products}
+                setProducts={setProducts}
+                product={product}
+                cart={cart}
+                setCart={setCart}
+                user={user}
+              />
             );
           })}
       </div>

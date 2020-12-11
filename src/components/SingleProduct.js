@@ -2,18 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
-import { getProductById } from "../api";
-
+import { getProductById, addProductToOrder } from "../api";
 import "./index.css";
 
 const SingleProduct = (props) => {
-  const {
-    user,
-    cart,
-    setCart,
-    handleProductsDelete,
-    handleConfirmDelete,
-  } = props;
+  const { token, user, cart, setCart, handleProductsDelete } = props;
   const [product, setProduct] = useState({});
   const { productId } = useParams();
 
@@ -29,28 +22,49 @@ const SingleProduct = (props) => {
   const handleAddToCart = async () => {
     // grab the product of the card
     // place it into the product array of the cart
-    cart.products.forEach((cartItem, index) => {
+    cart.products.forEach(async (cartItem, index) => {
       if (cartItem.name === product.name) {
         const productToAdd = {
           ...product,
           quantity: cartItem.quantity + 1,
         };
+        console.log(productToAdd);
+        await addProductToOrder(
+          {
+            orderId: cart.id,
+            productId: product.id,
+            price: product.price,
+            quantity: cartItem.quantity + 1,
+          },
+          token
+        );
         const newProducts = [...cart.products];
         newProducts.splice(index, 1, productToAdd);
+        console.log(newProducts);
         const newCart = {
           ...cart,
           products: newProducts,
         };
+        console.log(newCart);
         setCart(newCart);
         return;
       }
     });
-
+    const newProducts = [...cart.products];
     const newCart = {
       ...cart,
-      products: [...cart.products, product],
+      products: newProducts,
     };
     setCart(newCart);
+    await addProductToOrder(
+      {
+        orderId: cart.id,
+        productId: product.id,
+        price: product.price,
+        quantity: 1,
+      },
+      token
+    );
   };
 
   useEffect(() => {
