@@ -11,16 +11,16 @@ const NavBar = (props) => {
     <Navbar className="navbar fixed-top" bg="dark" variant="dark">
       <Navbar.Brand href="/">Virtual Velocity</Navbar.Brand>
       <Nav className="mr-auto">
-        <Link
+        <a
           style={{
             marginRight: "1rem",
             textDecoration: "none",
             color: "white",
           }}
-          to="/"
+          href="/#homeTop"
         >
           Home
-        </Link>
+        </a>
         <Link
           style={{
             marginRight: "1rem",
@@ -41,6 +41,16 @@ const NavBar = (props) => {
         >
           Cart
         </Link>
+        <a
+          style={{
+            marginRight: "1rem",
+            textDecoration: "none",
+            color: "white",
+          }}
+          href="/#contactTop"
+        >
+          Contact
+        </a>
         {token && (
           <Link
             style={{
