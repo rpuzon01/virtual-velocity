@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react";
 
-import { getProducts, getUser, getOrdersByUserId, getCartByUser } from "../api";
+import {
+    getProducts,
+    getUser,
+    getOrdersByUserId,
+    getCartByUser,
+} from "../api";
 
 import {
   Products,
@@ -60,12 +65,12 @@ const App = () => {
     }
   };
 
-  const handleSwitchUser = async () => {
-    const fetchOrders = await getOrdersByUserId(user.id, token);
-    setOrders(fetchOrders);
-    const fetchCart = await getCartByUser(token);
-    setCart(fetchCart);
-  };
+    const handleSwitchUser = async () => {
+        const fetchOrders = await getOrdersByUserId(user.id, token);
+        setOrders(fetchOrders);
+        const fetchCart = await getCartByUser(token);
+        setCart(fetchCart);
+    }
 
   useEffect(() => {
     handleInitialLoad();
@@ -78,71 +83,56 @@ const App = () => {
   }, [token]);
 
   return (
-    <div className="App">
-      <NavBar
-        setOrders={setOrders}
-        setCart={setCart}
-        token={token}
-        setToken={setToken}
-        setUser={setUser}
-      />
-      <Route exact path="/">
-        <Home products={products} />
-      </Route>
-      <Route exact path="/cart">
-        <Cart setCart={setCart} user={user} cart={cart} token={token} />
-      </Route>
-      <Route exact path="/register">
-        <Register
-          token={token}
-          setToken={setToken}
-          user={user}
-          setUser={setUser}
-        />
-      </Route>
-      <Route exact path="/cart/checkout">
-        <Account user={user} token={token} isInCheckout />
-        <Checkout user={user} token={token} />
-      </Route>
-      <Route exact path="/account">
-        <Account user={user} token={token} />
-      </Route>
-      <Route exact path="/products">
-        <Products
-          setOrders={setOrders}
-          token={token}
-          user={user}
-          products={products}
-          setProducts={setProducts}
-          user={user}
-          cart={cart}
-          setCart={setCart}
-        />
-      </Route>
-      <Route exact path="/products/:productId">
-        <SingleProduct user={user} />
-      </Route>
-      <Route exact path="/orders/:orderId">
-        <SingleOrder
-          user={user}
-          orders={orders}
-          setOrders={setOrders}
-          products={products}
-          token={token}
-        />
-      </Route>
-      <Route exact path="/stripe">
-        <Elements stripe={stripePromise}>
-          {showStripe === true ? (
-            <CheckoutForm
-              showStripe={showStripe}
-              setShowStripe={setShowStripe}
-            />
-          ) : null}
-        </Elements>
-      </Route>
-      <Footer />
-    </div>
+      <div className="App">
+        <NavBar setOrders={setOrders} setCart={setCart} token={token} setToken={setToken} setUser={setUser} />
+        <Route exact path="/">
+          <Home products={products} setOrders={setOrders} token={token} user={user} setProducts={setProducts} user={user} cart={cart} setCart={setCart} />
+        </Route>
+        <Route exact path="/cart">
+          <Cart setCart={setCart} user={user} cart={cart} token={token} />
+        </Route>
+        <Route exact path="/register">
+          <Register
+            token={token}
+            setToken={setToken}
+            user={user}
+            setUser={setUser}
+          />
+        </Route>
+        <Route exact path="/cart/checkout">
+          <Account user={user} token={token} isInCheckout />
+          <Checkout user={user} token={token} />
+        </Route>
+        <Route exact path="/account">
+          <Account user={user} token={token} />
+        </Route>
+        <Route exact path="/products">
+          <Products setOrders={setOrders} token={token} user={user} products={products} setProducts={setProducts} user={user} cart={cart} setCart={setCart}/>
+        </Route>
+        <Route exact path="/products/:productId">
+          <SingleProduct user={user}/>
+        </Route>
+        <Route exact path="/orders/:orderId">
+          <SingleOrder
+            user={user}
+            orders={orders}
+            setOrders={setOrders}
+            products={products}
+            token={token}
+          />
+        </Route>
+        <Route exact path="/stripe">
+          <Elements stripe={stripePromise}>
+            {showStripe === true ? (
+              <CheckoutForm
+                showStripe={showStripe}
+                setShowStripe={setShowStripe}
+              />
+            ) : null}
+          </Elements>
+        </Route>
+        <Footer />
+      </div>
   );
 };
 
