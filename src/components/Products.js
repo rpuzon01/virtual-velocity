@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
+
+import swal from "sweetalert";
+
 import "./index.css";
 
 import { BrowserRouter as Router, useParams } from "react-router-dom";
@@ -23,14 +26,17 @@ const Products = (props) => {
   const handleSubmit = async (event) => {
     try {
       event.preventDefault();
-      const data = await createProduct({
-        name,
-        description,
-        price,
-        inStock,
-        imageURL,
-        category,
-      });
+      const data = await createProduct(
+        {
+          name,
+          description,
+          price,
+          inStock,
+          imageURL,
+          category,
+        },
+        token
+      );
       if (data) {
         setName("");
         setDescription("");
@@ -40,16 +46,37 @@ const Products = (props) => {
         setCategory("");
         const newProducts = [...products, data];
         setProducts(newProducts);
+        swal("Creating your product!", "success");
       }
     } catch (error) {
       console.error(error);
     }
   };
 
+  // Swal message for delete works? state issue
   const handleProductsDelete = async (id) => {
     try {
-        await deleteProduct(id, token);
-        setProducts(products.filter((product) => id !== product.id));
+      swal({
+        title: "Are you sure?",
+        text: "Once deleted, you will not be able to recover this product!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      }).then((willDelete) => {
+        if (willDelete) {
+          // handleProductsDelete();
+          deleteProduct(id, token);
+          // const newProducts;
+          // console.log("products:", products);
+          // console.log("newProducts:", newProducts);
+          setProducts(products.filter((product) => id !== product.id));
+          swal("Your product has been deleted!", {
+            icon: "success",
+          });
+        } else {
+          swal("Your imaginary file is safe!");
+        }
+      });
     } catch (error) {
       console.error(error);
     }
@@ -84,7 +111,7 @@ const Products = (props) => {
           <h4 style={{ paddingLeft: "1rem" }}>Price</h4>
           <Form.Control
             value={price}
-            type="integer"
+            type="number"
             placeholder=""
             onChange={(event) => {
               setPrice(event.target.value);
@@ -140,16 +167,17 @@ const Products = (props) => {
         {products &&
           products.map((product) => {
             return (
-                    <SingleProduct 
-                        key={product.id}
-                        token={token}
-                        handleProductsDelete={handleProductsDelete}
-                        products={products} 
-                        setProducts={setProducts} 
-                        product={product} 
-                        cart={cart} 
-                        setCart={setCart} 
-                        user={user}/>
+              <SingleProduct
+                key={product.id}
+                token={token}
+                handleProductsDelete={handleProductsDelete}
+                products={products}
+                setProducts={setProducts}
+                product={product}
+                cart={cart}
+                setCart={setCart}
+                user={user}
+              />
             );
           })}
       </div>
