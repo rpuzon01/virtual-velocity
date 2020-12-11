@@ -83,9 +83,15 @@ export async function getOrdersByUserId(userId, token) {
   }
 }
 
-export async function getAllOrders() {
+export async function getAllOrders(token) {
   try {
-    const { data } = await axios.get(`${BASE_URL}/orders`);
+    const { data } = await axios.get(`${BASE_URL}/orders`,
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        }
+    );
     return data;
   } catch (error) {
     throw error;
@@ -117,6 +123,9 @@ export async function addProductToOrder({
   }
 }
 
+export async function removeProductToOrder(){
+};
+
 export async function removeProductFromOrder(productId) {
   try {
     const data = axios.delete(`${BASE_URL}/order_products/${productId}`);
@@ -140,9 +149,13 @@ export async function getCartByUser(token) {
   }
 }
 
-export async function createOrder() {
+export async function createOrder(token) {
   try {
-    const data = axios.get(`${BASE_URL}/orders`);
+    const data = axios.post(`${BASE_URL}/orders`,{
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return data;
   } catch (error) {
     throw error;

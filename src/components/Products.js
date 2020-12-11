@@ -20,8 +20,6 @@ const Products = (props) => {
   const [imageURL, setImageURL] = useState("");
   const [category, setCategory] = useState("");
 
-    console.log(products);
-
   const handleSubmit = async (event) => {
     try {
       event.preventDefault();
@@ -50,8 +48,7 @@ const Products = (props) => {
 
   const handleProductsDelete = async (id) => {
     try {
-      await deleteProduct(id, token);
-        console.log("products:", products);
+        await deleteProduct(id, token);
         setProducts(products.filter((product) => id !== product.id));
     } catch (error) {
       console.error(error);

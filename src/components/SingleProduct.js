@@ -29,29 +29,26 @@ const SingleProduct = (props) => {
                     ...product, 
                     quantity: cartItem.quantity + 1
                 }
-                console.log(productToAdd);
                 await addProductToOrder({
                     orderId: cart.id, 
                     productId: product.id,
                     price: product.price,
-                    quantity: cartItem.quantity + 1
+                    quantity: productToAdd.quantity
                 }, token);
                 const newProducts = [...cart.products]
                 newProducts.splice(index, 1, productToAdd);
-                console.log(newProducts);
                 const newCart = {
                     ...cart,
                     products: newProducts
                 }
-                console.log(newCart);
                 setCart(newCart);
                 return;
             }
         })
-        const newProducts = [...cart.products]
+        const newProducts = [...cart.products, product]
         const newCart = {
           ...cart,
-          products: newProducts,
+          products: newProducts
         };
         setCart(newCart);
         await addProductToOrder({

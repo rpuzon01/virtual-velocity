@@ -5,6 +5,8 @@ import {
     getUser, 
     getOrdersByUserId,
     getCartByUser,
+    getAllOrders,
+    createOrder
 } from "../api";
 
 import {
@@ -40,8 +42,6 @@ const App = () => {
     const [orders, setOrders] = useState([]);
     const [cart, setCart] = useState({});
 
-    console.log(products);
-
     //this handles all of  initial axios calls that occur initial load
     const handleInitialLoad = async () => {
         try {
@@ -51,8 +51,11 @@ const App = () => {
                 setToken(getLocalToken());
                 const userData = await getUser(getLocalToken());
                 setUser(userData);
+                console.log(userData.isAdmin);
                 if(userData.isAdmin){
                     // grab all orders
+                    const fetchAllOrders = await getAllOrders(token);
+                    setOrders(fetchAllOrders);
                 } else {
                     // grab all current users orders including the cart
                     const fetchOrders = await getOrdersByUserId(userData.id, getLocalToken());  

@@ -37,7 +37,7 @@ async function addProductToOrder({ orderId, productId, price, quantity }) {
             const updatedOrderProduct = await updateOrderProduct({
                 id: orderProduct.id,
                 price,
-                quantity
+                quantity: orderProduct.quantity + 1
             });
             return updatedOrderProduct;
         } else {
