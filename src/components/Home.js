@@ -1,6 +1,7 @@
 import React from 'react'
 import './Home.css'
 import "./index.css";
+import { ImageSlider } from "./";
 import {SingleProduct, Products, Contact} from "./"
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
@@ -14,16 +15,23 @@ import {
 const Home = (props) => {
   const { token, user, cart, setCart, products, handleProductsDelete } = props;
 
-  return <>
-  <div className="bodyWrapper" id="homeTop">
-    <div className="hero-image">
-  <div className="hero-text">
-    <h1>Welcome to Virtual Traders</h1>
-    <p>Buy Trading Cards Online</p>
-    <Link className="btn btn-primary" to="/products">Start Trading</Link>
-  </div>
-
-</div>
+  return (
+    <div className="bodyWrapper">
+      <ImageSlider />
+      <div className="hero-text">
+        {" "}
+        <h1 style={{ color: "white" }}>
+          <b>Welcome to Virtual Traders</b>
+        </h1>
+        <p style={{ color: "white" }}>
+          <b>Buy Trading Cards Online</b>
+        </p>
+        <Link className="btn btn-primary" to="/products">
+          Start Trading
+        </Link>
+      </div>{" "}
+    
+    
 <div id="homeContent">
 <h2>Find hundreds of the most rare trading cards available</h2>
 <p>Virtual Traders specializes in the hard to find, extra special, trading cards and collectables.</p>
@@ -80,16 +88,8 @@ products && products.slice(0, 3).map(({category, price, name, id, imageURL, desc
           </Card.Text>
         </Card.Body>
       </Card>
-
-
-
   )
 })
-
-
-
-
-
 
 }
 </div >

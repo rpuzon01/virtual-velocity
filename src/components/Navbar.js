@@ -10,31 +10,58 @@ const NavBar = (props) => {
   return (
     <Navbar className="navbar fixed-top" bg="dark" variant="dark">
       <Navbar.Brand href="/">Virtual Velocity</Navbar.Brand>
-      <Nav
-        style={{
-          display: "flex",
-          justifyContent: "space-evenly",
-        }}
-        className="mr-auto"
-      >
-        {/* <Link style={{ marginRight: "1rem" }} to="/">
+      <Nav className="mr-auto">
+        <Link
+          style={{
+            marginRight: "1rem",
+            textDecoration: "none",
+            color: "white",
+          }}
+          to="/"
+        >
           Home
-        </Link> */}
-          <a style={{ marginRight: "1rem" }} href="/#homeTop">Home</a>
-        <Link style={{ marginRight: "1rem" }} to="/products">
+        </Link>
+        <Link
+          style={{
+            marginRight: "1rem",
+            textDecoration: "none",
+            color: "white",
+          }}
+          to="/products"
+        >
           Products
         </Link>
-        <a style={{ marginRight: "1rem" }} href="/#contactTop">Contact</a>
-        <Link style={{ marginRight: "1rem" }} to="/cart">
+        <Link
+          style={{
+            marginRight: "1rem",
+            textDecoration: "none",
+            color: "white",
+          }}
+          to="/cart"
+        >
           Cart
         </Link>
         {token && (
-          <Link style={{ marginRight: "1rem" }} to="/account">
+          <Link
+            style={{
+              marginRight: "1rem",
+              textDecoration: "none",
+              color: "white",
+            }}
+            to="/account"
+          >
             Account
           </Link>
         )}
         {!token && (
-          <Link style={{ marginRight: "1rem" }} to="/register">
+          <Link
+            style={{
+              marginRight: "1rem",
+              textDecoration: "none",
+              color: "white",
+            }}
+            to="/register"
+          >
             Register
           </Link>
         )}

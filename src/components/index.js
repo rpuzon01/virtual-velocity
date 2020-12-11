@@ -14,5 +14,5 @@ export { default as Footer } from "./Footer";
 export { default as CheckoutForm } from "./CheckoutForm";
 export { default as Checkout } from "./Checkout";
 export { default as CardSection } from "./CardSection";
+export { default as ImageSlider } from "./ImageSlider";
 export { default as Contact } from "./Contact"
-
