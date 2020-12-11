@@ -285,6 +285,9 @@ const Product = (props) => {
                       {" "}
                       +{" "}
                     </Button>
+
+
+
                     <Button
                       className="btn btn-danger"
                       onClick={(event) => {
