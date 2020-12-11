@@ -40,6 +40,8 @@ const App = () => {
     const [orders, setOrders] = useState([]);
     const [cart, setCart] = useState({});
 
+    console.log(products);
+
     //this handles all of  initial axios calls that occur initial load
     const handleInitialLoad = async () => {
         try {
