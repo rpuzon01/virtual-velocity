@@ -3,10 +3,17 @@ import { useParams } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import { getProductById } from "../api";
+
 import "./index.css";
 
 const SingleProduct = (props) => {
-  const { user, cart, setCart, handleProductsDelete } = props;
+  const {
+    user,
+    cart,
+    setCart,
+    handleProductsDelete,
+    handleConfirmDelete,
+  } = props;
   const [product, setProduct] = useState({});
   const { productId } = useParams();
 
@@ -58,7 +65,7 @@ const SingleProduct = (props) => {
             width: "45vh",
             marginTop: "5vh",
             marginBottom: "5vh",
-            minHeight: "58rem",
+            minHeight: "60rem",
             border: "3px solid black",
           }}
         >
@@ -94,6 +101,7 @@ const SingleProduct = (props) => {
               style={{}}
               className="btn btn-danger"
               onClick={(event) => {
+                // handleConfirmDelete();
                 handleProductsDelete(product.id);
               }}
             >

@@ -6,6 +6,8 @@ import { setLocalToken } from "../util";
 import { Logout } from "./";
 import { login } from "../api";
 
+import swal from "sweetalert";
+
 export default (props) => {
   const { setUser, token, setToken, setCart, setOrders } = props;
   const [username, setUsername] = useState("");
@@ -24,6 +26,7 @@ export default (props) => {
         setToken(loginResponse.token);
         setUser(loginResponse.user);
         history.push("/"); //redirects after login
+        swal(`Welcome back ${username}!`, "Good to see you again.");
       } else {
         setError(loginResponse.message);
       }
@@ -36,7 +39,12 @@ export default (props) => {
     <>
       {error && <Alert>{error}</Alert>}
       {token ? (
-        <Logout setCart={setCart} setOrders={setOrders} setUser={setUser} setToken={setToken} />
+        <Logout
+          setCart={setCart}
+          setOrders={setOrders}
+          setUser={setUser}
+          setToken={setToken}
+        />
       ) : (
         <Form inline onSubmit={handleSubmit}>
           <FormControl
