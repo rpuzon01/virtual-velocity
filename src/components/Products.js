@@ -26,14 +26,17 @@ const Products = (props) => {
   const handleSubmit = async (event) => {
     try {
       event.preventDefault();
-      const data = await createProduct({
-        name,
-        description,
-        price,
-        inStock,
-        imageURL,
-        category,
-      });
+      const data = await createProduct(
+        {
+          name,
+          description,
+          price,
+          inStock,
+          imageURL,
+          category,
+        },
+        token
+      );
       if (data) {
         setName("");
         setDescription("");
@@ -108,7 +111,7 @@ const Products = (props) => {
           <h4 style={{ paddingLeft: "1rem" }}>Price</h4>
           <Form.Control
             value={price}
-            type="integer"
+            type="number"
             placeholder=""
             onChange={(event) => {
               setPrice(event.target.value);
