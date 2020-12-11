@@ -20,6 +20,8 @@ const Products = (props) => {
   const [imageURL, setImageURL] = useState("");
   const [category, setCategory] = useState("");
 
+    console.log(products);
+
   const handleSubmit = async (event) => {
     try {
       event.preventDefault();
@@ -48,13 +50,9 @@ const Products = (props) => {
 
   const handleProductsDelete = async (id) => {
     try {
-      const data = await deleteProduct(id, token);
-      if (data) {
-        // const newProducts;
+      await deleteProduct(id, token);
         console.log("products:", products);
-        // console.log("newProducts:", newProducts);
-        setProducts(products.filter((product) => data.id !== product.id));
-      }
+        setProducts(products.filter((product) => id !== product.id));
     } catch (error) {
       console.error(error);
     }
@@ -145,8 +143,8 @@ const Products = (props) => {
         {products &&
           products.map((product) => {
             return (
-                <React.Fragment key={product.id}>
                     <SingleProduct 
+                        key={product.id}
                         token={token}
                         handleProductsDelete={handleProductsDelete}
                         products={products} 
@@ -155,7 +153,6 @@ const Products = (props) => {
                         cart={cart} 
                         setCart={setCart} 
                         user={user}/>
-                </ React.Fragment>
             );
           })}
       </div>
