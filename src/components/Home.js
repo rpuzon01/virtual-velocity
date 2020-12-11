@@ -1,23 +1,27 @@
 import React from "react";
 import "./Home.css";
 import "./index.css";
-import {Product} from "./"
+
+import { ImageSlider } from "./";
 
 import { Link } from "react-router-dom";
 
 const Home = (props) => {
-
   return (
     <div className="bodyWrapper">
-      <div className="hero-image">
-        <div className="hero-text">
-          <h1>Welcome to Virtual Traders</h1>
-          <p>Buy Trading Cards Online</p>
-          <Link className="btn btn-primary" to="/products">
-            Start Trading
-          </Link>
-        </div>
-      </div>
+      <ImageSlider />
+      <div className="hero-text">
+        {" "}
+        <h1 style={{ color: "white" }}>
+          <b>Welcome to Virtual Traders</b>
+        </h1>
+        <p style={{ color: "white" }}>
+          <b>Buy Trading Cards Online</b>
+        </p>
+        <Link className="btn btn-primary" to="/products">
+          Start Trading
+        </Link>
+      </div>{" "}
       <div id="homeContent">
         <h2>Find hundreds of the most rare trading cards available</h2>
         <p>
@@ -29,8 +33,6 @@ const Home = (props) => {
         <p>Select the card you want</p>
         <p>Add the card to your cart</p>
         <p>And checkout secured with Stripe</p>
-
-        <div>{}</div>
       </div>
     </div>
   );
