@@ -17,12 +17,14 @@ const NavBar = (props) => {
         }}
         className="mr-auto"
       >
-        <Link style={{ marginRight: "1rem" }} to="/">
+        {/* <Link style={{ marginRight: "1rem" }} to="/">
           Home
-        </Link>
+        </Link> */}
+          <a style={{ marginRight: "1rem" }} href="/#homeTop">Home</a>
         <Link style={{ marginRight: "1rem" }} to="/products">
           Products
         </Link>
+        <a style={{ marginRight: "1rem" }} href="/#contactTop">Contact</a>
         <Link style={{ marginRight: "1rem" }} to="/cart">
           Cart
         </Link>

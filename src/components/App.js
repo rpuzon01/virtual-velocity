@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 
-import { 
-    getProducts, 
-    getUser, 
+import {
+    getProducts,
+    getUser,
     getOrdersByUserId,
     getCartByUser,
 } from "../api";
@@ -55,7 +55,7 @@ const App = () => {
                     // grab all orders
                 } else {
                     // grab all current users orders including the cart
-                    const fetchOrders = await getOrdersByUserId(userData.id, getLocalToken());  
+                    const fetchOrders = await getOrdersByUserId(userData.id, getLocalToken());
                     setOrders(fetchOrders);
                     const fetchCart = await getCartByUser(getLocalToken());
                     setCart(fetchCart);
@@ -67,7 +67,7 @@ const App = () => {
     }
 
     const handleSwitchUser = async () => {
-        const fetchOrders = await getOrdersByUserId(user.id, token);  
+        const fetchOrders = await getOrdersByUserId(user.id, token);
         setOrders(fetchOrders);
         const fetchCart = await getCartByUser(token);
         setCart(fetchCart);
@@ -87,7 +87,7 @@ const App = () => {
       <div className="App">
         <NavBar setOrders={setOrders} setCart={setCart} token={token} setToken={setToken} setUser={setUser} />
         <Route exact path="/">
-          <Home products={products} />
+          <Home products={products} setOrders={setOrders} token={token} user={user} setProducts={setProducts} user={user} cart={cart} setCart={setCart} />
         </Route>
         <Route exact path="/cart">
           <Cart setCart={setCart} user={user} cart={cart} token={token} />
