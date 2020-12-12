@@ -6,7 +6,8 @@ html {
 .hero-image {
   background-image: linear-gradient(rgba(158, 158, 158, 0.534), rgb(0, 0, 0)),
     url("https://cdn.gamer-network.net/2018/usgamer/pokemon-trading-cards_older.jpg");
-  height: 70vh;
+  height: 60vh;
+  width: 100%;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;

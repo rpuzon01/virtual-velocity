@@ -8,20 +8,19 @@ import {
 } from "../api";
 import "./index.css";
 
-
 const SingleProduct = (props) => {
   const { token, user, cart, setCart, handleProductsDelete } = props;
   const [product, setProduct] = useState({});
   const { productId } = useParams();
 
-    const handleInitialLoad = async () => {
-        if(productId){
-        const fetchProduct = await getProductById(productId);
-        setProduct(fetchProduct);
-        } else {
-            setProduct(props.product);
-        }
-    };
+  const handleInitialLoad = async () => {
+    if (productId) {
+      const fetchProduct = await getProductById(productId);
+      setProduct(fetchProduct);
+    } else {
+      setProduct(props.product);
+    }
+  };
 
     const handleAddToCart = async () => {
         // grab the product of the card
@@ -49,19 +48,32 @@ const SingleProduct = (props) => {
             }
         })
         const newProducts = [...cart.products, product]
+
         const newCart = {
           ...cart,
           products: newProducts
         };
+        console.log(newCart);
         setCart(newCart);
-        await addProductToOrder({
-            orderId: cart.id, 
-            productId: product.id,
-            price: product.price,
-            quantity: 1
-        }, token);
-    }
-
+        return;
+      }
+    });
+    const newProducts = [...cart.products];
+    const newCart = {
+      ...cart,
+      products: newProducts,
+    };
+    setCart(newCart);
+    await addProductToOrder(
+      {
+        orderId: cart.id,
+        productId: product.id,
+        price: product.price,
+        quantity: 1,
+      },
+      token
+    );
+  };
 
   useEffect(() => {
     handleInitialLoad();
@@ -75,7 +87,7 @@ const SingleProduct = (props) => {
             width: "45vh",
             marginTop: "5vh",
             marginBottom: "5vh",
-            minHeight: "58rem",
+            minHeight: "60rem",
             border: "3px solid black",
           }}
         >
@@ -111,6 +123,7 @@ const SingleProduct = (props) => {
               style={{}}
               className="btn btn-danger"
               onClick={(event) => {
+                // handleConfirmDelete();
                 handleProductsDelete(product.id);
               }}
             >
@@ -121,6 +134,6 @@ const SingleProduct = (props) => {
       </div>
     </>
   );
-}
+};
 
 export default SingleProduct;

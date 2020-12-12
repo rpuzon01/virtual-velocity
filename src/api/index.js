@@ -98,24 +98,24 @@ export async function getAllOrders(token) {
   }
 }
 
-export async function addProductToOrder({
-  orderId,
-  productId,
-  price,
-  quantity,
-}, token) {
+export async function addProductToOrder(
+  { orderId, productId, price, quantity },
+  token
+) {
   try {
-      const { data } = await axios.post(`${BASE_URL}/orders/${orderId}/products`, {
-          productId,
-          price,
-          quantity,
-      }, 
-          {
-              headers: {
-                  'Authorization': `Bearer ${token}`
-              }
-          }
-      );
+    const { data } = await axios.post(
+      `${BASE_URL}/orders/${orderId}/products`,
+      {
+        productId,
+        price,
+        quantity,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     return data;
   } catch (error) {
@@ -162,15 +162,10 @@ export async function createOrder(token) {
   }
 }
 
-export async function createProduct({
-  name,
-  description,
-  price,
-  imageURL,
-  inStock,
-  category,
-  token,
-}) {
+export async function createProduct(
+  { name, description, price, imageURL, inStock, category },
+  token
+) {
   try {
     const { data } = await axios.post(
       `${BASE_URL}/products`,
@@ -245,30 +240,29 @@ export async function deleteProduct(id, token) {
   }
 }
 
-export async function completeOrder(id, token){
-    try {
-        const { data } = await axios.patch(`${BASE_URL}/${id}/complete`, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            }
-        });
-        return data;
-
-    } catch (error) {
-        throw error;
-    }
+export async function completeOrder(id, token) {
+  try {
+    const { data } = await axios.patch(`${BASE_URL}/${id}/complete`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return data;
+  } catch (error) {
+    throw error;
+  }
 }
 
-export async function cancelOrder(id, token){
-    try {
-        const { data } = await axios.delete(`${BASE_URL}/${id}`,{
-            headers: {
-                Authorization: `Bearer ${token}`,
-            }
-        });
+export async function cancelOrder(id, token) {
+  try {
+    const { data } = await axios.delete(`${BASE_URL}/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-         return data;
-    } catch (error) {
-        throw error;
-    }
-};
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}

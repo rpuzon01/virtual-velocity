@@ -6,6 +6,8 @@ import Modal from "react-bootstrap/Modal";
 import { register, getUser } from "../api";
 import "./index.css";
 
+import swal from "sweetalert";
+
 import { getLocalToken, setLocalToken } from "../util";
 
 export default (props) => {
@@ -39,11 +41,13 @@ export default (props) => {
       if (data.token) {
         setUsername("");
         setPassword("");
-
         setToken(data.token);
         setLocalToken(data.token);
         setUser(data.user);
         handleClose();
+        //insert data.user in message?
+        history.push("/"); //redirects after login
+        swal(`Hello there ${username}!`, "Welcome to the world of trading.");
       } else {
         console.error("user did not set");
       }
