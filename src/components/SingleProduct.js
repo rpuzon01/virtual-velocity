@@ -2,7 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
-import { getProductById, addProductToOrder } from "../api";
+import { 
+    getProductById, 
+    addProductToOrder 
+} from "../api";
 import "./index.css";
 
 const SingleProduct = (props) => {
@@ -44,18 +47,7 @@ const SingleProduct = (props) => {
                 return;
             }
         })
-        const newProducts = [...cart.products, product]
-
-        const newCart = {
-          ...cart,
-          products: newProducts
-        };
-        console.log(newCart);
-        setCart(newCart);
-        return;
-      }
-    });
-    const newProducts = [...cart.products];
+    const newProducts = [...cart.products, product]
     const newCart = {
       ...cart,
       products: newProducts,
