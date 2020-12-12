@@ -85,7 +85,7 @@ const SingleProduct = (props) => {
             marginTop: "5vh",
             marginBottom: "5vh",
             minHeight: "60rem",
-            border: "3px solid black",
+            boxShadow: "5px 5px 12px grey",
           }}
         >
           <Card.Img
