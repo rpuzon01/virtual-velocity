@@ -19,31 +19,36 @@ const SingleProduct = (props) => {
     }
   };
 
-  const handleAddToCart = async () => {
-    // grab the product of the card
-    // place it into the product array of the cart
-    cart.products.forEach(async (cartItem, index) => {
-      if (cartItem.name === product.name) {
-        const productToAdd = {
-          ...product,
-          quantity: cartItem.quantity + 1,
-        };
-        console.log(productToAdd);
-        await addProductToOrder(
-          {
-            orderId: cart.id,
-            productId: product.id,
-            price: product.price,
-            quantity: cartItem.quantity + 1,
-          },
-          token
-        );
-        const newProducts = [...cart.products];
-        newProducts.splice(index, 1, productToAdd);
-        console.log(newProducts);
+    const handleAddToCart = async () => {
+        // grab the product of the card
+        // place it into the product array of the cart
+        cart.products.forEach(async (cartItem, index) => {
+            if(cartItem.name === product.name){
+                const productToAdd = {
+                    ...product, 
+                    quantity: cartItem.quantity + 1
+                }
+                await addProductToOrder({
+                    orderId: cart.id, 
+                    productId: product.id,
+                    price: product.price,
+                    quantity: productToAdd.quantity
+                }, token);
+                const newProducts = [...cart.products]
+                newProducts.splice(index, 1, productToAdd);
+                const newCart = {
+                    ...cart,
+                    products: newProducts
+                }
+                setCart(newCart);
+                return;
+            }
+        })
+        const newProducts = [...cart.products, product]
+
         const newCart = {
           ...cart,
-          products: newProducts,
+          products: newProducts
         };
         console.log(newCart);
         setCart(newCart);

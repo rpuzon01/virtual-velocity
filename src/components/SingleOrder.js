@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { Button } from "react-bootstrap"
 import { getOrdersByUserId } from "../api";
 import "./SingleOrder.css";
 
 const SingleOrder = (props) => {
-  const { order } = props;
+  const { order, isCart } = props;
   const { orderId } = useParams();
+
+    const handleRemoveFromCart = async () => {
+         
+    };
 
     return (
         order &&
@@ -25,6 +30,9 @@ const SingleOrder = (props) => {
                    <div> Description: {description} </div>
                    <div> Price: {price / 100.0} </div>
                    <div> Quantity: {quantity} </div>
+                   {isCart && <Button className="btn btn-danger" onClick={()=>{
+                       console.log('im being clicked');
+                   }}>Remove</Button>}
                    </div>
                );
             }

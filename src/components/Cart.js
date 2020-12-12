@@ -34,7 +34,7 @@ const Cart = (props) => {
     return ( 
         <div className="bodyWrapper">
             <h1> Shopping Cart </h1>
-            < SingleOrder order={cart} />
+            < SingleOrder order={cart} isCart={true} />
             <button type="button" className="btn btn-primary btn-block" onClick={() => {
                 handleCheckout();
             }}>Confirm and Checkout</button>

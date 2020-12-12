@@ -40,6 +40,9 @@ orderProductsRouter.patch(
   }
 );
 
+orderProductsRouter.delete('/some rul', async (req, res, next) => {
+});
+
 orderProductsRouter.delete(
   "/:orderProductId",
   requireUser,
