@@ -14,10 +14,12 @@ function App() {
   const [count, setCount] = useState(0)
 
   return (
-    <Routes>
+    <>
       <NavBar />
-      <Route path="/" element={<div>typescript poggers</div>} />
-    </Routes>
+      <Routes>
+        <Route path="/" element={<div>typescript poggers</div>} />
+      </Routes>
+    </>
   )
 }
 
