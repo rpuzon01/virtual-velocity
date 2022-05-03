@@ -1,10 +1,21 @@
-import { useState } from 'react'
-import logo from './logo.svg'
-import './App.css'
+import { useState } from 'react';
+import { Routes, Route } from 'react-router-dom';
+import './App.css';
 
 function App() {
   const [count, setCount] = useState(0)
 
+  return (
+    <Routes>
+      <Route path="/" element={<div>typescript poggers</div>} />
+    </Routes>
+  )
+}
+
+export default App
+
+
+/*
   return (
     <div className="App">
       <header className="App-header">
@@ -40,6 +51,4 @@ function App() {
       </header>
     </div>
   )
-}
-
-export default App
+  */
