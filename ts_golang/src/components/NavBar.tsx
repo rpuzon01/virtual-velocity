@@ -1,6 +1,15 @@
+import { Link } from "react-router-dom";
+import "./"
+
 const NavBar = () => {
 	return (
-		<nav>sippin on lean yuh</nav>
+		<nav>
+			<Link to="/" className="nav-link">
+				<h2>Virtual Traders</h2>
+			</Link>
+			sippin on lean yuh
+			<Link to="/products">Products</Link>
+		</nav>
 	)
 }
 
