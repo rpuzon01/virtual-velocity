@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "react-bootstrap";
 
-const Logout = ({setToken, setUser}: any) => {
+const Logout = ({setToken, setUser, setCart}: any) => {
 
   return (
     <Button
@@ -9,6 +9,7 @@ const Logout = ({setToken, setUser}: any) => {
         setToken("");
         setUser(null);
         localStorage.removeItem("token");
+        setCart(null);
       }}
     >
       Log Out

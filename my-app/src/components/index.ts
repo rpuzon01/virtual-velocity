@@ -1,3 +1,4 @@
+export { default as Account } from "./Account";
 export { default as Home } from "./Home";
 export { default as ImageSlider } from "./ImageSlider";
 export { default as Contact } from "./Contact";

@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 
-const Navigation = ({children, token}: any) => {
+const Navigation = ({children, token, cart}: any) => {
 
   return (
     <Navbar className="flex justify-between" bg="dark" variant="dark">
@@ -40,7 +40,7 @@ const Navigation = ({children, token}: any) => {
                   className="text-white no-underline"
                   to="/cart"
                 >
-                  Cart
+                  Cart ({cart.products.length})
                 </Link>
               </>
             )}

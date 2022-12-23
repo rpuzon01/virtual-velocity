@@ -14,7 +14,6 @@ export const fetchProducts = async () => {
 export const login = async (username: string, password: string) => {
   try {
     const { data:token } = await axios.post(`${API_URL}/users/login`, {username, password});
-    console.log(token)
     return token;
   } catch (error) {
     console.error("Error while logging in")
@@ -35,6 +34,20 @@ export const register = async (user: any) => {
 export const getUser = async (token: string) => {
   try {
     const { data } = await axios.get(`${API_URL}/users/me`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return data;
+  } catch (error) {
+    console.error("Error while getting user");
+    throw error;
+  }
+}
+
+export const getCart = async (token: string) => {
+  try {
+    const { data } = await axios.get(`${API_URL}/orders/cart`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

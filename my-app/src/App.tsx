@@ -1,11 +1,14 @@
 import { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
-import { Home, Navigation, Login, Products, Logout, Register } from "./components";
-import { fetchProducts, getUser } from "./API";
+import { Home, Navigation, Login, Products, Logout, Register, Account } from "./components";
+import { fetchProducts, getCart, getUser } from "./API";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const App = () => {
 
+  const [cart, setCart] = useState({
+    products: []
+  });
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(() => {
     if(localStorage.getItem("token")) {
@@ -28,9 +31,16 @@ const App = () => {
     setUser(await getUser(token as string));
   }
 
+  const handleCart = async () => {
+    setCart(await getCart(token as string));
+  }
+
   useEffect(() => {
     if (token && !user) {
       handleUser(); 
+    }
+    if (token) {
+      handleCart();
     }
   }, [token]);
 
@@ -38,11 +48,9 @@ const App = () => {
     handleProducts();
   }, []);
 
-  console.log("user", user);
-
   return (
     <div className="flex flex-col">
-      <Navigation token={token}>
+      <Navigation token={token} cart={cart}>
         {!token 
           ? <Login
               setToken={setToken}
@@ -51,6 +59,7 @@ const App = () => {
           : <Logout 
               setToken={setToken}
               setUser={setUser}
+              setCart={setCart}
             />
         }
       </Navigation>
@@ -81,6 +90,15 @@ const App = () => {
             <Register 
               setToken={setToken}
               setUser={setUser}
+            />
+          }
+        />
+        <Route 
+          path="/account"
+          element={
+            <Account 
+              user={user}
+              orders={[]}
             />
           }
         />
