@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { Button, Form, FormControl, Alert } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { login } from "../API";
 
 import swal from "sweetalert";
 
@@ -20,12 +21,8 @@ const setCart = (hello: any) => {
 
 };
 
-const login = (hello: any, nye: any) => {
-  return {} as any;
-};
 
-const Login = (props: any) => {
-  const { setUser, token, setToken, setCart, setOrders } = props;
+const Login = ({ setToken, setUser }: any) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -34,57 +31,42 @@ const Login = (props: any) => {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     try {
-      const loginResponse = await login(username, password);
-      if (loginResponse.token) {
-        setUsername("");
-        setPassword("");
-        setLocalToken(loginResponse.token);
-        setToken(loginResponse.token);
-        setUser(loginResponse.user);
-        navigate("/"); //redirects after login
-        swal(`Welcome back ${username}!`, "Good to see you again.");
-      } else {
-        setError(loginResponse.message);
-      }
-    } catch (error) {
+      const { token, user} = await login(username, password);
+      setToken(token);
+      setUser(user);
+      localStorage.setItem("token", token);
+      swal(`Welcome back ${username}!`, "Good to see you again.");
+    } catch (error: any) {
+      setError("Username and Password did not match")
       console.error(error);
     }
   };
 
   return (
-    <>
-      {error && <Alert>{error}</Alert>}
-      {token ? (
-        <Logout
-          setCart={setCart}
-          setOrders={setOrders}
-          setUser={setUser}
-          setToken={setToken}
+    <div className="flex gap-4 items-center">
+      {error && <Alert className="m-0">{error}</Alert>}
+      <Form className="flex" onSubmit={handleSubmit}>
+        <FormControl
+          style={{ marginRight: "10px" }}
+          type="text"
+          placeholder="username"
+          value={username}
+          onChange={(e) => {
+            setUsername(e.target.value);
+          }}
         />
-      ) : (
-        <Form className="flex mr-4" onSubmit={handleSubmit}>
-          <FormControl
-            style={{ marginRight: "10px" }}
-            type="text"
-            placeholder="username"
-            value={username}
-            onChange={(e) => {
-              setUsername(e.target.value);
-            }}
-          />
-          <FormControl
-            style={{ marginRight: "10px" }}
-            type="password"
-            placeholder="password"
-            value={password}
-            onChange={(e) => {
-              setPassword(e.target.value);
-            }}
-          />
-          <Button type="submit">Login</Button>
-        </Form>
-      )}
-    </>
+        <FormControl
+          style={{ marginRight: "10px" }}
+          type="password"
+          placeholder="password"
+          value={password}
+          onChange={(e) => {
+            setPassword(e.target.value);
+          }}
+        />
+        <Button type="submit">Login</Button>
+      </Form>
+    </div>
   );
 };
 

@@ -1,12 +1,21 @@
 import { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
-import { Home, Navigation, Login, Products } from "./components";
-import { fetchProducts } from "./API";
+import { Home, Navigation, Login, Products, Logout, Register } from "./components";
+import { fetchProducts, getUser } from "./API";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const App = () => {
 
+  const [user, setUser] = useState(null);
+  const [token, setToken] = useState(() => {
+    if(localStorage.getItem("token")) {
+      return localStorage.getItem("token")
+    } else {
+      return ""
+    }
+  });
   const [products, setProducts] = useState([]);
+
   const handleProducts = async () => {
     try {
       setProducts(await fetchProducts());
@@ -15,20 +24,35 @@ const App = () => {
     }
   }
 
-  useEffect(()=>{
+  const handleUser = async () => {
+    setUser(await getUser(token as string));
+  }
+
+  useEffect(() => {
+    if (token && !user) {
+      handleUser(); 
+    }
+  }, [token]);
+
+  useEffect(() => {
     handleProducts();
   }, []);
 
+  console.log("user", user);
+
   return (
     <div className="flex flex-col">
-      <Navigation>
-        <Login
-          // setCart={setCart}
-          // setOrders={setOrders}
-          // setUser={setUser}
-          // token={token}
-          // setToken={setToken}
-        />
+      <Navigation token={token}>
+        {!token 
+          ? <Login
+              setToken={setToken}
+              setUser={setUser}
+            /> 
+          : <Logout 
+              setToken={setToken}
+              setUser={setUser}
+            />
+        }
       </Navigation>
       <Routes>
         <Route 
@@ -48,6 +72,15 @@ const App = () => {
           element={
             <Products 
               products={products}
+            />
+          }
+        />
+        <Route 
+          path="/register"
+          element={
+            <Register 
+              setToken={setToken}
+              setUser={setUser}
             />
           }
         />

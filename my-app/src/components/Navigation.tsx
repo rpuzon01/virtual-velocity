@@ -2,8 +2,7 @@ import { Link } from "react-router-dom";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 
-const Navigation = ({children}: any) => {
-  const token = "";
+const Navigation = ({children, token}: any) => {
 
   return (
     <Navbar className="flex justify-between" bg="dark" variant="dark">
@@ -23,12 +22,6 @@ const Navigation = ({children}: any) => {
             >
               Products
             </Link>
-            <Link
-              className="text-white no-underline"
-              to="/cart"
-            >
-              Cart
-            </Link>
             <a
               className="text-white no-underline"
               href="/#contactTop"
@@ -36,12 +29,20 @@ const Navigation = ({children}: any) => {
               Contact
             </a>
             {token && (
-              <Link
-                className="text-white no-underline"
-                to="/account"
-              >
-                Account
-              </Link>
+              <>
+                <Link
+                  className="text-white no-underline"
+                  to="/account"
+                >
+                  Account
+                </Link>
+                <Link
+                  className="text-white no-underline"
+                  to="/cart"
+                >
+                  Cart
+                </Link>
+              </>
             )}
             {!token && (
               <Link
@@ -54,7 +55,9 @@ const Navigation = ({children}: any) => {
           </div>
         </Nav>
       </div>
-      {children}
+      <div className="mr-4">
+        {children}
+      </div>
     </Navbar>
   );
 }

@@ -9,7 +9,7 @@ const Home = ({products}: any) => {
     <div id="home-top" className="flex flex-col items-center relative">
       <ImageSlider />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 hero-text text-white">
-        <div className="flex flex-col items-center content-center">
+        <div className="flex flex-col items-center content-center p-8 bg-black/80 rounded">
           <h1 className="text-5xl font-bold">
             Welcome to Virtual Traders
           </h1>
