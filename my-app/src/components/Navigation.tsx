@@ -7,7 +7,9 @@ const Navigation = ({children, token, cart}: any) => {
   return (
     <Navbar className="flex justify-between" bg="dark" variant="dark">
       <div className="flex items-center">
-        <Navbar.Brand className="ml-4" href="/">Virtual Velocity</Navbar.Brand>
+        <Navbar.Brand className="ml-4" >
+          <Link to="/">Virtual Velocity</Link>
+        </Navbar.Brand>
         <Nav>
           <div className="flex gap-4">
             <a

@@ -82,6 +82,9 @@ const App = () => {
             element={
               <Products 
                 products={products}
+                token={token}
+                setCart={setCart}
+                cart={cart}
               />
             }
           />
