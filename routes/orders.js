@@ -47,7 +47,13 @@ ordersRouter.get("/", [requireUser, isAdmin], async (req, res, next) => {
 
 ordersRouter.get("/cart", requireUser, async (req, res, next) => {
   try {
-    const order = await getCartByUser(req.user);
+    let order = await getCartByUser(req.user);
+    if (!order) {
+      order = await createOrder({ status: "created", userId: req.user.id });
+    }
+    order = await getOrderById(order.id)
+
+    console.log("order inside the api", order);
     res.send(order);
   } catch (error) {
     next(error);
