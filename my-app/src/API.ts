@@ -57,3 +57,32 @@ export const getCart = async (token: string) => {
     throw error;
   }
 }
+
+export const createPaymentIntent = async ({products}: any) => {
+  try {
+    const {
+      data: { clientSecret: paymentIntent },
+    } = await axios.post(`${API_URL}/orders/create-payment-intents`, {
+      products,
+    });
+    return paymentIntent;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const confirmOrder = async (token: string, id: any) => {
+  try {
+    console.log(`Bearer ${token}`)
+    const {
+      data
+    } = await axios.patch(`${API_URL}/orders/${id}/complete`, "", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return data
+  } catch (error) {
+    throw error;
+  }
+}

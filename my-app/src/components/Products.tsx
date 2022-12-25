@@ -16,15 +16,24 @@ const Products = ({products}:any) => {
             key={id}
           >
             <img className="w-full max-h-[40rem] rounded" src={imageURL}/>
-            <div>
-              <div>Name: {name}</div>
-              <div>Description: {description}</div>
-              <div>Category: {category}</div>
-              <div>inStock: {(inStock) ? "Yes" : "No"} get rid of this and just do a conditional on the button</div>
+            <div className="p-2 m-4">
+              <div>
+                <span className="font-bold">Name: </span> 
+                {name}
+              </div>
+              <div>
+                <span className="font-bold">Description: </span> 
+                {description}
+              </div>
+              <div>
+                <span className="font-bold">Category: </span> 
+                {category}
+              </div>
             </div>
-            <div>
-              button goes here
-            </div>
+              {inStock 
+                ? <div className="flex justify-center p-2 m-4 bg-blue-600 text-white">Add To Cart</div>
+                : <div className="flex justify-center p-2 m-4 bg-red-600 text-white">Out of stock</div>
+              }
           </div>
         })} 
       </div>

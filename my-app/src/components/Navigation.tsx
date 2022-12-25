@@ -40,7 +40,7 @@ const Navigation = ({children, token, cart}: any) => {
                   className="text-white no-underline"
                   to="/cart"
                 >
-                  Cart ({cart.products.length})
+                  Cart ({cart?.products.length})
                 </Link>
               </>
             )}
