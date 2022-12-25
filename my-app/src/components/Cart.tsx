@@ -1,11 +1,52 @@
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { createPaymentIntent } from "../API";
+import { addProductToOrder, createPaymentIntent } from "../API";
 
-const Cart = ({cart, token, setClientSecret}: any) => {
+const Cart = ({cart, setCart, token, setClientSecret}: any) => {
   const navigate = useNavigate();
+  const [total, setTotal] = useState("");
   
   const handleIntent = async () => {
-    setClientSecret( await createPaymentIntent(cart));
+    setClientSecret(await createPaymentIntent(cart));
+  }
+
+  const handleDelete = async (id: number) => {
+    const newProducts = cart.products.filter((elem: any) => elem.id !== id)
+    setCart({...cart, products: newProducts});
+  }
+  /*
+* do a post o /order/:orderId/products
+* check if the products are aleady there
+   */
+
+  const handlePlus = async (id: number) => {
+
+    const newProducts = [...cart.products];
+    for(const product of newProducts) {
+      if(product.id === id) {
+        product.quantity++;
+      }
+    }
+
+    setCart({
+      ...cart,
+      products: newProducts
+    })  
+
+  }
+
+  const handleMinus = async (id: number) => {
+    const newProducts = [...cart.products];
+    for(const product of newProducts) {
+      if(product.id === id && product.quantity > 0) {
+        product.quantity--;
+      }
+    }
+
+    setCart({
+      ...cart,
+      products: newProducts
+    })  
   }
 
   if (!token) {
@@ -23,6 +64,17 @@ const Cart = ({cart, token, setClientSecret}: any) => {
       </div>
     )
   }
+
+  useEffect(() => {
+    const newTotal = (() => {
+      const reduced = cart?.products.reduce((a: any,b: any)=> { 
+        return a + (b.price * b.quantity);
+      }, 0)
+      return (reduced/100).toFixed(2);
+    })();
+    setTotal(newTotal);
+  }, [cart]);
+
 
   return (
     <div className="p-4">
@@ -57,11 +109,22 @@ const Cart = ({cart, token, setClientSecret}: any) => {
                   <span className="font-bold">Price: </span>
                   {price/100}
                 </div>
+                  {
+                    quantity === 0 &&
+                    <span className="font-bold bg-red-500 text-white p-2 rounded">This Product will not be added to this order</span>
+                  }
               </div>
               <div className="flex gap-2 items-center mx-4">
-                <span className="cursor-pointer bg-blue-500 p-2 px-3 rounded">+</span>
+                <span onClick={() => {
+                  handlePlus(id);
+                }} className="cursor-pointer bg-blue-500 p-2 px-3 rounded">+</span>
                 <span className="text-2xl">{quantity}</span>
-                <span className="cursor-pointer bg-red-500 p-2 px-3 rounded">-</span>
+                <span onClick={() => {
+                  handleMinus(id);
+                }} className="cursor-pointer bg-red-500 p-2 px-3 rounded">-</span>
+                <span onClick={() => {
+                  handleDelete(id);
+                }} className="cursor-pointer bg-red-500 p-2 px-3 rounded">Remove from cart</span>
               </div>
             </div>
           )
@@ -70,13 +133,19 @@ const Cart = ({cart, token, setClientSecret}: any) => {
           The cart is empty
         </div>}
       </div>
-      <div>Total: </div>
+      <div>Total: {total}</div>
       <div 
         onClick={
           async () => { 
             if (!cart.products.length) {
               return
             }
+    // const products = await Promise.all(
+    //   productsToCreate.map((product) => createProduct(product))
+    // );
+            await Promise.all(cart.products.map((product: any) => {
+              return addProductToOrder(token, cart.id, product);
+            }));
             await handleIntent();
             navigate("/checkout")
           } 

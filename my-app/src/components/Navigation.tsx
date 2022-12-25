@@ -12,24 +12,12 @@ const Navigation = ({children, token, cart}: any) => {
         </Navbar.Brand>
         <Nav>
           <div className="flex gap-4">
-            <a
-              className="text-white no-underline"
-              href="/#home-top"
-            >
-              Home
-            </a>
             <Link
               className="text-white no-underline"
               to="/products"
             >
               Products
             </Link>
-            <a
-              className="text-white no-underline"
-              href="/#contactTop"
-            >
-              Contact
-            </a>
             {token && (
               <>
                 <Link

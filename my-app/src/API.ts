@@ -71,12 +71,12 @@ export const createPaymentIntent = async ({products}: any) => {
   }
 };
 
-export const confirmOrder = async (token: string, id: any) => {
+export const confirmOrder = async (token: string, orderId: any) => {
   try {
     console.log(`Bearer ${token}`)
     const {
       data
-    } = await axios.patch(`${API_URL}/orders/${id}/complete`, "", {
+    } = await axios.patch(`${API_URL}/orders/${orderId}/complete`, "", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -86,3 +86,16 @@ export const confirmOrder = async (token: string, id: any) => {
     throw error;
   }
 }
+
+export const addProductToOrder = async (token: string, orderId: any, product: any) =>{
+  try {
+    console.log("adding prodcut");
+    await axios.post(`${API_URL}/orders/${orderId}/products`, {...product, productId: product.id}, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      }
+    })
+  } catch (error) {
+    throw error;
+  }
+} 

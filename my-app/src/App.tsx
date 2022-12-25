@@ -127,7 +127,7 @@ const App = () => {
             </Elements>}
           />
           <Route
-            path="/confirmation"
+            path="/confirmation/:id"
             element={<Confirmation 
               cart={cart} 
               setCart={setCart} 

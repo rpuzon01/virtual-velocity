@@ -1,14 +1,16 @@
 import { useState, useEffect } from "react";
 import { confirmOrder } from "../API";
+import { useParams } from "react-router-dom";
 
 const Confirmation = ({cart, setCart, token}: any) => {
+  const { id } = useParams();
   const [order, setOrder] = useState<any>(null);
 
   const handleConfirmedOrder = async () => {
-    if (!order && cart.products.length) {
+    if (!order) {
       try {
-        console.log("hello", cart, token);
-        const { completedOrder, cart: newCart } = await confirmOrder(token, cart.id)
+        const { completedOrder, cart: newCart } = await confirmOrder(token, id)
+        console.log("complete", completedOrder);
         setOrder(completedOrder);
         setCart(newCart)
       } catch (error) {
@@ -72,6 +74,12 @@ const Confirmation = ({cart, setCart, token}: any) => {
               )
             })
         }</div>
+          <div>Total: {(() => {
+      const reduced = order?.products.reduce((a: any,b: any)=> { 
+        return a + (b.price * b.quantity);
+      }, 0)
+      return (reduced/100).toFixed(2);
+    })()}</div>
       </div>
     </div>
   );
