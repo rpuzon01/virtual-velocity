@@ -5,7 +5,6 @@ import { addProductToOrder, createPaymentIntent } from "../API";
 const Cart = ({cart, setCart, token, setClientSecret}: any) => {
   const navigate = useNavigate();
   const [total, setTotal] = useState("");
-  console.log("wtf",cart);
   
   const handleIntent = async () => {
     setClientSecret(await createPaymentIntent(cart));
