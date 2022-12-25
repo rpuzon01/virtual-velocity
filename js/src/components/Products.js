@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
-
 import swal from "sweetalert";
 
 import "./index.css";
@@ -13,6 +12,7 @@ import { SingleProduct } from "./";
 
 const Products = (props) => {
   const { token, products, setProducts, cart, setCart, user } = props;
+  console.log("cart", cart);
 
   const { productId } = useParams();
 

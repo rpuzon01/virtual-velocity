@@ -5,6 +5,7 @@ import {
     cancelOrder,
     completeOrder
 } from "../api"
+
 const Cart = (props) => {
     const {token, user, setUser, cart, setCart} = props
     console.log('cart state in Cart component', cart);

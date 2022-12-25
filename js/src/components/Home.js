@@ -10,114 +10,115 @@ import { Link } from "react-router-dom";
 
 const Home = (props) => {
   const { token, user, cart, setCart, products, handleProductsDelete } = props;
+  console.log("hoqwehroij");
 
   return (
-    <>
-      <div id="homeTop" className="bodyWrapper">
-        <ImageSlider />
-        <div className="hero-text">
-          <h1 style={{ color: "white" }}>
-            <b>Welcome to Virtual Traders</b>
-          </h1>
-          <p style={{ color: "white" }}>
-            <b>Buy Trading Cards Online</b>
-          </p>
-          <Link
-            style={{ marginBottom: "10rem" }}
-            className="btn btn-primary"
-            to="/products"
-          >
-            Start Trading
-          </Link>
-        </div>
-        <div id="homeContent">
-          <h2>Find hundreds of the most rare trading cards available!</h2>
-          <p>
-            Virtual Traders specializes in the hard to find, extra special,
-            trading cards and collectables.
-          </p>
-
-          <p>Simply search our database of cards</p>
-          <p>Select the card you want</p>
-          <p>Add the card to your cart</p>
-          <p>And checkout secured with Stripe</p>
-
-          <h2
-            style={{
-              marginTop: "2rem",
-              marginBottom: "2rem",
-            }}
-          >
-            {" "}
-            Recently Updated Products{" "}
-          </h2>
-        </div>
+  <>
+    <div id="homeTop" className="bodyWrapper">
+      <ImageSlider />
+      <div className="hero-text">
+        <h1 style={{ color: "white" }}>
+          <b>Welcome to Virtual Traders</b>
+        </h1>
+        <p style={{ color: "white" }}>
+          <b>Buy Trading Cards Online</b>
+        </p>
+        <Link
+          style={{ marginBottom: "10rem" }}
+          className="btn btn-primary"
+          to="/products"
+        >
+          Start Trading
+        </Link>
       </div>
+      <div id="homeContent">
+        <h2>Find hundreds of the most rare trading cards available!</h2>
+        <p>
+          Virtual Traders specializes in the hard to find, extra special,
+          trading cards and collectables.
+        </p>
 
-      <div style={{ justifyContent: "space-evenly" }} className="flexWrapper">
-        {products &&
-          products
-            .slice(0, 3)
-            .map(
-              ({
-                category,
-                price,
-                name,
-                id,
-                imageURL,
-                description,
-                inStock,
-              }) => {
-                return (
-                  <Card
-                    key={id}
-                    style={{
-                      width: "45vh",
-                      marginBottom: "5vh",
-                      minHeight: "58rem",
-                      boxShadow: "5px 5px 12px grey",
-                    }}
-                  >
-                    <Card.Img
-                      style={{ height: "65vh", width: "100%" }}
-                      variant="top"
-                      src={imageURL}
-                    />
-                    <Card.Body>
-                      <Card.Title>
-                        <b>Name:</b> {name}
-                      </Card.Title>
-                      <Card.Text>
-                        <b>Description:</b> {description}
-                      </Card.Text>
-                      <Card.Text>
-                        <b>Price:</b> ${price / 100.0}
-                      </Card.Text>
-                      <Card.Text>
-                        <b>Category:</b> {category}
-                      </Card.Text>
-                      <Card.Text>
-                        <b>In Stock:</b> {inStock ? "Yes" : "No"}
-                      </Card.Text>
-                    </Card.Body>
-                  </Card>
-                );
-              }
-            )}
+        <p>Simply search our database of cards</p>
+        <p>Select the card you want</p>
+        <p>Add the card to your cart</p>
+        <p>And checkout secured with Stripe</p>
+
+        <h2
+          style={{
+            marginTop: "2rem",
+            marginBottom: "2rem",
+          }}
+        >
+          {" "}
+          Recently Updated Products{" "}
+        </h2>
       </div>
-      <div
-        style={{ textAlign: "center", marginLeft: "25%", marginRight: "25%" }}
-      >
-        <h5>
-          Don't see exactly what you want? No need to trip potato chip, the
-          Virtual Trading crew has got you covered. Hop on over to our
-          <Link to="/products"> products</Link> to view them all or shoot us an
-          email for more information.
-        </h5>
-        <section id="contactTop">
-          <Contact />
-        </section>
-      </div>
+    </div>
+
+    <div style={{ justifyContent: "space-evenly" }} className="flexWrapper">
+      {products &&
+        products
+          .slice(0, 3)
+          .map(
+            ({
+              category,
+              price,
+              name,
+              id,
+              imageURL,
+              description,
+              inStock,
+            }) => {
+              return (
+                <Card
+                  key={id}
+                  style={{
+                    width: "45vh",
+                    marginBottom: "5vh",
+                    minHeight: "58rem",
+                    boxShadow: "5px 5px 12px grey",
+                  }}
+                >
+                  <Card.Img
+                    style={{ height: "65vh", width: "100%" }}
+                    variant="top"
+                    src={imageURL}
+                  />
+                  <Card.Body>
+                    <Card.Title>
+                      <b>Name:</b> {name}
+                    </Card.Title>
+                    <Card.Text>
+                      <b>Description:</b> {description}
+                    </Card.Text>
+                    <Card.Text>
+                      <b>Price:</b> ${price / 100.0}
+                    </Card.Text>
+                    <Card.Text>
+                      <b>Category:</b> {category}
+                    </Card.Text>
+                    <Card.Text>
+                      <b>In Stock:</b> {inStock ? "Yes" : "No"}
+                    </Card.Text>
+                  </Card.Body>
+                </Card>
+              );
+            }
+          )}
+    </div>
+    <div
+      style={{ textAlign: "center", marginLeft: "25%", marginRight: "25%" }}
+    >
+      <h5>
+        Don't see exactly what you want? No need to trip potato chip, the
+        Virtual Trading crew has got you covered. Hop on over to our
+        <Link to="/products"> products</Link> to view them all or shoot us an
+        email for more information.
+      </h5>
+      <section id="contactTop">
+        <Contact />
+      </section>
+    </div>
     </>
   );
 };
