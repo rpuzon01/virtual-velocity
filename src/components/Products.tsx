@@ -1,17 +1,21 @@
-import { SingleProduct } from "./";
+import { SingleProduct } from '.';
+import { useGetProductsQuery } from '../redux/slices/productApiSlice';
+import { Product } from '../types';
+import Loader from './Loader';
 
-const Products = ({products, token, cart, setCart}:any) => {
-  if (!products.length) {
-    return (
-      <div>
-        There are currently no products
-      </div>
-    )
-  }
+const Products = () => {
+
+  const {
+    data: products,
+    isLoading
+  } = useGetProductsQuery();
+  console.log("rpajsdiofp", products);
+
+  if (isLoading) return <Loader />;
 
   return (
       <div className="flex flex-wrap gap-8 px-16 py-8 w-full justify-center">
-        {products.map((product: any) => <SingleProduct key={product.id} token={token} cart={cart} setCart={setCart} product={product} />)}
+        {products.map((product: Product) => <SingleProduct key={product.id} product={product}/>)}
       </div>
   );
 };

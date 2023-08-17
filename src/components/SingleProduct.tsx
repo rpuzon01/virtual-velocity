@@ -1,17 +1,15 @@
-import swal from "sweetalert";
+import swal from 'sweetalert';
+import { useAppSelector } from '../redux/hooks';
+import { selectCurrentToken } from '../redux/slices/authSlice';
+import { Product } from '../types';
 
-const SingleProduct = ({
-  product,
-  token,
-  cart,
-  setCart
-}: any) => {
+type SingleProductProps = {
+  product: Product
+}
 
-  if (!product) {
-    return (
-      <div>?</div>
-    )
-  }
+const SingleProduct = ({product}: SingleProductProps) => {
+
+  const token = useAppSelector(selectCurrentToken);
 
   const {
     imageURL,
@@ -22,21 +20,21 @@ const SingleProduct = ({
   } = product;
 
   const handleAddToCart = async () => {
-    let found = false;
-    cart.products.forEach((item: any) => {
-      if(item.name === name){
-        found = true;
-      }
-    })
-    if (found) {
-      swal("Error: Product has already been added to your cart. Please modify the quantity in your cart");
-    } else {
-      setCart({
-        ...cart,
-        products: [...cart.products, {...product, quantity: 1}]
-      })
-      swal("Product has been added to your cart. You can modify the quantity in your cart");
-    }
+    // let found = false;
+    // cart.products.forEach((item: any) => {
+    //   if(item.name === name){
+    //     found = true;
+    //   }
+    // })
+    // if (found) {
+    //   swal('Error: Product has already been added to your cart. Please modify the quantity in your cart');
+    // } else {
+    //   setCart({
+    //     ...cart,
+    //     products: [...cart.products, {...product, quantity: 1}]
+    //   })
+    //   swal('Product has been added to your cart. You can modify the quantity in your cart');
+    // }
   }
 
   return (
@@ -69,4 +67,4 @@ const SingleProduct = ({
   );
 }
 
-export default SingleProduct
+export default SingleProduct;

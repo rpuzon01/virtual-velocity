@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
-import { confirmOrder } from "../API";
-import { useParams } from "react-router-dom";
+import { useState, useEffect } from 'react';
+import { confirmOrder } from '../API';
+import { useParams } from 'react-router-dom';
 
 const Confirmation = ({cart, setCart, token}: any) => {
   const { id } = useParams();
@@ -10,7 +10,6 @@ const Confirmation = ({cart, setCart, token}: any) => {
     if (!order) {
       try {
         const { completedOrder, cart: newCart } = await confirmOrder(token, id)
-        console.log("complete", completedOrder);
         setOrder(completedOrder);
         setCart(newCart)
       } catch (error) {

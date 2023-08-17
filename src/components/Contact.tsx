@@ -1,4 +1,4 @@
-import Button from "react-bootstrap/Button";
+import Button from 'react-bootstrap/Button';
 
 const Contact = () => {
   return (
@@ -11,7 +11,7 @@ const Contact = () => {
       </h2>
 
       <p className="text-center w-responsive mx-auto mb-5">
-        Got questions? Awesome, we got answers.{" "}
+        Got questions? Awesome, we got answers.{' '}
       </p>
 
       <form
