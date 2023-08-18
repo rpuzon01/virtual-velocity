@@ -1,39 +1,41 @@
-const express = require("express");
+const express = require('express');
 const usersRouter = express.Router();
-const jwt = require("jsonwebtoken");
-const { JWT_SECRET = "hello" } = process.env;
+const jwt = require('jsonwebtoken');
+const { JWT_SECRET } = process.env;
 
-const { createUser, getUserByUsername, getUser, getOrdersByUser, getAllUsers, updateUser } = require("../db/utils");
+const { getUserByEmail, createUser, getUserByUsername, getUser, getOrdersByUser, getAllUsers, updateUser } = require('../db/utils');
 
-const { requireUser, isAdmin } = require("./utils");
+const { requireUser, isAdmin } = require('./utils');
 
-usersRouter.post("/register", async (req, res, next) => {
+usersRouter.post('/register', async (req, res, next) => {
   const { username, password, firstName, lastName, email, isAdmin, imageURL } = req.body;
+  if (password.length <= 8) {
+    res.status(500).send({ message: 'Password too short!' });
+    return;
+  }
 
   try {
-    const user = await getUserByUsername(username);
-
+    let user = await getUserByUsername(username);
     if (user) {
-      res.status(500);
-      res.send({ message: "A user by that username already exists!" });
-    } else if (password.length <= 8) {
-      res.status(500);
-      res.send({ message: "Password too short!" });
-    } else {
-      const user = await createUser({ username, password, firstName, lastName, email, isAdmin: false, imageURL: '' });
-
-      const token = jwt.sign(user, JWT_SECRET);
-
-      res.send({ message: "thanks for signing up!", user: user, token });
-      return user;
+      res.status(500).send({ message: 'A user by that username already exists!' });
+      return;
     }
+
+    user = await getUserByEmail(email);
+    if (user) {
+      res.status(500).send({ message: 'This email is already associated with an account' });
+      return
+    } 
+
+    user = await createUser({ username, password, firstName, lastName, email, isAdmin: false, imageURL: '' });
+    const token = jwt.sign(user, JWT_SECRET);
+    res.send({ message: 'thanks for signing up!', user, token });
   } catch (error) {
     next(error);
   }
-
 });
 
-usersRouter.post("/login", async (req, res, next) => {
+usersRouter.post('/login', async (req, res, next) => {
   const { username, password } = req.body;
 
   try {
@@ -43,7 +45,7 @@ usersRouter.post("/login", async (req, res, next) => {
       const token = jwt.sign(user, JWT_SECRET);
 
       res.send({
-        message: "you're logged in!",
+        message: 'you\'re logged in!',
         user,
         token
       });
@@ -51,8 +53,8 @@ usersRouter.post("/login", async (req, res, next) => {
     } else {
       res.status(500).send({
         status: 500,
-        name: "IncorrectCredentialsError",
-        message: "Username or password is incorrect!",
+        name: 'IncorrectCredentialsError',
+        message: 'Username or password is incorrect!',
       });
     }
   } catch (error) {
@@ -60,7 +62,7 @@ usersRouter.post("/login", async (req, res, next) => {
   }
 });
 
-usersRouter.get("/me", requireUser, async (req, res, next) => {
+usersRouter.get('/me', requireUser, async (req, res, next) => {
   try {
     res.send(req.user);
   } catch (error) {
@@ -68,7 +70,7 @@ usersRouter.get("/me", requireUser, async (req, res, next) => {
   }
 });
 
-usersRouter.get("/:userId/orders", requireUser, async (req, res, next) => {
+usersRouter.get('/:userId/orders', requireUser, async (req, res, next) => {
   const { userId } = req.params;
   try {
     const orders = await getOrdersByUser(req.user);
@@ -79,7 +81,7 @@ usersRouter.get("/:userId/orders", requireUser, async (req, res, next) => {
 }
 );
 
-usersRouter.get("/", isAdmin, async (req, res, next) => {
+usersRouter.get('/', isAdmin, async (req, res, next) => {
 
   try {
     const users = await getAllUsers()
@@ -90,7 +92,7 @@ usersRouter.get("/", isAdmin, async (req, res, next) => {
   }
 });
 
-usersRouter.patch("/:userId", isAdmin, async (req, res, next) => {
+usersRouter.patch('/:userId', isAdmin, async (req, res, next) => {
   try {
     const {
       // Set a default fallback value if params is undefined.
