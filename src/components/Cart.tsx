@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { addProductToOrder, createPaymentIntent } from "../API";
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { addProductToOrder, createPaymentIntent } from '../API';
 
 const Cart = ({cart, setCart, token, setClientSecret}: any) => {
   const navigate = useNavigate();
-  const [total, setTotal] = useState("");
+  const [total, setTotal] = useState('');
   
   const handleIntent = async () => {
     setClientSecret(await createPaymentIntent(cart));
@@ -14,10 +14,6 @@ const Cart = ({cart, setCart, token, setClientSecret}: any) => {
     const newProducts = cart.products.filter((elem: any) => elem.id !== id)
     setCart({...cart, products: newProducts});
   }
-  /*
-* do a post o /order/:orderId/products
-* check if the products are aleady there
-   */
 
   const handlePlus = async (id: number) => {
 
@@ -147,7 +143,7 @@ const Cart = ({cart, setCart, token, setClientSecret}: any) => {
               return addProductToOrder(token, cart.id, product);
             }));
             await handleIntent();
-            navigate("/checkout")
+            navigate('/checkout')
           } 
         }
       className="cursor-pointer bg-blue-600 py-2 px-4 w-fit rounded text-white">Checkout</div>

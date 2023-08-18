@@ -1,5 +1,5 @@
-const router = require("express").Router();
-const { requireUser, isAdmin } = require("./utils");
+const router = require('express').Router();
+const { requireUser, isAdmin } = require('./utils');
 
 const {
   getAllProducts,
@@ -7,9 +7,9 @@ const {
   createProduct,
   updateProduct,
   destroyProduct,
-} = require("../db/utils");
+} = require('../db/utils');
 
-router.get("/", async (req, res, next) => {
+router.get('/', async (req, res, next) => {
   try {
     const products = await getAllProducts();
     res.send(products);
@@ -18,7 +18,7 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.get("/:productId", async (req, res, next) => {
+router.get('/:productId', async (req, res, next) => {
   const { productId } = req.params;
   try {
     const product = await getProductById(productId);
@@ -28,7 +28,7 @@ router.get("/:productId", async (req, res, next) => {
   }
 });
 
-router.post("/", isAdmin, async (req, res, next) => {
+router.post('/', isAdmin, async (req, res, next) => {
   const { name, description, price, inStock, imageURL, category } = req.body;
   try {
     const createdProduct = await createProduct({
@@ -45,7 +45,7 @@ router.post("/", isAdmin, async (req, res, next) => {
   }
 });
 
-router.patch("/:productId", isAdmin, async (req, res, next) => {
+router.patch('/:productId', isAdmin, async (req, res, next) => {
   const { productId } = req.params;
 
   try {
@@ -56,7 +56,7 @@ router.patch("/:productId", isAdmin, async (req, res, next) => {
   }
 });
 
-router.delete("/:productId", isAdmin, async (req, res, next) => {
+router.delete('/:productId', isAdmin, async (req, res, next) => {
   const { productId } = req.params;
 
   try {

@@ -1,4 +1,4 @@
-const { client } = require("./index");
+const { client } = require('./index');
 
 const reduceOrders = (queriedOrders) => {
   const ordersWithProducts = queriedOrders.reduce((acc, order) => {
@@ -255,7 +255,7 @@ const updateOrder = async ({ id, ...fields }) => {
     .map((fieldName, index) => {
       return `"${fieldName}"=$${index + 1}`;
     })
-    .join(", ");
+    .join(', ');
 
   const setValues = Object.values(fields);
   setValues.push(id);

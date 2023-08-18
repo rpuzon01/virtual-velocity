@@ -1,5 +1,5 @@
-const { client } = require("./index");
-const bcrypt = require("bcrypt");
+const { client } = require('./index');
+const bcrypt = require('bcrypt');
 const SALT_COUNT = 10;
 
 async function createUser({ username, password, firstName, lastName, email }) {
@@ -36,7 +36,7 @@ async function setUserAsAdmin(id) {
       [id]
     );
   } catch (error) {
-    console.error("Unable to set admin");
+    console.error('Unable to set admin');
     throw error;
   }
 }
@@ -53,13 +53,17 @@ async function getUser({ username, password }) {
       [username]
     );
 
-    const isAMatch = await bcrypt.compare(password, user.password);
+    if(!user) {
+      return;
+    }
+
+    const isAMatch = await bcrypt.compare(password, user?.password);
 
     if (isAMatch) {
       delete user.password;
       return user;
     } else {
-      console.log("incorrect password");
+      return;
     }
   } catch (error) {
     throw error;
@@ -118,10 +122,28 @@ async function getUserByUsername(username) {
   }
 }
 
+async function getUserByEmail(email) {
+  try {
+    const {
+      rows: [user],
+    } = await client.query(
+      `
+        SELECT * FROM users
+        WHERE email = $1
+        `,
+      [email]
+    );
+
+    return user;
+  } catch (error) {
+    throw error;
+  }
+}
+
 async function updateUser(id, fields) {
   const setString = Object.keys(fields)
     .map((key, index) => `"${key}"=$${index + 1}`)
-    .join(", ");
+    .join(', ');
 
   const setValues = Object.values(fields);
   setValues.push(id);
@@ -155,4 +177,5 @@ module.exports = {
   getUserByUsername,
   setUserAsAdmin,
   updateUser,
+  getUserByEmail
 };

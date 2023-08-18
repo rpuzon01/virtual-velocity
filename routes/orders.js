@@ -1,8 +1,7 @@
-const express = require("express");
+const express = require('express');
 const ordersRouter = express.Router();
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY); 
-const { requireUser, isAdmin } = require("./utils");
-const { addProductToOrder } = require("../db/order_products");
+const { requireUser, isAdmin } = require('./utils');
+const { addProductToOrder } = require('../db/order_products');
 const {
   getAllOrders,
   getCartByUser,
@@ -11,7 +10,7 @@ const {
   cancelOrder,
   completeOrder,
   getOrderById
-} = require("../db/utils");
+} = require('../db/utils');
 
 const calculateTotal = (products) => {
   let totalSum = 0;
@@ -21,11 +20,11 @@ const calculateTotal = (products) => {
   return totalSum;
 };
 
-ordersRouter.post("/create-payment-intents", async (req, res, next) => {
+ordersRouter.post('/create-payment-intents', async (req, res, next) => {
   const { products } = req.body;
   const paymentIntent = await stripe.paymentIntents.create({
     amount: calculateTotal(products),
-    currency: "USD",
+    currency: 'USD',
     automatic_payment_methods: {
       enabled: true,
     },
@@ -36,7 +35,7 @@ ordersRouter.post("/create-payment-intents", async (req, res, next) => {
   });
 });
 
-ordersRouter.get("/", [requireUser, isAdmin], async (req, res, next) => {
+ordersRouter.get('/', [requireUser, isAdmin], async (req, res, next) => {
   try {
     const orders = await getAllOrders();
     res.send(orders);
@@ -45,11 +44,11 @@ ordersRouter.get("/", [requireUser, isAdmin], async (req, res, next) => {
   }
 });
 
-ordersRouter.get("/cart", requireUser, async (req, res, next) => {
+ordersRouter.get('/cart', requireUser, async (req, res, next) => {
   try {
     let order = await getCartByUser(req.user);
     if (!order) {
-      order = await createOrder({ status: "created", userId: req.user.id });
+      order = await createOrder({ status: 'created', userId: req.user.id });
     }
     order = await getOrderById(order.id)
     res.send(order);
@@ -58,19 +57,16 @@ ordersRouter.get("/cart", requireUser, async (req, res, next) => {
   }
 });
 
-ordersRouter.post("/", requireUser, async (req, res, next) => {
+ordersRouter.post('/', requireUser, async (req, res, next) => {
   try {
-    const order = await createOrder({ status: "created", userId: req.user.id });
+    const order = await createOrder({ status: 'created', userId: req.user.id });
     res.send(order);
   } catch (error) {
     next(error);
   }
 });
 
-ordersRouter.patch("/:orderId", requireUser, async (req, res, next) => {
-  // Orders - API Routes
-  //  PATCH /orders/:orderId (**)
-  // Update an order, notably change status
+ordersRouter.patch('/:orderId', requireUser, async (req, res, next) => {
 
   const { orderId } = req.params;
   const { status } = req.body;
@@ -84,7 +80,7 @@ ordersRouter.patch("/:orderId", requireUser, async (req, res, next) => {
   }
 });
 
-ordersRouter.delete("/:orderId", requireUser, async (req, res, next) => {
+ordersRouter.delete('/:orderId', requireUser, async (req, res, next) => {
   // CANCEL ORDER
   //  DELETE /orders/:orderId (**)
   // Update the order's status to cancelled
@@ -99,7 +95,7 @@ ordersRouter.delete("/:orderId", requireUser, async (req, res, next) => {
 });
 
 //Add a single product to an order (using order_products). Prevent duplication on ("orderId", "productId") pair. If product already exists on order, increment quantity and update price.
-ordersRouter.post( "/:orderId/products", requireUser, async (req, res, next) => {
+ordersRouter.post( '/:orderId/products', requireUser, async (req, res, next) => {
     const { orderId } = req.params;
     const { productId, price, quantity } = req.body;
 
@@ -117,11 +113,11 @@ ordersRouter.post( "/:orderId/products", requireUser, async (req, res, next) => 
   }
 );
 
-ordersRouter.patch("/:orderId/complete", requireUser, async (req, res, next) => {
+ordersRouter.patch('/:orderId/complete', requireUser, async (req, res, next) => {
     const { orderId } = req.params;
     try {
         await completeOrder({id: orderId});
-        await createOrder({ status: "created", userId: req.user.id });
+        await createOrder({ status: 'created', userId: req.user.id });
         const cart = await getCartByUser({id: req.user.id});
         const completedOrder = await getOrderById(orderId)
         res.send({ completedOrder, cart });

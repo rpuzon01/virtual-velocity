@@ -1,7 +1,7 @@
-import { useState } from "react";
-import ListGroup from  "react-bootstrap/ListGroup";
-import ListGroupItem from  "react-bootstrap/ListGroupItem";
-import Card from "react-bootstrap/Card";
+import { useState } from 'react';
+import ListGroup from  'react-bootstrap/ListGroup';
+import ListGroupItem from  'react-bootstrap/ListGroupItem';
+import Card from 'react-bootstrap/Card';
 
 const Account = ({user} : any) => {
 

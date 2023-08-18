@@ -1,16 +1,16 @@
-const express = require("express");
+const express = require('express');
 const orderProductsRouter = express.Router();
-const { requireUser } = require("./utils");
+const { requireUser } = require('./utils');
 const {
   getOrderById,
   getUserById,
   updateOrderProduct,
-} = require("../db/utils.js");
+} = require('../db/utils.js');
 
-const { getOrderProductById, destroyOrderProduct } = require("../db/utils");
+const { getOrderProductById, destroyOrderProduct } = require('../db/utils');
 
 orderProductsRouter.patch(
-  "/:orderProductId",
+  '/:orderProductId',
   requireUser,
   async (req, res, next) => {
     const { orderProductId } = req.params;
@@ -31,7 +31,7 @@ orderProductsRouter.patch(
       } else {
         next({
           message:
-            "Logged in user should be the owner of the updated order_product.",
+            'Logged in user should be the owner of the updated order_product.',
         });
       }
     } catch (error) {
@@ -44,7 +44,7 @@ orderProductsRouter.delete('/some rul', async (req, res, next) => {
 });
 
 orderProductsRouter.delete(
-  "/:orderProductId",
+  '/:orderProductId',
   requireUser,
   async (req, res, next) => {
     const { orderProductId } = req.params;
@@ -61,7 +61,7 @@ orderProductsRouter.delete(
       } else {
         next({
           message:
-            "Logged in user should be the owner of the deleted order_product.",
+            'Logged in user should be the owner of the deleted order_product.',
         });
       }
     } catch (error) {

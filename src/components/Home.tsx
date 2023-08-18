@@ -1,6 +1,6 @@
-import { Link } from "react-router-dom";
-import Card from "react-bootstrap/Card";
-import { ImageSlider, Contact } from "./";
+import { Link } from 'react-router-dom';
+import Card from 'react-bootstrap/Card';
+import { ImageSlider, Contact } from './';
 
 const Home = ({products}: any) => {
 
@@ -57,14 +57,14 @@ const Home = ({products}: any) => {
                 <Card
                   key={id}
                   style={{
-                    width: "45vh",
-                    marginBottom: "5vh",
-                    minHeight: "58rem",
-                    boxShadow: "5px 5px 12px grey",
+                    width: '45vh',
+                    marginBottom: '5vh',
+                    minHeight: '58rem',
+                    boxShadow: '5px 5px 12px grey',
                   }}
                 >
                   <Card.Img
-                    style={{ height: "65vh", width: "100%" }}
+                    style={{ height: '65vh', width: '100%' }}
                     variant="top"
                     src={imageURL}
                   />
@@ -82,7 +82,7 @@ const Home = ({products}: any) => {
                       <b>Category:</b> {category}
                     </Card.Text>
                     <Card.Text>
-                      <b>In Stock:</b> {inStock ? "Yes" : "No"}
+                      <b>In Stock:</b> {inStock ? 'Yes' : 'No'}
                     </Card.Text>
                   </Card.Body>
                 </Card>
@@ -91,7 +91,7 @@ const Home = ({products}: any) => {
           )}
     </div>
     <div
-      style={{ textAlign: "center", marginLeft: "25%", marginRight: "25%" }}
+      style={{ textAlign: 'center', marginLeft: '25%', marginRight: '25%' }}
     >
       <h5 className="font-semibold">
         Don't see exactly what you want? No need to trip potato chip, the

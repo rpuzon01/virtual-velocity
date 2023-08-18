@@ -1,12 +1,12 @@
-import axios from "axios";
-const API_URL = "/api";
+import axios from 'axios';
+const API_URL = '/api';
 
 export const fetchProducts = async () => {
   try {
     const { data: products } = await axios.get(`${API_URL}/products`);
     return products;
   } catch (error) {
-    console.error("Failed to fetch products");
+    console.error('Failed to fetch products');
     throw error;
   }
 }
@@ -16,7 +16,7 @@ export const login = async (username: string, password: string) => {
     const { data:token } = await axios.post(`${API_URL}/users/login`, {username, password});
     return token;
   } catch (error) {
-    console.error("Error while logging in")
+    console.error('Error while logging in')
     throw error;
   }
 }
@@ -26,7 +26,7 @@ export const register = async (user: any) => {
     const { data } = await axios.post(`${API_URL}/users/register`, user);
     return data;
   } catch (error) {
-    console.error("Error while registering");
+    console.error('Error while registering');
     throw error;
   }
 }
@@ -40,7 +40,7 @@ export const getUser = async (token: string) => {
     });
     return data;
   } catch (error) {
-    console.error("Error while getting user");
+    console.error('Error while getting user');
     throw error;
   }
 }
@@ -73,10 +73,9 @@ export const createPaymentIntent = async ({products}: any) => {
 
 export const confirmOrder = async (token: string, orderId: any) => {
   try {
-    console.log(`Bearer ${token}`)
     const {
       data
-    } = await axios.patch(`${API_URL}/orders/${orderId}/complete`, "", {
+    } = await axios.patch(`${API_URL}/orders/${orderId}/complete`, '', {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -89,7 +88,6 @@ export const confirmOrder = async (token: string, orderId: any) => {
 
 export const addProductToOrder = async (token: string, orderId: any, product: any) =>{
   try {
-    console.log("adding prodcut");
     await axios.post(`${API_URL}/orders/${orderId}/products`, {...product, productId: product.id}, {
       headers: {
         Authorization: `Bearer ${token}`,

@@ -1,4 +1,4 @@
-const { client } = require("./index.js");
+const { client } = require('./index.js');
 
 async function createOrderProduct({ productId, orderId, price, quantity }) {
   try {
@@ -62,7 +62,7 @@ async function updateOrderProduct({ id, ...fields }) {
             .map((fieldName, index) => {
                 return `"${fieldName}"=$${index + 1}`;
             })
-            .join(", ");
+            .join(', ');
 
         const setValues = Object.values(fields);
         setValues.push(id);
