@@ -6,6 +6,7 @@ import { useAppDispatch } from '../redux/hooks';
 import { useRegisterMutation } from '../redux/slices/authApiSlice';
 import { setCredentials } from '../redux/slices/authSlice';
 import { User } from '../types';
+import { isAPIError } from '../utils';
 
 type RegisterInputs = {
   username: string;
@@ -57,7 +58,8 @@ const Register = ({
             className='flex flex-col gap-2' 
             onSubmit={handleSubmit(onSubmit)}
           >
-            {isError && (
+            { isError &&
+              isAPIError(error) && (
               <Alert
                 variant='danger'
               >

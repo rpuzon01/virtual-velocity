@@ -22,3 +22,9 @@ export type User = {
 export type Order = {
   id?: number;
 }
+
+export type APIError = {
+  data: {
+    message: string;
+  }
+}
