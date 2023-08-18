@@ -1,168 +1,175 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { InputGroup, Form, FormControl, Button, Alert } from "react-bootstrap";
-import Modal from "react-bootstrap/Modal";
-import { register } from "../API";
-import swal from "sweetalert";
+import { Form, Button, Alert } from 'react-bootstrap';
+import Modal from 'react-bootstrap/Modal';
+import { useForm } from 'react-hook-form';
+import swal from 'sweetalert';
+import { useAppDispatch } from '../redux/hooks';
+import { useRegisterMutation } from '../redux/slices/authApiSlice';
+import { setCredentials } from '../redux/slices/authSlice';
+import { User } from '../types';
 
-const Register = ({ setToken, setUser }: any) => {
-  const navigate = useNavigate();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [error, setError] = useState("");
-  const [show, setShow] = useState(true);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+type RegisterInputs = {
+  username: string;
+  password: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+}
 
-  const handleRegister = async (event: any) => {
-    try {
-      event.preventDefault();
+type RegisterProps = {
+  showModal: boolean;
+  setShowModal: React.Dispatch<React.SetStateAction<boolean>>
+}
 
-      const { user, token } = await register({
-        username,
-        password,
-        firstName,
-        lastName,
-        email,
-      });
-      setToken(token);
-      localStorage.setItem("token", token);
-      setUser(user);
-      handleClose();
-      navigate("/");
-      swal(`Hello there ${username}!`, "Welcome to the world of trading.");
-    } catch (error: any) {
-      setError(error.response.data.message);
-      console.error(error);
-    }
+const Register = ({
+  showModal,
+  setShowModal
+}: RegisterProps) => {
+  const { register, handleSubmit, formState: {errors} } = useForm<RegisterInputs>();
+  const [registerUser, {isError, error, isLoading}] = useRegisterMutation();
+  const dispatch = useAppDispatch();
+
+  const onSubmit = async (newUser: User) => {
+    const { token, user } = await registerUser(newUser).unwrap();
+    dispatch(setCredentials({token, user}))
+    localStorage.setItem('token', token);
+    swal(`Welcome ${user.username}!`, 'Good to see you.');
+    setShowModal(false);
   };
 
   return (
-    <>
-      <div className="bodyWrapper">
-        <Modal show={show} onHide={handleClose}>
-          <Modal.Header closeButton>
-            <Modal.Title>Register / Create Account</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Form onSubmit={handleRegister}>
-              <Form.Group controlId="formGridEmail">
-                <Form.Label>Email</Form.Label>
-                <Form.Control
-                  type="email"
-                  placeholder="Enter email"
-                  value={email}
-                  onChange={(e) => {
-                    setEmail(e.target.value);
-                  }}
-                />
-              </Form.Group>
+    <div className="bodyWrapper">
+      <Modal 
+        show={showModal} 
+        onHide={() => {setShowModal(false)}}
+      >
+        <Modal.Header>
+          <Modal.Title>Register / Create Account</Modal.Title>
+          <Button 
+            className="text-white p-2 rounded-sm bg-gray-600 w-10 h-10"
+            variant="secondary" 
+            onClick={() => {setShowModal(false)}}
+          >
+            X
+          </Button>
+        </Modal.Header>
+        <Modal.Body>
+          <Form 
+            className='flex flex-col gap-2' 
+            onSubmit={handleSubmit(onSubmit)}
+          >
+            {isError && (
+              <Alert
+                variant='danger'
+              >
+                {error.data.message}
+              </ Alert>
+            )}
+            <Form.Group 
+              className='flex flex-col gap-2'
+            >
+              <Form.Label>Email</Form.Label>
+              <Form.Control
+                {...register('email', {
+                  required: 'You must provide your email'
+                })}
+                type="email"
+              />
+              {errors.email && (
+                <Alert
+                  variant='danger'
+                >
+                  {errors.email.message}
+                </ Alert>
+              )}
+            </Form.Group>
 
-              <Form.Group controlId="formGridUsername">
-                <Form.Label>username</Form.Label>
-                <Form.Control
-                  type="text"
-                  value={username}
-                  onChange={(e) => {
-                    setUsername(e.target.value);
-                  }}
-                />
-              </Form.Group>
+            <Form.Group 
+              className='flex flex-col gap-2'
+            >
+              <Form.Label>Username</Form.Label>
+              <Form.Control
+                {...register('username', {
+                  required: 'You must provide a username'
+                })} 
+                type="text"
+              />
+              {errors.username && (
+                <Alert
+                  variant='danger'
+                >
+                  {errors.username.message}
+                </ Alert>
+              )}
+            </Form.Group>
 
-              <Form.Group controlId="formGridPassword">
-                <Form.Label>Password</Form.Label>
-                <Form.Control
-                  type="password"
-                  value={password}
-                  onChange={(e) => {
-                    setPassword(e.target.value);
-                  }}
-                />
-              </Form.Group>
+            <Form.Group 
+              className='flex flex-col gap-2'
+            >
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                {...register('password', {
+                  required: 'You must provide a password',
+                  minLength: {value: 9, message: 'Password must be 9 characters or more'}
+                })}
+                type="password"
+              />
+              {errors.password && (
+                <Alert
+                  variant='danger'
+                >
+                  {errors.password.message}
+                </ Alert>
+              )}
+            </Form.Group>
 
-              <Form.Group controlId="formFirstname">
-                <Form.Label>firstName</Form.Label>
-                <Form.Control
-                  type="text"
-                  value={firstName}
-                  onChange={(e) => {
-                    setFirstName(e.target.value);
-                  }}
-                />
-              </Form.Group>
+            <Form.Group 
+              className='flex flex-col gap-2'
+            >
+              <Form.Label>First Name</Form.Label>
+              <Form.Control
+                {...register('firstName', {
+                  required: 'You must provide your First Name'
+                })}
+                type="text"
+              />
+              {errors.firstName && (
+                <Alert
+                  variant='danger'
+                >
+                  {errors.firstName.message}
+                </ Alert>
+              )}
+            </Form.Group>
 
-              <Form.Group controlId="formLastname">
-                <Form.Label>lastName</Form.Label>
-                <Form.Control
-                  type="text"
-                  value={lastName}
-                  onChange={(e) => {
-                    setLastName(e.target.value);
-                  }}
-                />
-              </Form.Group>
+            <Form.Group className='flex flex-col gap-2'>
+              <Form.Label>Last Name</Form.Label>
+              <Form.Control
+                {...register('lastName', {
+                  required: 'You must provide your Last Name'
+                })}
+                type="text"
+              />
+              {errors.lastName && (
+                <Alert
+                  variant='danger'
+                >
+                  {errors.lastName.message}
+                </ Alert>
+              )}
+            </Form.Group>
 
-              <Form.Group controlId="formGridAddress1">
-                <Form.Label>Address</Form.Label>
-                <Form.Control placeholder="1234 Main St" />
-              </Form.Group>
-
-              <Form.Group controlId="formGridAddress2">
-                <Form.Label>Address 2</Form.Label>
-                <Form.Control placeholder="Apartment, studio, or floor" />
-              </Form.Group>
-
-              <Form.Group>
-                <Form.Group controlId="formGridCity">
-                  <Form.Label>City</Form.Label>
-                  <Form.Control />
-                </Form.Group>
-
-                <Form.Group controlId="formGridState">
-                  <Form.Label>State</Form.Label>
-                  <Form.Control as="select" defaultValue="Choose...">
-                    <option>California</option>
-                    <option>California</option>
-                    <option>Sorry yo, we only do Cali</option>
-                  </Form.Control>
-                </Form.Group>
-
-                <Form.Group controlId="formGridZip">
-                  <Form.Label>Zip</Form.Label>
-                  <Form.Control />
-                </Form.Group>
-              </Form.Group>
-
-              <Form.Group id="formGridCheckbox">
-                <Form.Check
-                  type="checkbox"
-                  label="By submitting you agree to our terms of service and privacy policy"
-                />
-              </Form.Group>
-
-              <Button 
-                className="text-white p-2 mr-3 rounded-sm bg-blue-600"
-                 variant="primary" type="submit">
-                Submit
-              </Button>
-              <Button 
-                className="text-white p-2 rounded-sm bg-gray-600"
-                variant="secondary" onClick={() => {
-                  handleClose();
-                  navigate("/")
-                }}>
-                Close
-              </Button>
-              {error && <Alert>{error}</Alert>}
-            </Form>
-          </Modal.Body>
-        </Modal>
-      </div>
-    </>
+            <Button 
+              className="text-white p-2 mr-3 rounded-sm bg-blue-600"
+              variant="primary" 
+              type="submit"
+              disabled={isLoading}
+            >
+              Submit
+            </Button>
+          </Form>
+        </Modal.Body>
+      </Modal>
+    </div>
   );
 };
 
