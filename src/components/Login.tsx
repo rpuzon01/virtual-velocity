@@ -6,6 +6,7 @@ import swal from 'sweetalert';
 import { useLoginMutation } from '../redux/slices/authApiSlice';
 import { setCredentials } from '../redux/slices/authSlice';
 import { useAppDispatch } from '../redux/hooks';
+import { isAPIError } from '../utils';
 
 type LoginInputs = {
   username: string;
@@ -27,6 +28,7 @@ const Login = () => {
   return (
     <div className="flex gap-2 items-center">
       {isError && (
+        isAPIError(error) &&
         <Alert className='m-0 p-2' variant="danger">
           {error.data.message}
         </Alert>

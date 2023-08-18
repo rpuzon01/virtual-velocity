@@ -7,7 +7,6 @@ const apiSlice = createApi({
     _: builder.query({
       query: () => '/'  
     })
-
   })
 });
 
