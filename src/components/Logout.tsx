@@ -7,7 +7,7 @@ const Logout = () => {
   const dispatch = useAppDispatch(); 
 
   const handleClick = () => {
-    dispatch(logOut);
+    dispatch(logOut());
     localStorage.removeItem('token');
     //setCart(null);
   }

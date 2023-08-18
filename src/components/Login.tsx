@@ -1,70 +1,54 @@
-import { useState } from "react"
-import { Button, Form, FormControl, Alert } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
-import { login } from "../API";
+import { Alert, FormControl } from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import swal from 'sweetalert';
+import { useLoginMutation } from '../redux/slices/authApiSlice';
+import { setCredentials } from '../redux/slices/authSlice';
+import { useAppDispatch } from '../redux/hooks';
 
-import swal from "sweetalert";
-
-const Logout = (props: any) => {
-  return (
-    <div>
-      helo
-    </div>
-  )
+type LoginInputs = {
+  username: string;
+  password: string;
 }
 
-const setLocalToken = (hello: any) => {
-  return hello;
-}
+const Login = () => {
+  const { register, handleSubmit } = useForm<LoginInputs>();
+  const [login, {isError, error, isLoading}] = useLoginMutation();
+  const dispatch = useAppDispatch();
 
-const setCart = (hello: any) => {
-
-};
-
-
-const Login = ({ setToken, setUser }: any) => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const navigate = useNavigate();
-
-  const handleSubmit = async (e: any) => {
-    e.preventDefault();
-    try {
-      const { token, user} = await login(username, password);
-      setToken(token);
-      setUser(user);
-      localStorage.setItem("token", token);
-      swal(`Welcome back ${username}!`, "Good to see you again.");
-    } catch (error: any) {
-      setError("Username and Password did not match")
-      console.error(error);
-    }
+  const onSubmit: SubmitHandler<LoginInputs> = async ({username, password}) => {
+    const { token, user } = await login({username, password}).unwrap();
+    dispatch(setCredentials({token, user}))
+    localStorage.setItem('token', token);
+    swal(`Welcome back ${username}!`, 'Good to see you again.');
   };
 
   return (
-    <div className="flex gap-4 items-center">
-      {error && <Alert className="m-0">{error}</Alert>}
-      <Form className="flex" onSubmit={handleSubmit}>
+    <div className="flex gap-2 items-center">
+      {isError && (
+        <Alert className='m-0 p-2' variant="danger">
+          {error.data.message}
+        </Alert>
+      )}
+      <Form 
+        className='flex gap-2'
+        onSubmit={handleSubmit(onSubmit)}
+      >
         <FormControl
-          style={{ marginRight: "10px" }}
-          type="text"
-          placeholder="username"
-          value={username}
-          onChange={(e) => {
-            setUsername(e.target.value);
-          }}
+          {...register('username')}
+          type='text'
+          placeholder='username'
         />
         <FormControl
-          style={{ marginRight: "10px" }}
-          type="password"
-          placeholder="password"
-          value={password}
-          onChange={(e) => {
-            setPassword(e.target.value);
-          }}
+          {...register('password')}
+          type='password'
+          placeholder='password'
         />
-        <Button type="submit">Login</Button>
+        <Button 
+          disabled={isLoading}
+          type='submit'
+        >Login</Button>
       </Form>
     </div>
   );
