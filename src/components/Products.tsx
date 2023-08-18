@@ -9,7 +9,6 @@ const Products = () => {
     data: products,
     isLoading
   } = useGetProductsQuery();
-  console.log("rpajsdiofp", products);
 
   if (isLoading) return <Loader />;
 
