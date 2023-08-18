@@ -8,6 +8,17 @@ export type Product = {
   category: string;
 }
 
+export type User = {
+  id?: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  imageURL?: string;
+  username: string
+  password: string;
+  isAdmin?: boolean;
+}
+
 export type Order = {
   id?: number;
 }
