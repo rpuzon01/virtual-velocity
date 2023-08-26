@@ -23,10 +23,29 @@ export const ordersProductsApiSlice = apiSlice.injectEndpoints({
           patchResult.undo()
         }
       }
+    }),
+    deleteOrderProduct: builder.mutation<OrderProduct, OrderProduct>({
+      query: (orderProduct) => ({
+        url: `/order_products/${orderProduct.id}`,
+        method: 'DELETE'
+      }),
+      async onQueryStarted({ ...patch }, { dispatch, queryFulfilled }) {
+        const patchResult = dispatch(
+          ordersApiSlice.util.updateQueryData('getCart', undefined, (draftCart: Order) => {
+            draftCart.products = draftCart.products.filter((({id}) => id !== patch.id));
+          })
+        )
+        try {
+          await queryFulfilled
+        } catch {
+          patchResult.undo()
+        }
+      }
     })
   })
 })
 
 export const {
-  useUpdateOrderProductMutation
+  useUpdateOrderProductMutation,
+  useDeleteOrderProductMutation
 } = ordersProductsApiSlice;

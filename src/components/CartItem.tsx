@@ -1,6 +1,6 @@
 import Button from 'react-bootstrap/Button';
 import { Product } from '../types';
-import { useUpdateOrderProductMutation } from '../redux/slices/orderProductsApiSlice';
+import { useDeleteOrderProductMutation, useUpdateOrderProductMutation } from '../redux/slices/orderProductsApiSlice';
 
 
 type CartItemProps = {
@@ -13,27 +13,37 @@ const CartItem = ({
   const {
     orderProductId,
     quantity,
+    price
   } = product;
 
   const [updateOrderProduct] = useUpdateOrderProductMutation();
+  const [deleteOrderProduct] = useDeleteOrderProductMutation();
   const handleIncrement = async () => {
     await updateOrderProduct({
       id: orderProductId,
-      quantity: quantity+1
+      quantity: quantity+1,
+      price
     }).unwrap();
-  }
-
-  const handleRemove = async () => {
-    
   }
 
   const handleDecrement = async () => {
     if(quantity - 1 === 0) {
+      await deleteOrderProduct({
+        id : orderProductId
+      }).unwrap();
       return;
     }
+
     await updateOrderProduct({
       id: orderProductId,
-      quantity: quantity-1
+      quantity: quantity-1,
+      price
+    }).unwrap();
+  }
+
+  const handleRemove = async () => {
+    await deleteOrderProduct({
+      id : orderProductId
     }).unwrap();
   }
 
