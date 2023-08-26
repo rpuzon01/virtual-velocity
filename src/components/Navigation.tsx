@@ -6,6 +6,7 @@ import { selectCurrentToken } from '../redux/slices/authSlice';
 import Login from './Login';
 import Logout from './Logout';
 import Button from 'react-bootstrap/Button';
+import { useGetCartQuery } from '../redux/slices/ordersApiSlice';
 
 type NavigationProps = {
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>
@@ -13,6 +14,11 @@ type NavigationProps = {
 
 const Navigation = ({setShowModal}: NavigationProps) => {
   const token = useAppSelector(selectCurrentToken);
+  const { data:cart } = useGetCartQuery(); 
+  const numberOfItemsInCart = cart?.products.reduce((a,b) => { 
+    return a + b.quantity 
+  }, 0);
+
 
   return (
     <Navbar className="flex justify-between" bg="dark" variant="dark">
@@ -40,7 +46,7 @@ const Navigation = ({setShowModal}: NavigationProps) => {
                   className="text-white no-underline"
                   to="/cart"
                 >
-                  Cart ()
+                  Cart ({numberOfItemsInCart})
                 </Link>
               </>
             )}
