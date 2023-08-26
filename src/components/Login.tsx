@@ -38,12 +38,16 @@ const Login = () => {
         onSubmit={handleSubmit(onSubmit)}
       >
         <FormControl
-          {...register('username')}
+          {...register('username', {
+            required: 'Username is required'
+          })}
           type='text'
           placeholder='username'
         />
         <FormControl
-          {...register('password')}
+          {...register('password', {
+            required: 'Password is required'
+          })}
           type='password'
           placeholder='password'
         />

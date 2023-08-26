@@ -3,7 +3,10 @@ import { RootState } from '../store';
 
 export const authSlice = createSlice({
   name: 'auth',
-  initialState: {user: null, token: null},
+  initialState: {
+    user: null, 
+    token: localStorage.getItem('token') || null
+  },
   reducers: {
     setCredentials: (state, action) => {
       const { user, token } = action.payload;
