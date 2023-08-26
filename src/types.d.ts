@@ -6,6 +6,9 @@ export type Product = {
   imageURL: string;
   inStock: boolean;
   category: string;
+  quantity: number;
+  totalProductPrice?: number;
+  orderProductId?: number;
 }
 
 export type User = {
@@ -21,10 +24,21 @@ export type User = {
 
 export type Order = {
   id?: number;
+  status?: string;
+  datePlaced?: string;
+  products: Product[];
 }
 
 export type APIError = {
   data: {
     message: string;
   }
+}
+
+export type OrderProduct = {
+  id?: number;
+  productId?: number;
+  orderId?: number;
+  price?: number;
+  quantity?: number;
 }

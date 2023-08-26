@@ -3,12 +3,13 @@ import { RootState } from '../store';
 
 const apiSlice = createApi({
   reducerPath: 'api',
+  tagTypes: ['Cart', 'Product'],
   baseQuery: fetchBaseQuery({ 
     baseUrl: 'http://localhost:3000/api',
     prepareHeaders: (headers, { getState }) => {
       const {auth: {token}} = getState() as RootState;
       if (token)  {
-        headers.set('Authentication', `Bearer ${token}`)
+        headers.set('authorization', `Bearer ${token}`)
       }
       return headers;
     }

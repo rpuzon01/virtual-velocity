@@ -14,7 +14,7 @@ const Products = () => {
 
   return (
       <div className="flex flex-wrap gap-8 px-16 py-8 w-full justify-center">
-        {products.map((product: Product) => <SingleProduct key={product.id} product={product}/>)}
+        {products && products.map((product: Product) => <SingleProduct key={product.id} product={product}/>)}
       </div>
   );
 };

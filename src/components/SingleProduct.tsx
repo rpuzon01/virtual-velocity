@@ -1,5 +1,6 @@
+import Button from 'react-bootstrap/Button';
 import swal from 'sweetalert';
-import { useAppSelector } from '../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { selectCurrentToken } from '../redux/slices/authSlice';
 import { Product } from '../types';
 
@@ -21,6 +22,8 @@ const SingleProduct = ({product}: SingleProductProps) => {
 
   const handleAddToCart = async () => {
     // let found = false;
+
+
     // cart.products.forEach((item: any) => {
     //   if(item.name === name){
     //     found = true;
@@ -55,13 +58,16 @@ const SingleProduct = ({product}: SingleProductProps) => {
         </div>
       </div>
       {token && <div>
-        {inStock 
-          ? <div 
+        {inStock ? (
+          <Button
             className="flex justify-center p-2 m-4 bg-blue-600 text-white"
             onClick={handleAddToCart}
-          >Add To Cart</div>
-          : <div className="flex justify-center p-2 m-4 bg-red-600 text-white">Out of stock</div>
-      }
+          >
+            Add To Cart
+          </Button>
+        ) : (
+          <div className="flex justify-center p-2 m-4 bg-red-600 text-white">Out of stock</div>
+        )}
       </div>}
     </div>
   );
