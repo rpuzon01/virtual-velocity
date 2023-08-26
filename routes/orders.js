@@ -46,12 +46,11 @@ ordersRouter.get('/', [requireUser, isAdmin], async (req, res, next) => {
 
 ordersRouter.get('/cart', requireUser, async (req, res, next) => {
   try {
-    let order = await getCartByUser(req.user);
-    if (!order) {
-      order = await createOrder({ status: 'created', userId: req.user.id });
+    let cart = await getCartByUser(req.user);
+    if (!cart) {
+      cart = await createOrder({ status: 'created', userId: req.user.id });
     }
-    order = await getOrderById(order.id)
-    res.send(order);
+    res.send(cart);
   } catch (error) {
     next(error);
   }
@@ -81,11 +80,7 @@ ordersRouter.patch('/:orderId', requireUser, async (req, res, next) => {
 });
 
 ordersRouter.delete('/:orderId', requireUser, async (req, res, next) => {
-  // CANCEL ORDER
-  //  DELETE /orders/:orderId (**)
-  // Update the order's status to cancelled
   const { orderId } = req.params;
-  // const {status} = req.body
   try {
     const order = await cancelOrder(orderId);
     res.send(order);
@@ -94,7 +89,6 @@ ordersRouter.delete('/:orderId', requireUser, async (req, res, next) => {
   }
 });
 
-//Add a single product to an order (using order_products). Prevent duplication on ("orderId", "productId") pair. If product already exists on order, increment quantity and update price.
 ordersRouter.post( '/:orderId/products', requireUser, async (req, res, next) => {
     const { orderId } = req.params;
     const { productId, price, quantity } = req.body;

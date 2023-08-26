@@ -11,7 +11,7 @@ apiRouter.get('/', (req, res, next) => {
 
 apiRouter.use(async (req, res, next) => {
   const prefix = 'Bearer ';
-  const auth = req.header('Authorization');
+  const auth = req.get('authorization');
 
   if (!auth) {
     next();
