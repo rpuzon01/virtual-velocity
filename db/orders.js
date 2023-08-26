@@ -8,7 +8,7 @@ const reduceOrders = (queriedOrders) => {
       userId,
       datePlaced,
       productId,
-      orderId,
+      orderProductId,
       totalProductPrice,
       quantity,
       name,
@@ -29,6 +29,7 @@ const reduceOrders = (queriedOrders) => {
       category,
       quantity,
       totalProductPrice,
+      orderProductId
     };
 
     if (!acc[id]) {
@@ -50,7 +51,6 @@ const reduceOrders = (queriedOrders) => {
   return Object.values(ordersWithProducts);
 };
 
-// return the order, include the order's products
 const getOrderById = async (id) => {
   try {
     const { rows: orders } = await client.query(
@@ -203,6 +203,7 @@ const getCartByUser = async ({ id }) => {
         orders.status, 
         orders."userId", 
         orders."datePlaced", 
+        order_products.id as "orderProductId",
         order_products."productId",
         order_products."orderId",
         order_products.price as "totalProductPrice",
@@ -223,6 +224,7 @@ const getCartByUser = async ({ id }) => {
 `,
       [id]
     );
+
     return reduceOrders(orders)[0];
   } catch (error) {
     throw error;

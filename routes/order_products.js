@@ -19,7 +19,6 @@ orderProductsRouter.patch(
     try {
       const orderProduct = await getOrderProductById(orderProductId);
       const order = await getOrderById(orderProduct.orderId);
-      const user = await getUserById(order.userId);
 
       if (req.user.id === order.userId) {
         const updatedOrderProducts = await updateOrderProduct({
@@ -39,9 +38,6 @@ orderProductsRouter.patch(
     }
   }
 );
-
-orderProductsRouter.delete('/some rul', async (req, res, next) => {
-});
 
 orderProductsRouter.delete(
   '/:orderProductId',
