@@ -29,7 +29,7 @@ const CartItem = ({
   const handleDecrement = async () => {
     if(quantity - 1 === 0) {
       await deleteOrderProduct({
-        id : orderProductId
+        id: orderProductId
       }).unwrap();
       return;
     }
@@ -43,7 +43,7 @@ const CartItem = ({
 
   const handleRemove = async () => {
     await deleteOrderProduct({
-      id : orderProductId
+      id: orderProductId
     }).unwrap();
   }
 
@@ -53,21 +53,26 @@ const CartItem = ({
       flex justify-around items-center
       border border-black rounded'
     >
-      <img className='object-fit w-[100px]' src={product.imageURL} />
-      <div>
+      <img className='object-fit w-[100px] ml-4' src={product.imageURL} />
+      <div className="flex grow justify-center">
         {product.name}
       </div>
-      <div>
+      <div className="flex grow justify-center">
         ${product.price}
       </div>
-      <div className="flex gap-2 items-center">
+      <div 
+        className="mr-4
+        flex basis-[40px] grow-0 shrink-0 gap-2 items-center"
+      >
         <Button
           onClick={handleIncrement}
           variant='outline-primary'
         >
           +
         </Button>
+        <div>
           {product.quantity}
+        </div>
         <Button
           onClick={handleDecrement}
           variant='outline-danger'
@@ -75,7 +80,7 @@ const CartItem = ({
           -
         </Button>
       </div>
-      <div>
+      <div className="basis-[40px] grow-0 shrink-0 items-center">
         <Button
           onClick={handleRemove}
           variant='outline-danger'
