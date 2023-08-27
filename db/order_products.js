@@ -55,33 +55,33 @@ async function addProductToOrder({ orderId, productId, price, quantity }) {
 }
 
 async function updateOrderProduct({ id, ...fields }) {
-    try {
-        const fieldKeys = Object.keys(fields);
+  try {
+    const fieldKeys = Object.keys(fields);
 
-        const setString = fieldKeys
-            .map((fieldName, index) => {
-                return `"${fieldName}"=$${index + 1}`;
-            })
-            .join(', ');
+    const setString = fieldKeys
+    .map((fieldName, index) => {
+      return `"${fieldName}"=$${index + 1}`;
+    })
+    .join(', ');
 
-        const setValues = Object.values(fields);
-        setValues.push(id);
+    const setValues = Object.values(fields);
+    setValues.push(id);
 
-        if (fieldKeys.length === 0) {
-            return;
-        }
-
-        const { rows: [order_product] } = await client.query(`
-            UPDATE order_products
-            SET ${setString}
-            WHERE id = $${setValues.length}
-            RETURNING *;
-        `, setValues );
-
-        return order_product;
-    } catch (error) {
-        throw error;
+    if (fieldKeys.length === 0) {
+      return;
     }
+
+    const { rows: [order_product] } = await client.query(`
+      UPDATE order_products
+      SET ${setString}
+      WHERE id = $${setValues.length}
+      RETURNING *;
+    `, setValues );
+
+    return order_product;
+  } catch (error) {
+    throw error;
+  }
 }
 
 async function destroyOrderProduct(id) {
