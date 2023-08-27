@@ -49,20 +49,19 @@ const CartItem = ({
 
   return (
     <div 
-      className='h-[200px] mx-16 p-2
+      className='h-[200px] mx-16 p-8
       flex justify-around items-center
       border border-black rounded'
     >
-      <img className='object-fit w-[100px] ml-4' src={product.imageURL} />
+      <img className='object-fit w-[100px]' src={product.imageURL} />
       <div className="flex grow justify-center">
         {product.name}
       </div>
       <div className="flex grow justify-center">
-        ${product.price}
+        ${product.price / 100}
       </div>
       <div 
-        className="mr-4
-        flex basis-[40px] grow-0 shrink-0 gap-2 items-center"
+        className="flex basis-[40px] grow-0 shrink-0 gap-2 items-center"
       >
         <Button
           onClick={handleIncrement}
@@ -80,7 +79,7 @@ const CartItem = ({
           -
         </Button>
       </div>
-      <div className="basis-[40px] grow-0 shrink-0 items-center">
+      <div className="ml-4 basis-[40px] grow-0 shrink-0 items-center">
         <Button
           onClick={handleRemove}
           variant='outline-danger'

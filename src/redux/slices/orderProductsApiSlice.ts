@@ -1,4 +1,4 @@
-import { Order, OrderProduct } from '../../types';
+import { Order, OrderProduct, Product } from '../../types';
 import apiSlice from './apiSlice';
 import { ordersApiSlice } from './ordersApiSlice';
 
@@ -13,7 +13,9 @@ export const ordersProductsApiSlice = apiSlice.injectEndpoints({
       async onQueryStarted({ ...patch }, { dispatch, queryFulfilled }) {
         const patchResult = dispatch(
           ordersApiSlice.util.updateQueryData('getCart', undefined, (draftCart: Order) => {
-            const [itemToUpdate] = draftCart.products.filter((({id}) => id === patch.id));
+            const itemToUpdate = draftCart.products.find((({orderProductId}) => {
+              return orderProductId === patch.id;
+            })) as Product;
             Object.assign(itemToUpdate, patch);
           })
         )

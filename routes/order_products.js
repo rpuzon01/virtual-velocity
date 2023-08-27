@@ -49,7 +49,6 @@ orderProductsRouter.delete(
     try {
       const orderProduct = await getOrderProductById(orderProductId);
       const order = await getOrderById(orderProduct.orderId);
-      const user = await getUserById(order.userId);
 
       if (req.user.id === order.userId) {
         const deletedOrderProduct = await destroyOrderProduct(id);

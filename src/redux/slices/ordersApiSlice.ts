@@ -1,4 +1,4 @@
-import { Order } from '../../types';
+import { Order, OrderProduct } from '../../types';
 import apiSlice from './apiSlice';
 
 export const ordersApiSlice = apiSlice.injectEndpoints({
@@ -8,9 +8,22 @@ export const ordersApiSlice = apiSlice.injectEndpoints({
       providesTags: ['Cart']
 
     }),
+    addProductToOrder: builder.mutation<OrderProduct, OrderProduct>({
+      query: ({orderId, productId, price, quantity}) => ({
+        url: `/orders/${orderId}/products`,
+        method: 'POST',
+        body: {
+          productId,
+          price,
+          quantity
+        },
+      }),
+      invalidatesTags: [{type: 'Cart'}]
+    })
   })
 })
 
 export const {
-  useGetCartQuery
+  useGetCartQuery,
+  useAddProductToOrderMutation
 } = ordersApiSlice;

@@ -1,7 +1,8 @@
 import Button from 'react-bootstrap/Button';
 import swal from 'sweetalert';
-import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import { useAppSelector } from '../redux/hooks';
 import { selectCurrentToken } from '../redux/slices/authSlice';
+import { useAddProductToOrderMutation, useGetCartQuery } from '../redux/slices/ordersApiSlice';
 import { Product } from '../types';
 
 type SingleProductProps = {
@@ -11,33 +12,38 @@ type SingleProductProps = {
 const SingleProduct = ({product}: SingleProductProps) => {
 
   const token = useAppSelector(selectCurrentToken);
+  const [addProductToCart] = useAddProductToOrderMutation();
+  const {
+    data: cart,
+  } = useGetCartQuery();
 
   const {
+    id,
     imageURL,
     name,
     description,
     category,
     inStock,
+    price
   } = product;
 
   const handleAddToCart = async () => {
-    // let found = false;
+    if (cart?.products.find((product) => product.id === id)) {
+      swal('Product is currently in your cart. You can modify the quantity in your cart');
+      return;
+    }
 
-
-    // cart.products.forEach((item: any) => {
-    //   if(item.name === name){
-    //     found = true;
-    //   }
-    // })
-    // if (found) {
-    //   swal('Error: Product has already been added to your cart. Please modify the quantity in your cart');
-    // } else {
-    //   setCart({
-    //     ...cart,
-    //     products: [...cart.products, {...product, quantity: 1}]
-    //   })
-    //   swal('Product has been added to your cart. You can modify the quantity in your cart');
-    // }
+    try {
+      await addProductToCart({
+        orderId: cart?.id,
+        productId: id,
+        price,
+        quantity: 1
+      }).unwrap();
+      swal('Product has been added to your cart. You can modify the quantity in your cart');
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return (
@@ -55,6 +61,10 @@ const SingleProduct = ({product}: SingleProductProps) => {
         <div>
           <span className="font-bold">Category: </span> 
           {category}
+        </div>
+        <div>
+          <span className="font-bold">Price: </span> 
+          {price / 100}
         </div>
       </div>
       {token && <div>
