@@ -2,7 +2,8 @@ import { Button } from 'react-bootstrap';
 import { useAppSelector } from '../redux/hooks';
 import { selectCurrentToken } from '../redux/slices/authSlice';
 import { useGetCartQuery } from '../redux/slices/ordersApiSlice';
-import { Product } from '../types';
+import { useCreateStripeSessionMutation } from '../redux/slices/stripeApiSlice';
+import { Order, Product } from '../types';
 import CartItem from './CartItem';
 import Loader from './Loader';
 
@@ -13,6 +14,13 @@ const Cart = () => {
     data: cart,
     isLoading
   } = useGetCartQuery();
+
+  const [createStripeSession] = useCreateStripeSessionMutation();
+
+  const handleCheckoutSession = async () => {
+    const { URL } = await createStripeSession(cart as Order).unwrap();
+    window.location.assign(URL);
+  }
 
   if (!token) {
     return (
@@ -37,11 +45,15 @@ const Cart = () => {
         {cart?.products.map((product: Product) => <CartItem key={product.id} product={product}/>)}
       </div>
       <div>
-        total
+        Total: {cart?.products[0].price}
       </div>
-      <Button variant="outline-primary">
-        chekcout
-      </Button>
+        <Button 
+          onClick={handleCheckoutSession} 
+          type="submit"
+          variant="outline-primary"
+        >
+          Checkout
+        </Button>
     </div>
   );
 }
