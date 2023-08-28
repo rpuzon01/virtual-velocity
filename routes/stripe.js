@@ -2,6 +2,7 @@ const apiRouter = require('express').Router();
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 apiRouter.post('/create-checkout-session', async (req, res) => {
+  console.log('body', req.body);
   const session = await stripe.checkout.sessions.create({
     line_items: [
       {
@@ -22,7 +23,7 @@ apiRouter.post('/create-checkout-session', async (req, res) => {
     cancel_url: `http://localhost:5173/?canceled=true`,
   });
 
-  res.send(session.url);
+  res.send({URL: session.url});
 });
 
 module.exports = apiRouter;
