@@ -3,12 +3,6 @@ const jwt = require('jsonwebtoken');
 const { getUserById } = require('../db/utils');
 const { JWT_SECRET } = process.env;
 
-apiRouter.get('/', (req, res, next) => {
-  res.send({
-    message: 'API is under construction!',
-  });
-});
-
 apiRouter.use(async (req, res, next) => {
   const prefix = 'Bearer ';
   const auth = req.get('authorization');
