@@ -33,19 +33,24 @@ const Cart = () => {
   if(isLoading) {
     return (
       <Loader />
-    )
+    );
   }
 
+  if(cart?.products.length === 0){
+    return (
+      <div>
+        Your Cart has no products
+      </div>
+    );
+  }
+ 
   return (
     <div>
       <div>
         Your Cart
       </div>
       <div className='flex flex-col gap-4'>
-        {cart?.products.map((product: Product) => <CartItem key={product.id} product={product}/>)}
-      </div>
-      <div>
-        Total: {cart?.products[0].price}
+        {cart?.products?.map((product: Product) => <CartItem key={product.id} product={product}/>)}
       </div>
         <Button 
           onClick={handleCheckoutSession} 
