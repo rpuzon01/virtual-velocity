@@ -5,6 +5,14 @@ import Card from 'react-bootstrap/Card';
 
 const Account = ({user} : any) => {
 
+  if (true) {
+    return (
+      <div>
+        Under Construction
+      </div>
+    )
+  }
+
   if (!user) {
     return (
       <div>
