@@ -28,7 +28,7 @@ orderProductsRouter.patch(
         });
         res.send(updatedOrderProducts);
       } else {
-        next({
+        res.status(401).send({
           message:
             'Logged in user should be the owner of the updated order_product.',
         });
