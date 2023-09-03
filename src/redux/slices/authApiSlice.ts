@@ -8,13 +8,15 @@ export const authApiSlice = apiSlice.injectEndpoints({
         method: 'POST',
         body: { ...credentials }
       }),
+      invalidatesTags: ['Cart']
     }),
     register: builder.mutation({
       query: user => ({
         url: '/users/register',
         method: 'POST',
         body: {...user}
-      })
+      }),
+      invalidatesTags: ['Cart']
     })
   })
 })

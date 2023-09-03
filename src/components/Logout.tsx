@@ -1,15 +1,16 @@
-import React from 'react';
 import { Button } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../redux/hooks';
 import { logOut } from '../redux/slices/authSlice';
 
 const Logout = () => {
   const dispatch = useAppDispatch(); 
+  const navigate = useNavigate();
 
   const handleClick = () => {
-    dispatch(logOut());
     localStorage.removeItem('token');
-    //setCart(null);
+    dispatch(logOut());
+    navigate('/');
   }
 
   return (

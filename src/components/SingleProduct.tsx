@@ -14,8 +14,11 @@ const SingleProduct = ({product}: SingleProductProps) => {
   const token = useAppSelector(selectCurrentToken);
   const [addProductToCart] = useAddProductToOrderMutation();
   const {
-    data: cart,
-  } = useGetCartQuery();
+    data: cart
+  } = useGetCartQuery(
+    undefined,
+    {refetchOnMountOrArgChange: true}
+  );
 
   const {
     id,
@@ -29,7 +32,10 @@ const SingleProduct = ({product}: SingleProductProps) => {
 
   const handleAddToCart = async () => {
     if (cart?.products.find((product) => product.id === id)) {
-      swal('Product is currently in your cart. You can modify the quantity in your cart');
+      swal({
+        text: 'Product is currently in your cart. You can modify the quantity in your cart',
+        icon: 'warning'
+      });
       return;
     }
 
@@ -40,7 +46,10 @@ const SingleProduct = ({product}: SingleProductProps) => {
         price,
         quantity: 1
       }).unwrap();
-      swal('Product has been added to your cart. You can modify the quantity in your cart');
+      swal({
+        text: 'Product has been added to your cart. You can modify the quantity in your cart',
+        icon: 'success'
+      });
     } catch (error) {
       console.error(error);
     }

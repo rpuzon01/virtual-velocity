@@ -6,7 +6,10 @@ export const ordersApiSlice = apiSlice.injectEndpoints({
     getCart: builder.query<Order, void>({
       query: () => '/orders/cart',
       providesTags: ['Cart']
-
+    }),
+    getOrdersByUser: builder.query<Order[], void>({
+      query: () => '/orders/users',
+      providesTags: ['Orders']
     }),
     addProductToOrder: builder.mutation<OrderProduct, OrderProduct>({
       query: ({orderId, productId, price, quantity}) => ({
@@ -18,12 +21,13 @@ export const ordersApiSlice = apiSlice.injectEndpoints({
           quantity
         },
       }),
-      invalidatesTags: [{type: 'Cart'}]
+      invalidatesTags: () => ['Cart']
     })
   })
 })
 
 export const {
   useGetCartQuery,
-  useAddProductToOrderMutation
+  useAddProductToOrderMutation,
+  useGetOrdersByUserQuery,
 } = ordersApiSlice;

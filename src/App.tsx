@@ -38,7 +38,7 @@ const App = () => {
           element={<Cart />}
         />
         <Route
-          path="/confirmation/:id"
+          path="/orders/:id"
           element={<Confirmation />}
         />
         <Route path="*" element={<div>Page not found</div>} />

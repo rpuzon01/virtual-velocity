@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Button } from 'react-bootstrap';
 import { useAppSelector } from '../redux/hooks';
 import { selectCurrentToken } from '../redux/slices/authSlice';
@@ -12,10 +13,13 @@ const Cart = () => {
   const token = useAppSelector(selectCurrentToken);
   const {
     data: cart,
-    isLoading
-  } = useGetCartQuery();
+    isLoading,
+  } = useGetCartQuery(
+    undefined,
+    {refetchOnMountOrArgChange: true}
+  );
 
-  const [createStripeSession] = useCreateStripeSessionMutation();
+const [createStripeSession] = useCreateStripeSessionMutation();
 
   const handleCheckoutSession = async () => {
     const { URL } = await createStripeSession(cart as Order).unwrap();
@@ -46,7 +50,7 @@ const Cart = () => {
  
   return (
     <div>
-      <div>
+      <div className="px-4">
         Your Cart
       </div>
       <div className='flex flex-col gap-4'>

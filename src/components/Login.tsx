@@ -7,6 +7,8 @@ import { useLoginMutation } from '../redux/slices/authApiSlice';
 import { setCredentials } from '../redux/slices/authSlice';
 import { useAppDispatch } from '../redux/hooks';
 import { isAPIError } from '../utils';
+import { useGetCartQuery } from '../redux/slices/ordersApiSlice';
+import { useNavigate } from 'react-router-dom';
 
 type LoginInputs = {
   username: string;
@@ -16,9 +18,11 @@ type LoginInputs = {
 const Login = () => {
   const { register, handleSubmit } = useForm<LoginInputs>();
   const [login, {isError, error, isLoading}] = useLoginMutation();
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   const onSubmit: SubmitHandler<LoginInputs> = async ({username, password}) => {
+    navigate('/');
     const { token, user } = await login({username, password}).unwrap();
     dispatch(setCredentials({token, user}))
     localStorage.setItem('token', token);

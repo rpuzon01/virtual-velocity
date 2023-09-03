@@ -6,7 +6,7 @@ export const productApiSlice = apiSlice.injectEndpoints({
   endpoints: builder => ({
     getProducts: builder.query<Product[], void>({
       query: () => '/products',
-      providesTags: ['Product']
+      providesTags: ['Products']
     }),
   })
 })
