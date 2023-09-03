@@ -49,11 +49,11 @@ const [createStripeSession] = useCreateStripeSessionMutation();
   }
  
   return (
-    <div>
-      <div className="px-4">
+    <div className="p-4 flex flex-col gap-4">
+      <div className='text-xl'>
         Your Cart
       </div>
-      <div className='flex flex-col gap-4'>
+      <div className='flex flex-col gap-2'>
         {cart?.products?.map((product: Product) => <CartItem key={product.id} product={product}/>)}
       </div>
         <Button 

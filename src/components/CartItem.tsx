@@ -49,7 +49,7 @@ const CartItem = ({
 
   return (
     <div 
-      className='h-[200px] mx-16 p-8
+      className='h-[200px] p-8
       flex justify-around items-center
       border border-black rounded'
     >
