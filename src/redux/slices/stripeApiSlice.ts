@@ -5,13 +5,18 @@ type StripeSessionResponse = {
   URL: string
 }
 
+type StripeSessionRequest = {
+  cart: Order;
+  baseURL: string;
+}
+
 export const stripeApiSlice = apiSlice.injectEndpoints({
   endpoints: builder => ({
-    createStripeSession: builder.mutation<StripeSessionResponse, Order>({
-      query: (order) => ({
+    createStripeSession: builder.mutation<StripeSessionResponse, StripeSessionRequest>({
+      query: (stripeSessionRequest) => ({
         url: '/stripe/create-checkout-session',
         method: 'POST',
-        body: order,
+        body: stripeSessionRequest,
       }),
     }),
   })

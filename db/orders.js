@@ -126,6 +126,7 @@ const getOrdersByUser = async ({ id }) => {
         orders.status, 
         orders."userId", 
         orders."datePlaced", 
+        orders.status,
         order_products."productId",
         order_products."orderId",
         order_products.price as "totalProductPrice",
@@ -141,7 +142,8 @@ const getOrdersByUser = async ({ id }) => {
         ON order_products."orderId" = orders.id
         LEFT JOIN products
         ON products.id = order_products."productId"
-        WHERE orders."userId" = $1;
+        WHERE orders."userId" = $1
+        AND status != 'created';
 `,
       [id]
     );

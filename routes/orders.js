@@ -9,7 +9,8 @@ const {
   updateOrder,
   cancelOrder,
   completeOrder,
-  getOrderById
+  getOrderById,
+  getOrdersByUser
 } = require('../db/utils');
 
 ordersRouter.get('/', [requireUser, isAdmin], async (req, res, next) => {
@@ -95,6 +96,24 @@ ordersRouter.patch('/:orderId/complete', requireUser, async (req, res, next) => 
     } catch (error) {
         next(error);
     }
+})
+
+ordersRouter.get('/users', requireUser, async (req, res, next) => {
+  const { username } = req.params;
+  try {
+    if (req.user.username !== username) {
+      res.status(403).send({
+        message: "Please request with the username tied to your token"
+      });
+      return;
+    }
+
+    const orders = await getOrdersByUser({id: req.user.id})
+    res.send(orders);
+  } catch (error) {
+    next(error);
+  }
+
 })
 
 module.exports = ordersRouter;

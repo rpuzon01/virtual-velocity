@@ -22,7 +22,10 @@ const Cart = () => {
 const [createStripeSession] = useCreateStripeSessionMutation();
 
   const handleCheckoutSession = async () => {
-    const { URL } = await createStripeSession(cart as Order).unwrap();
+    const { URL } = await createStripeSession({
+      cart: cart as Order,
+      baseURL: window.location.origin
+    }).unwrap();
     window.location.assign(URL);
   }
 

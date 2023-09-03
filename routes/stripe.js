@@ -23,9 +23,12 @@ apiRouter.post('/webhook', express.raw({type: 'application/json'}), (request, re
 
   // Handle the event
   switch (event.type) {
+    case 'checkout.session.completed':
+      
     case 'payment_intent.succeeded':
       const paymentIntent = event.data.object;
       console.log(`PaymentIntent for ${paymentIntent.amount} was successful!`);
+      console.log('payment', paymentIntent.metadata);
       // Then define and call a method to handle the successful payment intent.
       // handlePaymentIntentSucceeded(paymentIntent);
       break;
@@ -44,9 +47,12 @@ apiRouter.post('/webhook', express.raw({type: 'application/json'}), (request, re
 });
 
 apiRouter.post('/create-checkout-session', async (req, res) => {
-  console.log('body', req.body);
   const {
-    products
+    cart: {
+      id: orderId,
+      products
+    },
+    baseURL
   } = req.body;
 
   const line_items = products.map(({name, description, quantity, price, imageURL}) => {
@@ -67,8 +73,11 @@ apiRouter.post('/create-checkout-session', async (req, res) => {
   const session = await stripe.checkout.sessions.create({
     line_items,
     mode: 'payment',
-    success_url: `http://localhost:5173/?success=true`,
-    cancel_url: `http://localhost:5173/?canceled=true`,
+    success_url: `${baseURL}/orders/${orderId}?success=true`,
+    cancel_url: `${baseURL}/orders/${orderId}?canceled=true`,
+    metadata: {
+      orderId 
+    },
   });
 
   res.send({URL: session.url});
