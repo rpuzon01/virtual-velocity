@@ -16,12 +16,12 @@ const Account = () => {
     content = <div>
       There was an error loading your orders. Please try again.
     </div>
-  } else if (orders.length === 0) {
+  } else if (orders?.length === 0) {
     content = <div>
       You have no orders.
     </div>;
   } else {
-    content = orders.map((order) => {
+    content = orders?.map((order) => {
       return (
         <div>
           order id: {order.id}
