@@ -1,7 +1,18 @@
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { useCompleteOrderMutation } from '../redux/slices/ordersApiSlice';
 
 const Confirmation = () => {
   const { id } = useParams();
+  const [completeOrder] = useCompleteOrderMutation();
+
+  const handleConfirmation = async () => {
+    await completeOrder(Number(id)).unwrap();
+  }
+
+  useEffect(() => {
+    handleConfirmation();
+  }, []);
 
   return (
     <div className="flex justify-center">

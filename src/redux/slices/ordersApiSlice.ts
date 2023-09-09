@@ -22,6 +22,12 @@ export const ordersApiSlice = apiSlice.injectEndpoints({
         },
       }),
       invalidatesTags: () => ['Cart']
+    }),
+    completeOrder: builder.mutation<void, number>({
+      query: (orderId) => ({
+        url: `/orders/${orderId}/complete`,
+        method: 'PATCH'
+      })
     })
   })
 })
@@ -30,4 +36,5 @@ export const {
   useGetCartQuery,
   useAddProductToOrderMutation,
   useGetOrdersByUserQuery,
+  useCompleteOrderMutation
 } = ordersApiSlice;

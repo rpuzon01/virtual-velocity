@@ -86,16 +86,16 @@ ordersRouter.post( '/:orderId/products', requireUser, async (req, res, next) => 
 );
 
 ordersRouter.patch('/:orderId/complete', requireUser, async (req, res, next) => {
-    const { orderId } = req.params;
-    try {
-        await completeOrder({id: orderId});
-        await createOrder({ status: 'created', userId: req.user.id });
-        const cart = await getCartByUser({id: req.user.id});
-        const completedOrder = await getOrderById(orderId)
-        res.send({ completedOrder, cart });
-    } catch (error) {
-        next(error);
-    }
+  const { orderId } = req.params;
+  try {
+    await completeOrder({id: orderId});
+    await createOrder({ status: 'created', userId: req.user.id });
+    const cart = await getCartByUser({id: req.user.id});
+    const completedOrder = await getOrderById(orderId)
+    res.send({ completedOrder, cart });
+  } catch (error) {
+    next(error);
+  }
 })
 
 ordersRouter.get('/users', requireUser, async (req, res, next) => {

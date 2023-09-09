@@ -1,8 +1,9 @@
 const express = require('express');
+const { completeOrder } = require('../db/orders');
 const apiRouter = require('express').Router();
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
-apiRouter.post('/webhook', express.raw({type: 'application/json'}), (request, response) => {
+apiRouter.post('/webhook', express.raw({type: 'application/json'}), async (request, response) => {
   let event = request.body;
   // Only verify the event if you have an endpoint secret defined.
   // Otherwise use the basic event deserialized with JSON.parse
@@ -24,13 +25,13 @@ apiRouter.post('/webhook', express.raw({type: 'application/json'}), (request, re
   // Handle the event
   switch (event.type) {
     case 'checkout.session.completed':
-      
-    case 'payment_intent.succeeded':
       const paymentIntent = event.data.object;
       console.log(`PaymentIntent for ${paymentIntent.amount} was successful!`);
       console.log('payment', paymentIntent.metadata);
       // Then define and call a method to handle the successful payment intent.
-      // handlePaymentIntentSucceeded(paymentIntent);
+      completeOrder({id: event.data.metadata.orderId});
+      
+    case 'payment_intent.succeeded':
       break;
     case 'payment_method.attached':
       const paymentMethod = event.data.object;
